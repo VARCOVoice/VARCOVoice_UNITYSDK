@@ -1,6 +1,6 @@
 <div align="center">
 
-# <img src="logo.png" height="40" alt="VARCO Voice" style="vertical-align:middle;">
+<img src="./logo.png" height="40" alt="VARCO Voice" />
 
 **Unity SDK for VARCO Voice API (Preview)**
 
