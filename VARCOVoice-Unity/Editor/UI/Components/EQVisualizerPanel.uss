@@ -1,0 +1,380 @@
+/* EQ Visualizer Panel Styles */
+
+.eq-visualizer-panel {
+    flex-grow: 0;
+    flex-shrink: 0;
+    height: 320px;
+    min-width: 0;
+    background-color: var(--bg-secondary);
+    border-bottom-width: 2px;
+    border-bottom-color: rgba(0, 110, 255, 0.5);
+    -unity-font: url('project://database/Packages/com.varco.voice/Runtime/Google_Sans_Flex/GoogleSansFlex-VariableFont_GRAD,ROND,opsz,slnt,wdth,wght.ttf');
+}
+
+/* Header */
+.eq-header {
+    flex-direction: row;
+    align-items: center;
+    height: 28px;
+    padding: 0 12px;
+    background-color: var(--bg-elevated);
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+.section-title {
+    font-size: 10px;
+    -unity-font-style: bold;
+    color: #FFFFFF; /* Brighter */
+    letter-spacing: 1px;
+}
+
+.header-spacer {
+    flex-grow: 1;
+}
+
+.status-label {
+    font-size: 10px;
+    color: var(--varco-mint); /* Status OK to keep mint, or white? Keeping mint for now as it is status */
+}
+
+.eq-clear-btn {
+    height: 24px;
+    padding: 2px 12px;
+    margin-left: 8px;
+    font-size: 13px;
+    background-color: rgba(0, 110, 255, 0.2);
+    border-radius: 0;
+    border-width: 1px;
+    border-color: rgba(0, 110, 255, 0.4);
+    color: #FFFFFF; /* Unified White */
+}
+
+.eq-clear-btn:hover {
+    background-color: rgba(0, 110, 255, 0.35);
+}
+
+/* Main Content */
+.eq-content {
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 4px;
+    padding-right: 0;
+}
+
+/* Spectrum Area (Canvas + dB Labels) */
+.spectrum-area {
+    flex-direction: row;
+    flex-grow: 1;
+}
+
+/* dB Labels */
+.db-labels {
+    width: 30px;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 8px 0;
+}
+
+.db-label {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.85); /* Brighter */
+    -unity-text-align: middle-right;
+    padding-right: 4px;
+    -unity-font-style: bold;
+}
+
+.db-label.center {
+    color: rgba(255, 255, 255, 0.8);
+    -unity-font-style: bold;
+}
+
+/* Frequency Labels */
+.freq-labels {
+    flex-direction: row;
+    height: 16px;
+    margin-top: 2px;
+}
+
+.freq-label {
+    position: absolute;
+    top: 0;
+    width: 40px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.85); /* Brighter */
+    -unity-text-align: middle-center;
+    -unity-font-style: bold;
+    translate: -50% 0;
+}
+
+.freq-label.suffix {
+    flex-grow: 0;
+    width: 25px;
+    color: rgba(0, 110, 255, 0.7);
+}
+
+/* Spectrum Canvas */
+.spectrum-canvas {
+    flex-grow: 1;
+    background-color: var(--bg-secondary);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.eq-nodes-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+/* Level Meters - Clean Pro Design */
+.meters-panel {
+    width: 56px;
+    background-color: rgba(10, 12, 18, 0.95);
+    border-radius: 6px;
+    padding: 8px 6px;
+    align-items: center;
+    margin-left: 6px;
+    flex-shrink: 0;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.meters-title {
+    font-size: 9px;
+    -unity-font-style: bold;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+}
+
+.meters-bars {
+    flex-direction: row;
+    flex-grow: 1;
+    width: 100%;
+    justify-content: center;
+}
+
+.meter-bar {
+    width: 14px;
+    flex-grow: 1;
+    background-color: rgba(20, 22, 28, 0.9);
+    border-radius: 3px;
+    margin: 0 3px;
+    overflow: hidden;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.06);
+}
+
+.meter-fill {
+    position: absolute;
+    left: 1px;
+    right: 1px;
+    bottom: 1px;
+    height: 0%;
+    background-color: #4DDBA4;
+    border-radius: 2px;
+    transition-property: height, background-color;
+    transition-duration: 80ms;
+}
+
+.meter-peak {
+    position: absolute;
+    left: 1px;
+    right: 1px;
+    height: 3px;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 1px;
+    transition-property: bottom;
+    transition-duration: 150ms;
+}
+
+.meter-readouts {
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    margin-top: 6px;
+}
+
+.meter-val {
+    font-size: 9px;
+    color: #4DDBA4;
+    -unity-text-align: middle-center;
+    width: 20px;
+    -unity-font-style: bold;
+}
+
+.meter-labels {
+    flex-direction: row;
+    margin-top: 6px;
+    justify-content: center;
+}
+
+.meter-label {
+    font-size: 10px;
+    -unity-font-style: bold;
+    color: rgba(255, 255, 255, 0.7);
+    width: 14px;
+    -unity-text-align: middle-center;
+    margin: 0 3px;
+}
+
+/* EQ Node Styles */
+.eq-node {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 6px;
+    background-color: rgba(0, 110, 255, 0.82);
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.65);
+    translate: -6px -6px;
+    transform-origin: 50% 50%;
+}
+
+.eq-node:hover {
+    background-color: rgba(0, 110, 255, 0.98);
+    border-color: rgba(255, 255, 255, 0.95);
+    scale: 1.08;
+}
+
+.eq-node.selected {
+    background-color: rgba(0, 110, 255, 1);
+    border-color: rgba(255, 255, 255, 1);
+    scale: 1.12;
+}
+
+.eq-node.dragging {
+    background-color: rgba(0, 110, 255, 1);
+    border-color: rgba(255, 255, 255, 1);
+    scale: 1.12;
+}
+
+/* Node Type Colors */
+.eq-node.lowshelf {
+    background-color: rgba(0, 110, 255, 0.82);
+}
+
+.eq-node.highshelf {
+    background-color: rgba(0, 110, 255, 0.82);
+}
+
+.eq-node.lowcut {
+    background-color: rgba(0, 110, 255, 0.82);
+}
+
+.eq-node.highcut {
+    background-color: rgba(0, 110, 255, 0.82);
+}
+
+/* Node Popup */
+.eq-node-popup {
+    position: absolute;
+    width: 220px;
+    min-width: 220px;
+    background-color: rgba(12, 12, 14, 0.96);
+    border-radius: 8px;
+    border-width: 1px;
+    border-color: rgba(0, 110, 255, 0.25);
+    padding: 8px;
+}
+
+.popup-title {
+    font-size: 12px;
+    -unity-font-style: bold;
+    color: var(--varco-mint);
+    margin-bottom: 8px;
+    -unity-text-align: middle-center;
+    display: none;  /* Hide title - duplicates Freq value */
+}
+
+.popup-row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 5px;
+    flex-wrap: nowrap;
+}
+
+.popup-label {
+    width: 36px;
+    min-width: 36px;
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.7);
+    flex-shrink: 0;
+}
+
+.popup-slider {
+    flex-grow: 1;
+    min-width: 70px;
+    max-width: 110px;
+}
+
+.popup-value {
+    width: 50px;
+    min-width: 50px;
+    font-size: 9px;
+    color: var(--varco-mint);
+    -unity-text-align: middle-right;
+    flex-shrink: 0;
+    overflow: hidden;
+    text-overflow: clip;
+}
+
+
+/* Light Mode - EQ Visualizer */
+.theme-light .eq-visualizer-panel {
+    background-color: #FFFFFF;
+    border-bottom-color: rgba(0, 102, 221, 0.35);
+}
+
+.theme-light .eq-header {
+    background-color: #FFFFFF;
+    border-bottom-color: rgba(15, 23, 42, 0.12);
+}
+
+.theme-light .eq-visualizer-panel .section-title {
+    color: #1B1F26;
+}
+
+.theme-light .db-label,
+.theme-light .freq-label {
+    color: #4B5563;
+}
+
+.theme-light .freq-label.suffix {
+    color: rgba(0, 102, 221, 0.7);
+}
+
+.theme-light .spectrum-canvas {
+    background-color: #F7F8FB;
+}
+
+.theme-light .meters-panel {
+    background-color: #F7F8FB;
+}
+
+.theme-light .meter-bar {
+    background-color: #E5E7EB;
+}
+
+.theme-light .meter-peak {
+    background-color: #1B1F26;
+}
+
+.theme-light .meter-label,
+.theme-light .meters-title {
+    color: #4B5563;
+}
+
+.theme-light .eq-node-popup {
+    background-color: #FFFFFF;
+    border-color: rgba(15, 23, 42, 0.2);
+}
+
+.theme-light .popup-label {
+    color: #6B7280;
+}

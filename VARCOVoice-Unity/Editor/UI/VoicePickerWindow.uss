@@ -1,0 +1,363 @@
+/* VoicePickerWindow.uss */
+@import "Theme.uss";
+
+.voice-picker-window {
+    flex-direction: column;
+    flex-grow: 1;
+    background-color: var(--color-bg-base);
+}
+
+/* Header - MainWindow와 동일 스타일 (height: 48px) */
+.header {
+    height: 48px;
+    flex-direction: row;
+    align-items: center;
+    background-color: var(--color-bg-panel);
+    padding: 0 16px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(255, 255, 255, 0.15);
+    flex-shrink: 0;
+}
+
+/* Toolbar (검색 및 필터) */
+.toolbar {
+    background-color: var(--color-bg-panel);
+    padding: 8px 12px;
+    flex-shrink: 0;
+}
+
+.search-row {
+    flex-direction: row;
+    margin-bottom: 8px;
+}
+
+.search-field {
+    height: 28px;
+}
+
+.filter-tabs {
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+}
+
+.filter-tab {
+    flex-grow: 1;
+    min-width: 60px;
+    color: var(--color-text-muted);
+}
+
+.filter-tab:hover {
+    color: var(--color-text-white);
+}
+
+.filter-tab--active {
+    background-color: rgba(0, 110, 255, 0.15);
+    color: #006EFF;
+    border-width: 1px;
+    border-color: #006EFF;
+}
+
+.filter-row-secondary {
+    flex-direction: row;
+}
+
+/* Body */
+.body {
+    flex-grow: 1;
+    padding: 8px;
+    background-color: var(--color-bg-base);
+}
+
+.voice-list-scroll {
+    flex-grow: 1;
+}
+
+/* Voice Item (Created in C#) */
+.voice-item {
+    flex-direction: row;
+    background-color: transparent; /* Linear */
+    margin-bottom: -1px; /* Fuse borders */
+    padding: 8px;
+    border-radius: 0px; /* Square */
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
+    align-items: center;
+}
+
+.voice-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.voice-item--selected {
+    background-color: rgba(0, 110, 255, 0.1);
+    border-color: #006EFF;
+    margin-bottom: 0px; /* Override negative margin to show bottom border */
+}
+
+.voice-favorite {
+    font-size: 16px;
+    color: var(--color-text-dim);
+    margin-right: 8px;
+    cursor: link;
+    width: 20px;
+    -unity-text-align: middle-center;
+}
+
+.voice-favorite:hover {
+    color: #FFD700; /* Gold hover */
+}
+
+.voice-favorite--active {
+    color: #FFD700;
+}
+
+.voice-info {
+    flex-grow: 1;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.voice-name {
+    font-size: 13px;
+    -unity-font-style: bold;
+    color: var(--color-text-white);
+}
+
+.voice-tags {
+    font-size: 10px;
+    color: var(--color-text-muted);
+    margin-top: 2px;
+}
+
+.voice-actions {
+    flex-direction: row;
+}
+
+.voice-select-btn {
+    width: 50px;
+    height: 24px;
+    font-size: 10px;
+    background-color: rgba(0, 110, 255, 0.15);
+    color: #4D9EFF;
+    border-width: 1px;
+    border-color: rgba(0, 110, 255, 0.3);
+    margin-right: 4px;
+    border-radius: 0px;
+}
+.voice-select-btn:hover {
+    background-color: rgba(0, 110, 255, 0.3);
+    border-color: #006EFF;
+    color: #FFFFFF;
+}
+
+.voice-play-btn {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+    background-color: transparent;
+    border-color: var(--color-border);
+    border-width: 1px;
+    border-radius: 0px;
+}
+
+.voice-check-btn {
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+    background-color: transparent;
+    border-color: rgba(255, 255, 255, 0.2);
+    border-width: 1px;
+    border-radius: 0px;
+    color: rgba(255, 255, 255, 0.2);
+    -unity-text-align: middle-center;
+}
+
+.voice-check-btn:hover {
+    border-color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.voice-check-btn--active {
+    background-color: var(--varco-mint, #006EFF);
+    border-color: var(--varco-mint, #006EFF);
+    color: #FFFFFF;
+}
+.voice-check-btn--active:hover {
+    background-color: var(--varco-mint, #006EFF);
+    color: #FFFFFF;
+    border-color: var(--varco-mint, #006EFF);
+}
+
+/* Footer */
+.footer {
+    height: 40px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 12px;
+    background-color: var(--color-bg-panel);
+    border-top-width: 1px;
+    border-top-color: var(--color-border);
+    flex-shrink: 0;
+}
+
+.pagination-controls {
+    flex-direction: row;
+    align-items: center;
+}
+
+/* Preview Bar */
+.preview-bar {
+    padding: 12px;
+    background-color: #1A1D24;
+    border-top-width: 1px;
+    border-top-color: var(--color-border);
+    flex-shrink: 0;
+}
+
+.preview-text-field {
+    margin-bottom: 8px;
+    height: 32px;
+}
+
+.preview-controls {
+    flex-direction: row;
+    margin-bottom: 4px;
+}
+
+.status-label {
+    margin-top: 4px;
+    color: var(--color-text-dim);
+}
+
+/* ==================== Light Mode ==================== */
+.theme-light .voice-picker-window {
+    background-color: #F5F7FA;
+}
+
+.theme-light .voice-picker-window .header {
+    background-color: #FFFFFF;
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+.theme-light .voice-picker-window .header-title {
+    color: #1A1A1A;
+}
+
+.theme-light .voice-picker-window .header-subtitle {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.theme-light .voice-picker-window .toolbar {
+    background-color: #FFFFFF;
+}
+
+.theme-light .voice-picker-window .search-field .unity-text-field__input {
+    background-color: #FFFFFF;
+    border-color: rgba(0, 0, 0, 0.15);
+    color: #1A1A1A;
+}
+
+.theme-light .voice-picker-window .filter-tab {
+    background-color: transparent;
+    border-color: rgba(0, 0, 0, 0.12);
+    color: #555555;
+}
+
+.theme-light .voice-picker-window .filter-tab--active {
+    background-color: #0066DD;
+    color: #FFFFFF;
+}
+
+.theme-light .voice-picker-window .filter-dropdown .unity-base-field__input {
+    background-color: #FFFFFF;
+    border-color: rgba(0, 0, 0, 0.15);
+    color: #1A1A1A;
+}
+
+.theme-light .voice-picker-window .voice-item {
+    background-color: #FFFFFF;
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+.theme-light .voice-picker-window .voice-item:hover {
+    background-color: #F0F2F5;
+    border-color: rgba(0, 0, 0, 0.15);
+}
+
+.theme-light .voice-picker-window .voice-item--selected {
+    background-color: rgba(0, 102, 221, 0.1);
+    border-color: #0066DD;
+}
+
+.theme-light .voice-picker-window .voice-name {
+    color: #1A1A1A;
+}
+
+.theme-light .voice-picker-window .voice-meta {
+    color: #777777;
+}
+
+.theme-light .voice-picker-window .btn-settings {
+    color: rgba(0, 0, 0, 0.6);
+    border-color: rgba(0, 0, 0, 0.15);
+}
+
+.theme-light .voice-picker-window .preview-section {
+    background-color: #EAECEF;
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+
+/* Light Mode - Voice Picker Extras */
+.theme-light .voice-picker-window .preview-bar {
+    background-color: #FFFFFF;
+    border-top-color: rgba(15, 23, 42, 0.12);
+}
+
+.theme-light .voice-picker-window .footer {
+    background-color: #FFFFFF;
+}
+
+.theme-light .voice-picker-window .voice-tags {
+    color: #6B7280;
+}
+
+.theme-light .voice-picker-window .voice-select-btn {
+    background-color: #0066DD;
+    border-color: #0066DD;
+    color: #FFFFFF;
+}
+
+.theme-light .voice-picker-window .voice-select-btn:hover {
+    background-color: #0059C1;
+    border-color: #0059C1;
+}
+
+.theme-light .voice-picker-window .voice-play-btn {
+    border-color: rgba(15, 23, 42, 0.2);
+    color: #4B5563;
+}
+
+.theme-light .voice-picker-window .voice-play-btn:hover {
+    background-color: rgba(15, 23, 42, 0.06);
+    color: #1B1F26;
+}
+
+.theme-light .voice-check-btn {
+    border-color: rgba(0, 0, 0, 0.15);
+    color: rgba(0, 0, 0, 0.2);
+}
+
+.theme-light .voice-check-btn:hover {
+    border-color: rgba(0, 0, 0, 0.4);
+    color: rgba(0, 0, 0, 0.4);
+}
+
+.theme-light .voice-check-btn--active {
+    background-color: #0066DD;
+    border-color: #0066DD;
+    color: #FFFFFF;
+}

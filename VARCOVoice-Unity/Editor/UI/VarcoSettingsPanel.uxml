@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:ScrollView class="settings-root">
+        <!-- Header -->
+        <ui:VisualElement class="settings-header">
+            <ui:Label text="VARCO VOICE" class="header-title" />
+            <ui:Label text="Settings" class="header-subtitle" />
+        </ui:VisualElement>
+        
+        <!-- Connection Status -->
+        <ui:VisualElement class="status-card">
+            <ui:VisualElement class="status-row">
+                <ui:VisualElement name="status-dot" class="status-dot status-dot--disconnected" />
+                <ui:Label name="status-text" text="Disconnected" class="status-label" />
+                <ui:Label name="voice-count" text="" class="status-info" />
+            </ui:VisualElement>
+            <ui:Label name="last-sync" text="Last sync: Never" class="status-muted" />
+        </ui:VisualElement>
+        
+        <!-- API Configuration -->
+        <ui:Foldout text="API Configuration" value="true" class="settings-foldout">
+            <ui:VisualElement class="foldout-content">
+                <ui:TextField name="api-key" label="API Key" password="true" class="field-flex" />
+                <ui:VisualElement class="button-group">
+                    <ui:Button name="toggle-key-btn" text="Show/Hide" class="btn-sm" />
+                    <ui:Button name="save-key-btn" text="Save" class="btn-sm btn-primary" />
+                    <ui:Button name="test-btn" text="Test Connection" class="btn-sm" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:Foldout>
+        
+        <!-- Default Settings -->
+        <ui:Foldout text="Default Settings" value="true" class="settings-foldout">
+            <ui:VisualElement class="foldout-content">
+                <ui:DropdownField name="model-dropdown" label="TTS Model" choices="tts-standard,tts-lite" index="0" class="field-flex" />
+                <ui:DropdownField name="language-dropdown" label="Language" choices="ko,en,ja,zh" index="0" class="field-flex" />
+            </ui:VisualElement>
+        </ui:Foldout>
+        
+        <!-- Quality Settings -->
+        <ui:Foldout text="Quality Settings" value="false" class="settings-foldout">
+            <ui:VisualElement class="foldout-content">
+                <uie:IntegerField name="quality-field" label="Quality Level (8-20)" value="16" class="field-flex" />
+                <ui:FloatField name="speed-field" label="Speed (0.5-2.0)" value="1.0" class="field-flex" />
+                <ui:FloatField name="pitch-field" label="Pitch (0.5-2.0)" value="1.0" class="field-flex" />
+            </ui:VisualElement>
+        </ui:Foldout>
+        
+        <!-- Cache Settings -->
+        <ui:Foldout text="Cache Settings" value="false" class="settings-foldout">
+            <ui:VisualElement class="foldout-content">
+                <ui:Toggle name="cache-toggle" label="Enable Cache" value="true" class="field-flex" />
+                <uie:IntegerField name="cache-size-field" label="Max Size (MB)" value="500" class="field-flex" />
+                
+                <ui:VisualElement class="stats-row-inline">
+                    <ui:Label text="Entries:" class="stat-inline-label" />
+                    <ui:Label name="cache-entries" text="0" class="stat-inline-value" />
+                    <ui:Label text="Memory:" class="stat-inline-label" />
+                    <ui:Label name="cache-memory" text="0" class="stat-inline-value" />
+                </ui:VisualElement>
+                
+                <ui:VisualElement class="progress-container">
+                    <ui:ProgressBar name="cache-usage-bar" title="0%" class="usage-bar" />
+                </ui:VisualElement>
+                
+                <ui:VisualElement class="button-group">
+                    <ui:Button name="clear-cache-btn" text="Clear All" class="btn-sm btn-danger" />
+                    <ui:Button name="clear-old-btn" text="Clear Old" class="btn-sm" />
+                    <ui:Button name="open-folder-btn" text="Open Folder" class="btn-sm" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:Foldout>
+        
+        <!-- Usage & Credits -->
+        <ui:Foldout text="Usage &amp; Credits" value="true" class="settings-foldout">
+            <ui:VisualElement class="foldout-content">
+                <ui:VisualElement class="stats-grid">
+                    <ui:VisualElement class="stat-item">
+                        <ui:Label text="API Calls" class="stat-label" />
+                        <ui:Label name="api-calls" text="0" class="stat-value" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="stat-item">
+                        <ui:Label text="Cache Hits" class="stat-label" />
+                        <ui:Label name="cache-hits" text="0" class="stat-value" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="stat-item">
+                        <ui:Label text="Characters" class="stat-label" />
+                        <ui:Label name="characters" text="0" class="stat-value" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="stat-item">
+                        <ui:Label text="Credits (Lite)" class="stat-label" />
+                        <ui:Label name="credits-lite" text="0" class="stat-value stat-value--accent" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="stat-item">
+                        <ui:Label text="Credits (Std)" class="stat-label" />
+                        <ui:Label name="credits-standard" text="0" class="stat-value stat-value--accent" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                
+                <ui:VisualElement class="progress-container">
+                    <ui:Label text="Cache Hit Rate" class="mini-label" />
+                    <ui:ProgressBar name="hit-rate-bar" title="0%" class="hit-rate-bar" />
+                </ui:VisualElement>
+                
+                <ui:VisualElement class="button-group">
+                    <ui:Button name="reset-monthly-btn" text="Reset Monthly" class="btn-sm" />
+                    <ui:Button name="reset-all-btn" text="Reset All" class="btn-sm btn-danger" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:Foldout>
+        
+        <!-- Tools -->
+        <ui:Foldout text="Tools" value="true" class="settings-foldout">
+            <ui:VisualElement class="foldout-content">
+                <ui:Button name="open-picker-btn" text="Open Voice Picker" class="btn-full btn-primary" />
+            </ui:VisualElement>
+        </ui:Foldout>
+        
+        <!-- Links -->
+        <ui:Foldout text="Links &amp; Info" value="true" class="settings-foldout">
+            <ui:VisualElement class="foldout-content">
+                <ui:VisualElement class="button-group">
+                    <ui:Button name="api-portal-btn" text="API Portal" class="btn-sm btn-primary" />
+                    <ui:Button name="docs-btn" text="Documentation" class="btn-sm" />
+                </ui:VisualElement>
+                <ui:VisualElement class="info-box">
+                    <ui:Label text="Credit Calculation" class="info-title" />
+                    <ui:Label text="• Lite: 20 chars/credit  • Standard: 10 chars/credit" class="info-text" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:Foldout>
+        
+        <!-- Danger Zone -->
+        <ui:Foldout text="Danger Zone" value="false" class="settings-foldout settings-foldout--danger">
+            <ui:VisualElement class="foldout-content">
+                <ui:Label text="These actions cannot be undone." class="danger-warning" />
+                <ui:Button name="reset-data-btn" text="Reset All Data" class="btn-full btn-danger" />
+                <ui:Label text="Clears favorites, recent voices, and API key." class="info-text" />
+            </ui:VisualElement>
+        </ui:Foldout>
+    </ui:ScrollView>
+</ui:UXML>

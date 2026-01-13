@@ -1,0 +1,68 @@
+/* KnobControl Styles - Pro Plugin Style */
+
+.knob-control {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    -unity-font: url('project://database/Packages/com.varco.voice/Runtime/Google_Sans_Flex/GoogleSansFlex-VariableFont_GRAD,ROND,opsz,slnt,wdth,wght.ttf');
+}
+
+.knob-label {
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 4px;
+    -unity-text-align: middle-center;
+    -unity-font-style: bold;
+}
+
+.knob-ring {
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 50%;
+    border-width: 2px;
+    border-color: rgba(0, 110, 255, 0.3);
+    position: relative;
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.knob-ring:hover {
+    border-color: rgba(0, 110, 255, 0.6);
+}
+
+.knob-ring--dragging {
+    border-color: var(--varco-mint);
+    background-color: rgba(0, 110, 255, 0.1);
+}
+
+.knob-indicator {
+    width: 8px;
+    height: 8px;
+    background-color: var(--varco-mint);
+    border-radius: 50%;
+    position: absolute;
+}
+
+.knob-value {
+    font-size: 12px;
+    color: var(--varco-mint);
+    margin-top: 4px;
+    -unity-text-align: middle-center;
+    -unity-font-style: bold;
+}
+
+
+/* Light Mode - Knob Control */
+.theme-light .knob-label {
+    color: #4B5563;
+}
+
+.theme-light .knob-ring {
+    background-color: #F3F4F6;
+    border-color: rgba(0, 102, 221, 0.35);
+}
+
+.theme-light .knob-ring--dragging {
+    background-color: rgba(0, 102, 221, 0.12);
+}

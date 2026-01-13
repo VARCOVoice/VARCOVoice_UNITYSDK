@@ -1,0 +1,344 @@
+/* BatchTTSGeneratorWindow.uss */
+@import "Theme.uss";
+
+.batch-window {
+    flex-direction: column;
+    flex-grow: 1;
+    background-color: var(--color-bg-base);
+    overflow: hidden; /* Prevent child overflow from moving the container */
+}
+
+/* Header - MainWindow와 동일 스타일 (height: 48px) */
+.header {
+    height: 48px;
+    flex-direction: row;
+    align-items: center;
+    background-color: var(--color-bg-panel);
+    padding: 0 16px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(255, 255, 255, 0.15);
+    flex-shrink: 0;
+}
+
+/* Config Section */
+.config-section {
+    padding: 12px;
+    flex-shrink: 0;
+    /* Removed rigid min-height to prevent pushing */
+}
+
+/* Standard Form Row */
+.form-row,
+.control-row {
+    flex-direction: row;
+    margin-bottom: 8px;
+    align-items: center;
+    padding-right: 4px; /* 오른쪽 오버플로우 방지 */
+}
+
+/* Force label alignment across different field types */
+.form-row .unity-base-field__label,
+.control-row .unity-base-field__label {
+    min-width: 100px;
+    width: 100px;
+    flex-shrink: 0;
+    -unity-text-align: middle-left;
+    padding-right: 4px;
+}
+
+/* Input grow and shrink */
+.form-row .unity-base-field__input,
+.control-row .unity-base-field__input {
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-width: 50px;
+}
+
+/* Adjust buttons in row to be consistent */
+.form-row .btn,
+.control-row .btn {
+    margin-left: 4px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+/* Tabs */
+.tab-container {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-direction: column;
+    min-height: 200px; /* Give it enough space but allow shrinking */
+    overflow: hidden;
+}
+
+.tab-header {
+    flex-direction: row;
+    background-color: #1A1D24;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--color-border);
+    flex-shrink: 0; /* Never squash the tabs */
+}
+
+.tab-label {
+    padding: 8px 16px;
+    color: var(--color-text-muted);
+    -unity-font-style: bold;
+    cursor: link;
+    border-bottom-width: 2px;
+    border-bottom-color: transparent;
+}
+
+.tab-label:hover {
+    color: var(--color-text-white);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.tab-label--active {
+    color: var(--color-text-white);
+    border-bottom-color: #006EFF; /* Blue */
+    background-color: var(--color-bg-base);
+}
+
+.tab-content {
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-height: 0;
+    padding: 0;
+    background-color: var(--color-bg-base);
+    overflow: hidden; /* ScrollView inside should handle overflow */
+}
+
+/* List Views */
+.list-toolbar {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    background-color: var(--color-bg-panel);
+    border-bottom-width: 1px;
+    border-bottom-color: var(--color-border);
+    flex-shrink: 0; /* Keep toolbar buttons visible */
+}
+
+.list-scroll {
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-height: 0;
+}
+
+/* Queue Item (C#) */
+.queue-item {
+    flex-direction: row;
+    align-items: center;
+    padding: 4px 8px;
+    border-bottom-width: 1px;
+    border-bottom-color: #1A1D24;
+    height: 28px;
+}
+
+.queue-item:hover {
+    background-color: var(--color-bg-hover);
+}
+
+.queue-status {
+    width: 20px;
+    -unity-text-align: middle-center;
+    font-size: 10px;
+}
+.queue-status--completed { color: #006EFF; } /* Blue for success */
+.queue-status--error { color: #FF4444; }
+.queue-status--processing { color: #FFD700; }
+.queue-status--pending { color: #666; }
+
+.queue-index {
+    width: 30px;
+    color: var(--color-text-dim);
+    font-size: 10px;
+}
+
+.queue-filename {
+    width: 120px;
+    color: var(--color-text-white);
+    -unity-font-style: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.queue-text {
+    flex-grow: 1;
+    color: var(--color-text-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-left: 8px;
+}
+
+.queue-remove {
+    width: 20px;
+    background-color: transparent;
+    border-width: 0;
+    color: #666;
+}
+.queue-remove:hover { color: #FF4444; }
+
+/* Footer */
+.footer {
+    padding: 12px;
+    background-color: var(--color-bg-panel);
+    border-top-width: 1px;
+    border-top-color: var(--color-border);
+    flex-shrink: 0;
+}
+
+.progress-section {
+    margin-bottom: 8px;
+}
+
+.stats-row {
+    flex-direction: row;
+    margin-top: 4px;
+}
+
+.action-bar {
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.success-text { color: #006EFF; }
+.error-text { color: #FF4444; }
+
+.log-scroll {
+    border-width: 1px;
+    border-color: #333;
+    border-radius: 2px;
+    padding: 4px;
+}
+
+/* ==================== Light Mode ==================== */
+.theme-light .batch-window {
+    background-color: #F5F7FA;
+}
+
+.theme-light .batch-window .header {
+    background-color: #FFFFFF;
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+.theme-light .batch-window .header-title {
+    color: #1A1A1A;
+}
+
+.theme-light .batch-window .header-subtitle {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.theme-light .batch-window .config-section {
+    background-color: #FFFFFF;
+}
+
+.theme-light .batch-window .unity-base-field__label {
+    color: #333333;
+}
+
+.theme-light .batch-window .unity-text-field__input,
+.theme-light .batch-window .unity-base-field__input {
+    background-color: #FFFFFF;
+    border-color: rgba(0, 0, 0, 0.15);
+    color: #1A1A1A;
+}
+
+.theme-light .batch-window .tab-header {
+    background-color: #EAECEF;
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+.theme-light .batch-window .tab-label {
+    color: #555555;
+}
+
+.theme-light .batch-window .tab-label--active {
+    color: #0066DD;
+    border-bottom-color: #0066DD;
+}
+
+.theme-light .batch-window .tab-content {
+    background-color: #FFFFFF;
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+.theme-light .batch-window .btn {
+    background-color: transparent;
+    border-color: rgba(0, 0, 0, 0.15);
+    color: #333333;
+}
+
+.theme-light .batch-window .btn-primary {
+    background-color: #0066DD;
+    color: #FFFFFF;
+}
+
+.theme-light .batch-window .btn-settings {
+    color: rgba(0, 0, 0, 0.6);
+    border-color: rgba(0, 0, 0, 0.15);
+}
+
+.theme-light .batch-window .success-text { color: #0066DD; }
+.theme-light .batch-window .error-text { color: #E53935; }
+
+
+.log-separator {
+    border-top-color: var(--color-border);
+}
+
+/* Light Mode - Batch Queue */
+.theme-light .batch-window .tab-header {
+    background-color: #EEF2F7;
+    border-bottom-color: rgba(15, 23, 42, 0.12);
+}
+
+.theme-light .batch-window .tab-label:hover {
+    background-color: rgba(15, 23, 42, 0.04);
+}
+
+.theme-light .batch-window .tab-label--active {
+    background-color: #FFFFFF;
+    color: #0066DD;
+    border-bottom-color: #0066DD;
+}
+
+.theme-light .batch-window .queue-item {
+    background-color: #FFFFFF;
+    border-bottom-color: rgba(15, 23, 42, 0.12);
+}
+
+.theme-light .batch-window .queue-item:hover {
+    background-color: #F3F6FB;
+}
+
+.theme-light .batch-window .queue-index {
+    color: #6B7280;
+}
+
+.theme-light .batch-window .queue-filename {
+    color: #1B1F26;
+}
+
+.theme-light .batch-window .queue-text {
+    color: #4B5563;
+}
+
+.theme-light .batch-window .queue-status--pending {
+    color: #6B7280;
+}
+
+.theme-light .batch-window .queue-remove {
+    color: #6B7280;
+}
+
+.theme-light .batch-window .queue-remove:hover {
+    color: #E53935;
+}
+
+.theme-light .batch-window .log-scroll {
+    background-color: #FFFFFF;
+    border-color: rgba(15, 23, 42, 0.2);
+}

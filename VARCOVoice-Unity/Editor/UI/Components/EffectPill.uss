@@ -1,0 +1,131 @@
+/* EffectPill Styles - Dark Theme */
+
+.effect-pill {
+    flex-direction: row;
+    align-items: center;
+    height: 36px;
+    padding: 4px 8px;
+    margin: 0 4px;
+    background-color: transparent;
+    border-radius: 0;
+    border-width: 0 0 1px 0;
+    border-bottom-color: rgba(255, 255, 255, 0.12);
+}
+
+.effect-pill:hover {
+    background-color: rgba(255, 255, 255, 0.04);
+    border-bottom-color: rgba(0, 110, 255, 0.6);
+}
+
+.effect-pill.selected {
+    background-color: rgba(0, 110, 255, 0.12);
+    border-bottom-color: rgba(0, 110, 255, 0.8);
+    border-left-width: 2px;
+    border-left-color: var(--varco-mint);
+}
+
+.effect-pill.dragging {
+    background-color: rgba(102, 220, 178, 0.15);
+    opacity: 0.85;
+    border-bottom-color: var(--varco-mint);
+}
+
+/* Drag handle with hover cursor effect */
+.drag-handle {
+    width: 20px;
+    height: 30px;
+    justify-content: center;
+    align-items: center;
+    margin-right: 6px;
+    border-radius: 2px;
+}
+
+.drag-handle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    cursor: pan;
+}
+
+.drag-icon {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7); /* Increased from 0.4 */
+    -unity-text-align: middle-center;
+}
+
+.drag-handle:hover .drag-icon {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.status-led {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 10px;
+    background-color: var(--varco-mint);
+}
+
+.status-led.disabled {
+    background-color: var(--bg-control);
+}
+
+/* Effect name - larger font for balance */
+.effect-name {
+    flex-grow: 1;
+    font-size: 14px;
+    color: var(--text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.remove-btn {
+    width: 22px;
+    height: 22px;
+    font-size: 14px;
+    color: var(--text-muted);
+    background-color: transparent;
+    border-width: 0;
+    border-radius: 0;
+    -unity-text-align: middle-center;
+}
+
+.remove-btn:hover {
+    background-color: rgba(0, 110, 255, 0.3);
+    color: var(--text-secondary);
+}
+
+
+/* Light Mode - Effect Pill */
+.theme-light .effect-pill {
+    border-bottom-color: rgba(15, 23, 42, 0.12);
+}
+
+.theme-light .effect-pill:hover {
+    background-color: rgba(15, 23, 42, 0.04);
+    border-bottom-color: rgba(0, 102, 221, 0.4);
+}
+
+.theme-light .effect-pill.selected {
+    background-color: rgba(0, 102, 221, 0.12);
+    border-bottom-color: #0066DD;
+}
+
+.theme-light .drag-handle:hover {
+    background-color: rgba(15, 23, 42, 0.08);
+}
+
+.theme-light .drag-icon {
+    color: #6B7280;
+}
+
+.theme-light .drag-handle:hover .drag-icon {
+    color: #1B1F26;
+}
+
+.theme-light .remove-btn {
+    color: #6B7280;
+}
+
+.theme-light .remove-btn:hover {
+    background-color: rgba(0, 102, 221, 0.12);
+    color: #0066DD;
+}

@@ -87,20 +87,27 @@ namespace VARCOVoice.LipSync
         }
         
         /// <summary>
-        /// Get current viseme weight based on real-time analysis
-        /// Returns weights for all viseme types
+        /// Get current viseme weight based on real-time analysis (Non-Alloc version)
+        /// Use this in Update/LateUpdate to avoid GC allocations
         /// </summary>
-        public float[] AnalyzeRealtimeWeights(float[] samples, int channels)
+        /// <param name="samples">Audio samples</param>
+        /// <param name="channels">Number of channels</param>
+        /// <param name="destination">Pre-allocated buffer of at least 15 floats</param>
+        public void AnalyzeRealtimeWeights(float[] samples, int channels, float[] destination)
         {
-            float[] weights = new float[15];
+            if (destination == null || destination.Length < 15) return;
+            
+            // Clear destination
+            System.Array.Clear(destination, 0, 15);
+            
             float[] mono = ToMono(samples, channels);
             
             float energy = CalculateRMS(mono);
             
             if (energy < 0.005f)
             {
-                weights[(int)VisemeType.Silence] = 1f;
-                return weights;
+                destination[(int)VisemeType.Silence] = 1f;
+                return;
             }
             
             // Calculate spectrum
@@ -122,33 +129,44 @@ namespace VARCOVoice.LipSync
             veryHigh /= total;
             
             // Map to visemes
-            weights[(int)VisemeType.OO] = veryLow * energy * 3f;
-            weights[(int)VisemeType.OH] = low * energy * 3f;
-            weights[(int)VisemeType.AA] = mid * energy * 3f;
-            weights[(int)VisemeType.EE] = high * energy * 2f;
-            weights[(int)VisemeType.SS] = veryHigh * energy * 2f;
+            destination[(int)VisemeType.OO] = veryLow * energy * 3f;
+            destination[(int)VisemeType.OH] = low * energy * 3f;
+            destination[(int)VisemeType.AA] = mid * energy * 3f;
+            destination[(int)VisemeType.EE] = high * energy * 2f;
+            destination[(int)VisemeType.SS] = veryHigh * energy * 2f;
             
             // Lip closure for energy drops
             if (energy > 0.1f)
             {
-                weights[(int)VisemeType.PP] = Mathf.Max(0, (0.3f - high) * energy);
+                destination[(int)VisemeType.PP] = Mathf.Max(0, (0.3f - high) * energy);
             }
             
             // Normalize weights
             float maxWeight = 0f;
-            for (int i = 0; i < weights.Length; i++)
+            for (int i = 0; i < destination.Length && i < 15; i++)
             {
-                maxWeight = Mathf.Max(maxWeight, weights[i]);
+                maxWeight = Mathf.Max(maxWeight, destination[i]);
             }
             
             if (maxWeight > 1f)
             {
-                for (int i = 0; i < weights.Length; i++)
+                for (int i = 0; i < destination.Length && i < 15; i++)
                 {
-                    weights[i] /= maxWeight;
+                    destination[i] /= maxWeight;
                 }
             }
-            
+        }
+        
+        /// <summary>
+        /// Get current viseme weight based on real-time analysis
+        /// Returns weights for all viseme types
+        /// NOTE: This allocates a new array each call. Use the Non-Alloc overload in performance-critical code.
+        /// </summary>
+        [System.Obsolete("Use AnalyzeRealtimeWeights(samples, channels, float[] destination) to avoid GC allocations")]
+        public float[] AnalyzeRealtimeWeights(float[] samples, int channels)
+        {
+            float[] weights = new float[15];
+            AnalyzeRealtimeWeights(samples, channels, weights);
             return weights;
         }
         

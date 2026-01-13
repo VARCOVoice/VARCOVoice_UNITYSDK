@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xsi:noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd"
+>
+    <Style src="PlusMinus.uss" />
+    
+    <!-- Plus/Minus Button Component -->
+    <engine:VisualElement name="plusminus-container" class="plusminus">
+        
+        <!-- Minus Button -->
+        <engine:Button name="minus-button" class="plusminus__button plusminus__button--minus">
+            <engine:VisualElement name="minus-icon" class="plusminus__icon">
+                <engine:VisualElement name="minus-line" class="plusminus__line plusminus__line--horizontal" />
+            </engine:VisualElement>
+        </engine:Button>
+        
+        <!-- Plus Button -->
+        <engine:Button name="plus-button" class="plusminus__button plusminus__button--plus">
+            <engine:VisualElement name="plus-icon" class="plusminus__icon">
+                <engine:VisualElement name="plus-line-h" class="plusminus__line plusminus__line--horizontal" />
+                <engine:VisualElement name="plus-line-v" class="plusminus__line plusminus__line--vertical" />
+            </engine:VisualElement>
+        </engine:Button>
+        
+    </engine:VisualElement>
+    
+</engine:UXML>

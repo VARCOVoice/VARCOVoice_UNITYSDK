@@ -1,0 +1,104 @@
+/* ==================== Plus/Minus Button Styles ==================== */
+
+/* Container */
+.plusminus {
+    width: 74px;
+    height: 28px;
+    flex-direction: row;
+    gap: 6px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Button Base */
+.plusminus__button {
+    width: 34px;
+    height: 28px;
+    border-radius: 7px;
+    background-color: transparent;
+    border-width: 0;
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+    cursor: link;
+}
+
+/* Icon Container */
+.plusminus__icon {
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* Line Elements */
+.plusminus__line {
+    background-color: var(--text-primary);
+    position: absolute;
+}
+
+.plusminus__line--horizontal {
+    width: 9px;
+    height: 1.67px;
+    border-radius: 1px;
+}
+
+.plusminus__line--vertical {
+    width: 1.67px;
+    height: 9px;
+    border-radius: 1px;
+}
+
+/* ==================== Button States ==================== */
+
+/* Default State (Inactive) */
+.plusminus__button {
+    background-color: transparent;
+}
+
+.plusminus__button .plusminus__line {
+    background-color: var(--text-primary);
+}
+
+/* Hover State */
+.plusminus__button:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Active/Pressed State */
+.plusminus__button:active,
+.plusminus__button--active {
+    background: linear-gradient(270deg, var(--bg-control) 4.41%, var(--bg-control) 100%);
+}
+
+/* Plus Button Active */
+.plusminus__button--plus:active,
+.plusminus__button--plus.plusminus__button--active {
+    background: linear-gradient(270deg, var(--bg-control) 4.41%, var(--bg-control) 100%);
+}
+
+/* Minus Button Active */
+.plusminus__button--minus:active,
+.plusminus__button--minus.plusminus__button--active {
+    background: linear-gradient(90deg, var(--bg-control) 5.88%, var(--bg-control) 98.53%);
+}
+
+/* ==================== Specific Button Overrides ==================== */
+
+/* Minus Button */
+.plusminus__button--minus {
+    justify-content: center;
+}
+
+/* Plus Button */
+.plusminus__button--plus {
+    justify-content: center;
+}
+
+
+/* Light Mode - Plus/Minus */
+.theme-light .plusminus__button:hover {
+    background-color: rgba(15, 23, 42, 0.06);
+}

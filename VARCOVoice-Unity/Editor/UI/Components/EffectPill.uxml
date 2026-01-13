@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <!-- Effect Pill: Compact row for the left sidebar -->
+    <ui:VisualElement name="effect-pill" class="effect-pill">
+        <ui:VisualElement name="drag-handle" class="drag-handle">
+            <ui:Label text="::" class="drag-icon"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="status-led" class="status-led"/>
+        <ui:Label name="effect-name" text="Effect Name" class="effect-name"/>
+        <ui:Button name="remove-btn" text="x" class="remove-btn"/>
+    </ui:VisualElement>
+</ui:UXML>

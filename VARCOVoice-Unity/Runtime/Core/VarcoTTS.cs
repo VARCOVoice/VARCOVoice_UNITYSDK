@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using VARCOVoice.DSP;
 
 namespace VARCOVoice
 {
@@ -20,7 +21,7 @@ namespace VARCOVoice
             {
                 if (_instance == null)
                 {
-                    _instance = FindObjectOfType<VarcoTTS>();
+                    _instance = FindFirstObjectByType<VarcoTTS>();
                     if (_instance == null)
                     {
                         var go = new GameObject("[VarcoTTS]");
@@ -54,6 +55,9 @@ namespace VARCOVoice
         
         [Header("Playback")]
         [SerializeField] private AudioSource audioSource;
+        
+        [Header("DSP Effects")]
+        [SerializeReference] public System.Collections.Generic.List<DSPEffectBase> Effects = new System.Collections.Generic.List<DSPEffectBase>();
         
         #endregion
         
@@ -105,16 +109,13 @@ namespace VARCOVoice
         
         private void Initialize()
         {
-            // Get or create config
             if (config == null)
             {
                 config = VarcoConfig.Instance;
             }
             
-            // Create API client
             ApiClient = new VarcoApiClient(config);
             
-            // Get or create AudioSource
             if (audioSource == null)
             {
                 audioSource = GetComponent<AudioSource>();
@@ -175,7 +176,9 @@ namespace VARCOVoice
             }
             catch (VarcoException ex)
             {
+#if VARCO_DEBUG
                 Debug.LogError($"[VarcoTTS] Synthesis failed: {ex.Message}");
+#endif
                 OnError?.Invoke(ex);
                 throw;
             }
@@ -194,7 +197,9 @@ namespace VARCOVoice
             }
             catch (VarcoException ex)
             {
+#if VARCO_DEBUG
                 Debug.LogError($"[VarcoTTS] Synthesis failed: {ex.Message}");
+#endif
                 OnError?.Invoke(ex);
                 throw;
             }
@@ -209,7 +214,16 @@ namespace VARCOVoice
         /// </summary>
         public void Play(AudioClip clip)
         {
-            if (audioSource == null) return;
+            if (audioSource == null)
+            {
+                audioSource = GetComponent<AudioSource>();
+                if (audioSource == null)
+                {
+                    audioSource = gameObject.AddComponent<AudioSource>();
+                }
+            }
+            
+            if (clip == null) return;
             
             audioSource.clip = clip;
             audioSource.Play();

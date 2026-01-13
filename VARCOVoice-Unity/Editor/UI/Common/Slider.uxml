@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xsi:noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd"
+>
+    <Style src="Slider.uss" />
+    
+    <!-- Vertical Slider Component -->
+    <engine:VisualElement name="slider-container" class="slider">
+        
+        <!-- Slider Track Background -->
+        <engine:VisualElement name="slider-track" class="slider__track">
+            
+            <!-- Background Lines (inactive portion) -->
+            <engine:VisualElement name="slider-track-bg" class="slider__track-bg" />
+            
+            <!-- Fill Lines (active portion - with glow) -->
+            <engine:VisualElement name="slider-fill" class="slider__fill" />
+            
+        </engine:VisualElement>
+        
+        <!-- Up/Down Icons (optional) -->
+        <engine:VisualElement name="slider-icons" class="slider__icons">
+            <engine:VisualElement name="icon-up" class="slider__icon slider__icon--up" />
+            <engine:VisualElement name="icon-down" class="slider__icon slider__icon--down" />
+        </engine:VisualElement>
+        
+    </engine:VisualElement>
+    
+</engine:UXML>

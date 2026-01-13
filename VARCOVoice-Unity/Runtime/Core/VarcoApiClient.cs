@@ -117,7 +117,7 @@ namespace VARCOVoice
         #region TTS API
         
         /// <summary>
-        /// Synthesize text to speech
+        /// Synthesize text to speech (with caching)
         /// </summary>
         public async UniTask<AudioClip> SynthesizeAsync(
             string text,
@@ -132,23 +132,57 @@ namespace VARCOVoice
             ValidateConfig();
             ValidateText(text);
             
+            string resolvedVoice = voice ?? _config.DefaultVoice;
+            Language resolvedLang = language ?? _config.DefaultLanguage;
+            float resolvedSpeed = speed ?? _config.DefaultSpeed;
+            float resolvedPitch = pitch ?? _config.DefaultPitch;
+            int resolvedQuality = qualityLevel ?? _config.QualityLevel;
+            
+            var cache = AudioCacheManager.Instance;
+            if (seed < 0 && cache.Enabled)
+            {
+                string cacheKey = cache.GenerateKey(text, resolvedVoice, resolvedLang.ToApiString(), 
+                    resolvedSpeed, resolvedPitch, resolvedQuality);
+                
+                if (cache.TryGet(cacheKey, out var cachedClip))
+                {
+                    UsageTracker.Instance.RecordCall(_config.TTSEndpoint, text.Length, fromCache: true, cachedClip.length);
+                    return cachedClip;
+                }
+            }
+            
             var request = new TTSRequest
             {
                 Text = text,
-                Voice = voice ?? _config.DefaultVoice,
-                Language = (language ?? _config.DefaultLanguage).ToApiString(),
+                Voice = resolvedVoice,
+                Language = resolvedLang.ToApiString(),
                 Properties = new TTSProperties
                 {
-                    Speed = speed ?? _config.DefaultSpeed,
-                    Pitch = pitch ?? _config.DefaultPitch
+                    Speed = resolvedSpeed,
+                    Pitch = resolvedPitch
                 },
-                QualityLevel = qualityLevel ?? _config.QualityLevel,
+                QualityLevel = resolvedQuality,
                 Seed = seed
             };
             
             var response = await PostAsync<TTSResponse>(_config.TTSEndpoint, request, cancellationToken);
             
-            return DecodeAudioClip(response.Audio, $"tts_{text.GetHashCode()}");
+            // Decode and cache
+            byte[] audioBytes = Convert.FromBase64String(response.Audio);
+            var clip = WavUtility.ToAudioClip(audioBytes, $"tts_{text.GetHashCode()}");
+            
+            // Track API call
+            UsageTracker.Instance.RecordCall(_config.TTSEndpoint, text.Length, fromCache: false, clip?.length ?? 0f);
+            
+            // Store in cache (only if seed is not specified)
+            if (seed < 0 && cache.Enabled && clip != null)
+            {
+                string cacheKey = cache.GenerateKey(text, resolvedVoice, resolvedLang.ToApiString(), 
+                    resolvedSpeed, resolvedPitch, resolvedQuality);
+                cache.StoreBytes(cacheKey, audioBytes, clip.length);
+            }
+            
+            return clip;
         }
         
         /// <summary>
@@ -261,13 +295,31 @@ namespace VARCOVoice
         {
             ValidateConfig();
             
-            // Return cached if available
+            // 1. In-memory Cache Check
             if (!forceRefresh && _cachedVoices != null && 
                 DateTime.Now - _voicesCacheTime < _voicesCacheDuration)
             {
                 return _cachedVoices;
             }
+
+            // 2. Disk Cache Check (if not forced)
+            if (!forceRefresh)
+            {
+                var diskCache = LoadVoiceCache();
+                if (diskCache != null)
+                {
+                    _cachedVoices = diskCache;
+                     // Parse descriptions for loaded voices
+                    foreach (var voice in _cachedVoices)
+                    {
+                        voice.ParseDescription();
+                    }
+                    _voicesCacheTime = DateTime.Now; // Refresh timestamp
+                    return _cachedVoices;
+                }
+            }
             
+            // 3. Network Fetch
             var voices = await GetAsync<List<VarcoVoice>>(_config.VoicesEndpoint, cancellationToken);
             
             // Parse descriptions
@@ -276,12 +328,76 @@ namespace VARCOVoice
                 voice.ParseDescription();
             }
             
-            // Cache results
+            // 4. Update Caches
             _cachedVoices = voices;
             _voicesCacheTime = DateTime.Now;
             
+            // Save to Disk
+            SaveVoiceCache(voices);
+            
             return voices;
         }
+
+        #region Disk Caching Helper
+
+        [Serializable]
+        private class VoiceCacheWrapper
+        {
+            public long timestamp;
+            public List<VarcoVoice> voices;
+        }
+
+        private string GetCacheFilePath()
+        {
+            return System.IO.Path.Combine(Application.persistentDataPath, "varco_voice_cache.json");
+        }
+
+        private void SaveVoiceCache(List<VarcoVoice> voices)
+        {
+            try
+            {
+                var wrapper = new VoiceCacheWrapper
+                {
+                    timestamp = DateTime.UtcNow.Ticks,
+                    voices = voices
+                };
+                string json = JsonConvert.SerializeObject(wrapper);
+                System.IO.File.WriteAllText(GetCacheFilePath(), json);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning($"[VARCO] Failed to save voice cache: {ex.Message}");
+            }
+        }
+
+        private List<VarcoVoice> LoadVoiceCache()
+        {
+            try
+            {
+                string path = GetCacheFilePath();
+                if (System.IO.File.Exists(path))
+                {
+                    string json = System.IO.File.ReadAllText(path);
+                    var wrapper = JsonConvert.DeserializeObject<VoiceCacheWrapper>(json);
+                    if (wrapper != null && wrapper.voices != null)
+                    {
+                        // Cache expiration check (optional, set to 7 days for now)
+                        var cacheTime = new DateTime(wrapper.timestamp, DateTimeKind.Utc);
+                        if ((DateTime.UtcNow - cacheTime).TotalDays < 7) 
+                        {
+                            return wrapper.voices;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning($"[VARCO] Failed to load voice cache: {ex.Message}");
+            }
+            return null;
+        }
+
+        #endregion
         
         /// <summary>
         /// Search voices with filter
@@ -352,6 +468,7 @@ namespace VARCOVoice
                 try
                 {
                     using var request = new UnityWebRequest(url, method);
+                    request.timeout = 30; // 30 second timeout to prevent infinite waiting
                     
                     if (!string.IsNullOrEmpty(body))
                     {
@@ -373,9 +490,11 @@ namespace VARCOVoice
                     
                     HandleError(request);
                 }
-                catch (VarcoRateLimitException) when (attempt < _maxRetries)
+                catch (VarcoRateLimitException ex) when (attempt < _maxRetries)
                 {
-                    await UniTask.Delay(TimeSpan.FromSeconds(_retryDelaySeconds * (attempt + 1)), cancellationToken: cancellationToken);
+                    // Use server-provided Retry-After value, or fallback to exponential backoff
+                    int waitSeconds = ex.RetryAfterSeconds > 0 ? ex.RetryAfterSeconds : (int)(_retryDelaySeconds * (attempt + 1));
+                    await UniTask.Delay(TimeSpan.FromSeconds(waitSeconds), cancellationToken: cancellationToken);
                 }
                 catch (VarcoServerException) when (attempt < _maxRetries)
                 {
@@ -403,11 +522,22 @@ namespace VARCOVoice
             }
             catch { }
             
+            // Extract Retry-After header for rate limiting
+            int retryAfter = 60; // Default 60 seconds
+            if (statusCode == 429)
+            {
+                var headers = request.GetResponseHeaders();
+                if (headers != null && headers.TryGetValue("Retry-After", out var retryAfterValue))
+                {
+                    int.TryParse(retryAfterValue, out retryAfter);
+                }
+            }
+            
             throw statusCode switch
             {
                 401 => new VarcoAuthException(requestId),
                 400 => new VarcoBadRequestException(errorMessage),
-                429 => new VarcoRateLimitException(),
+                429 => new VarcoRateLimitException(retryAfter),
                 >= 500 => new VarcoServerException(errorMessage),
                 _ => new VarcoException($"HTTP {statusCode}: {errorMessage}", statusCode, requestId)
             };
@@ -437,6 +567,10 @@ namespace VARCOVoice
             int sampleRate = BitConverter.ToInt32(wavData, 24);
             int bitsPerSample = BitConverter.ToInt16(wavData, 34);
             
+#if VARCO_DEBUG
+
+#endif
+            
             // Find data chunk
             int dataOffset = 44;
             for (int i = 36; i < wavData.Length - 4; i++)
@@ -450,13 +584,31 @@ namespace VARCOVoice
             }
             
             int dataLength = wavData.Length - dataOffset;
-            int sampleCount = dataLength / (bitsPerSample / 8) / channels;
+            int bytesPerSample = bitsPerSample / 8;
+            int sampleCount = dataLength / bytesPerSample / channels;
+            
+#if VARCO_DEBUG
+
+#endif
             
             // Convert to float samples
             var samples = new float[sampleCount * channels];
             
-            if (bitsPerSample == 16)
+            if (bitsPerSample == 32)
             {
+                // 32-bit float PCM
+                for (int i = 0; i < samples.Length; i++)
+                {
+                    int byteIndex = dataOffset + i * 4;
+                    if (byteIndex + 3 < wavData.Length)
+                    {
+                        samples[i] = BitConverter.ToSingle(wavData, byteIndex);
+                    }
+                }
+            }
+            else if (bitsPerSample == 16)
+            {
+                // 16-bit PCM
                 for (int i = 0; i < samples.Length; i++)
                 {
                     int byteIndex = dataOffset + i * 2;
@@ -469,6 +621,7 @@ namespace VARCOVoice
             }
             else if (bitsPerSample == 8)
             {
+                // 8-bit PCM
                 for (int i = 0; i < samples.Length; i++)
                 {
                     int byteIndex = dataOffset + i;
@@ -478,6 +631,16 @@ namespace VARCOVoice
                     }
                 }
             }
+            
+            // Check sample values
+            float maxSample = 0f;
+            for (int i = 0; i < Mathf.Min(samples.Length, 1000); i++)
+            {
+                if (Mathf.Abs(samples[i]) > maxSample) maxSample = Mathf.Abs(samples[i]);
+            }
+#if VARCO_DEBUG
+
+#endif
             
             // Create AudioClip
             var clip = AudioClip.Create(clipName, sampleCount, channels, sampleRate, false);

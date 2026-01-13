@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd">
+    <engine:VisualElement class="export-panel">
+        <engine:VisualElement class="panel-header">
+            <engine:Label class="panel-header__title" text="EXPORT TO SCENE" />
+            <engine:VisualElement class="panel-header__controls">
+                <engine:Button name="export-refresh" class="btn-secondary" text="Refresh" />
+            </engine:VisualElement>
+        </engine:VisualElement>
+
+        <engine:VisualElement class="export-body">
+            <!-- Left: Scene Objects -->
+            <engine:VisualElement class="export-sidebar">
+                <engine:Label class="export-section-title" text="Scene Objects" />
+                <engine:ScrollView name="object-list" class="object-list" />
+                <engine:Button name="create-object" class="btn-primary export-create" text="+ Create New GameObject" />
+            </engine:VisualElement>
+
+            <!-- Center: Detail Panel -->
+            <engine:VisualElement name="detail-panel" class="detail-panel">
+                <engine:Label class="placeholder-text" text="Select an object to configure dialogue slots." />
+            </engine:VisualElement>
+
+            <!-- Right: WAV Library -->
+            <engine:VisualElement class="export-library">
+                <engine:VisualElement name="library-header" class="library-header">
+                    <engine:Label class="export-section-title" text="LIBRARY" />
+                    <engine:VisualElement name="library-sort-container" />
+                </engine:VisualElement>
+                <engine:ScrollView name="library-list" class="library-list" horizontal-scroller-visibility="Hidden" />
+                <engine:Label name="library-hint" class="library-hint" text="Drag clips to slots" />
+            </engine:VisualElement>
+        </engine:VisualElement>
+    </engine:VisualElement>
+</engine:UXML>
+

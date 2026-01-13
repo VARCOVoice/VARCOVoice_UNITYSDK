@@ -12,46 +12,46 @@ namespace VARCOVoice.LipSync
         /// <summary>Silent - mouth closed</summary>
         Silence = 0,
         
-        /// <summary>AA - as in "father" (ㅏ, ㅓ)</summary>
+        /// <summary>AA - as in "father" (?? ??</summary>
         AA = 1,
         
-        /// <summary>EE - as in "see" (ㅣ, ㅔ, ㅐ)</summary>
+        /// <summary>EE - as in "see" (?? ?? ??</summary>
         EE = 2,
         
         /// <summary>IH - as in "sit"</summary>
         IH = 3,
         
-        /// <summary>OH - as in "go" (ㅗ, ㅚ)</summary>
+        /// <summary>OH - as in "go" (?? ??</summary>
         OH = 4,
         
-        /// <summary>OO - as in "too" (ㅜ, ㅟ)</summary>
+        /// <summary>OO - as in "too" (?? ??</summary>
         OO = 5,
         
-        /// <summary>CH/SH - as in "church" (ㅈ, ㅊ, ㅅ, ㅆ)</summary>
+        /// <summary>CH/SH - as in "church" (?? ?? ?? ??</summary>
         CH = 6,
         
-        /// <summary>FF/VV - as in "five" (ㅍ, ㅎ)</summary>
+        /// <summary>FF/VV - as in "five" (?? ??</summary>
         FF = 7,
         
-        /// <summary>TH - as in "think" (ㄷ, ㅌ, ㄴ, ㄹ)</summary>
+        /// <summary>TH - as in "think" (?? ?? ?? ??</summary>
         TH = 8,
         
-        /// <summary>PP/BB/MM - closed lips (ㅁ, ㅂ, ㅃ, ㅍ)</summary>
+        /// <summary>PP/BB/MM - closed lips (?? ?? ?? ??</summary>
         PP = 9,
         
-        /// <summary>KK/GG - back of throat (ㄱ, ㅋ, ㄲ)</summary>
+        /// <summary>KK/GG - back of throat (?? ?? ??</summary>
         KK = 10,
         
-        /// <summary>NN - nasal (ㄴ, ㅇ)</summary>
+        /// <summary>NN - nasal (?? ??</summary>
         NN = 11,
         
-        /// <summary>RR - R sound (ㄹ)</summary>
+        /// <summary>RR - R sound (??</summary>
         RR = 12,
         
         /// <summary>DD - D/T sound</summary>
         DD = 13,
         
-        /// <summary>SS - S sound (ㅅ, ㅆ)</summary>
+        /// <summary>SS - S sound (?? ??</summary>
         SS = 14
     }
     
@@ -126,15 +126,20 @@ namespace VARCOVoice.LipSync
         }
         
         /// <summary>
-        /// Get interpolated viseme weights at specific time
-        /// Returns weights for all viseme types
+        /// Get interpolated viseme weights at specific time (Non-Alloc version)
+        /// Use this in Update/LateUpdate to avoid GC allocations
         /// </summary>
-        public float[] GetVisemeWeightsAtTime(float time)
+        /// <param name="time">Time in seconds</param>
+        /// <param name="destination">Pre-allocated buffer of at least 15 floats</param>
+        public void GetVisemeWeightsAtTime(float time, float[] destination)
         {
-            float[] weights = new float[15]; // 15 viseme types
+            if (destination == null || destination.Length < 15) return;
+            
+            // Clear destination buffer
+            System.Array.Clear(destination, 0, 15);
             
             var current = GetVisemeAtTime(time);
-            weights[(int)current.Viseme] = current.Weight;
+            destination[(int)current.Viseme] = current.Weight;
             
             // Add energy-based intensity if available
             if (EnergyLevels.Count > 0)
@@ -144,9 +149,20 @@ namespace VARCOVoice.LipSync
                 float energy = EnergyLevels[energyIndex];
                 
                 // Modulate weight by energy
-                weights[(int)current.Viseme] *= Mathf.Clamp01(energy * 2f);
+                destination[(int)current.Viseme] *= Mathf.Clamp01(energy * 2f);
             }
-            
+        }
+        
+        /// <summary>
+        /// Get interpolated viseme weights at specific time
+        /// Returns weights for all viseme types
+        /// NOTE: This allocates a new array each call. Use the Non-Alloc overload in performance-critical code.
+        /// </summary>
+        [System.Obsolete("Use GetVisemeWeightsAtTime(float time, float[] destination) to avoid GC allocations")]
+        public float[] GetVisemeWeightsAtTime(float time)
+        {
+            float[] weights = new float[15]; // 15 viseme types
+            GetVisemeWeightsAtTime(time, weights);
             return weights;
         }
         
@@ -184,10 +200,8 @@ namespace VARCOVoice.LipSync
         public List<VisemeBlendShape> BlendShapes = new List<VisemeBlendShape>();
         
         [Header("Settings")]
-        [Range(0f, 1f)]
         public float Smoothing = 0.3f;
         
-        [Range(0f, 2f)]
         public float Intensity = 1f;
         
         /// <summary>

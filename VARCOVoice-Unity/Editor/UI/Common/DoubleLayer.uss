@@ -1,0 +1,58 @@
+/* ==================== Double Layer Styles ==================== */
+
+/* Container */
+.double-layer {
+    width: 115px;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Main Title */
+.double-layer__title {
+    color: var(--text-primary);
+    font-size: 12px;
+    -unity-font: url('project://database/Packages/com.varco.voice/Runtime/Google_Sans_Flex/GoogleSansFlex-VariableFont_GRAD,ROND,opsz,slnt,wdth,wght.ttf');
+    -unity-text-align: middle-center;
+    margin-bottom: 8px;
+}
+
+/* Shape Container */
+.double-layer__shape {
+    width: 20px;
+    height: 20px;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* Shape Line (Diagonal) */
+.double-layer__line {
+    width: 20px;
+    height: 2px;
+    background-color: var(--varco-mint);
+    rotate: -45deg;
+    display: none;
+}
+
+/* Subtitle Container */
+.double-layer__subtitle-container {
+    width: 115px;
+    height: 12px;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+}
+
+/* Subtitle Text */
+.double-layer__subtitle {
+    color: var(--text-secondary);
+    font-size: 9px;
+    -unity-font: url('project://database/Packages/com.varco.voice/Runtime/Google_Sans_Flex/GoogleSansFlex-VariableFont_GRAD,ROND,opsz,slnt,wdth,wght.ttf');
+    -unity-text-align: middle-center;
+}
+
+/* ==================== Active State (Shape Visible) ==================== */
+
+.double-layer--active .double-layer__line {
+    display: flex;
+}

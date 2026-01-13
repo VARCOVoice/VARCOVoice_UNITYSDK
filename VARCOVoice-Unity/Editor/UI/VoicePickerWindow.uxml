@@ -1,0 +1,63 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:VisualElement class="voice-picker-window">
+        <!-- HEADER (제목만) -->
+        <ui:VisualElement class="header">
+            <ui:Label text="VARCO VOICE" class="header-title" />
+            <ui:Label text="Library" class="header-subtitle" />
+            <ui:VisualElement class="header-spacer" />
+            <ui:Button name="settings-btn" text="Settings" class="btn-settings" />
+        </ui:VisualElement>
+        
+        <!-- TOOLBAR (검색 및 필터) -->
+        <ui:VisualElement class="toolbar">
+            <!-- Search & Refresh -->
+            <ui:VisualElement class="search-row">
+                <ui:TextField name="search-field" placeholder-text="Search voices..." class="search-field" style="flex-grow: 1;" />
+                <ui:Button name="refresh-btn" text="↻" class="btn btn-icon btn-secondary" tooltip="Refresh Voice List" />
+            </ui:VisualElement>
+            
+            <!-- Filter Tabs -->
+            <ui:VisualElement class="filter-tabs">
+                <ui:Button name="tab-all" text="All" class="btn filter-tab filter-tab--active" />
+                <ui:Button name="tab-favorites" text="★ Favorites" class="btn filter-tab" />
+                <ui:Button name="tab-recent" text="Recent" class="btn filter-tab" />
+                <ui:Button name="tab-male" text="Male" class="btn filter-tab" />
+                <ui:Button name="tab-female" text="Female" class="btn filter-tab" />
+            </ui:VisualElement>
+            
+            <!-- Advanced Filters (Dropdowns) -->
+            <ui:VisualElement class="filter-row-secondary">
+                <ui:DropdownField name="gender-filter" label="" class="filter-dropdown" style="flex-grow: 1; margin-right: 4px;" />
+                <ui:DropdownField name="age-filter" label="" class="filter-dropdown" style="flex-grow: 1;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        
+        <!-- BODY (List) -->
+        <ui:VisualElement class="body">
+            <!-- Using ScrollView for now as per controller logic, but styled to look like cleaner list -->
+            <!-- The controller logic handles pagination, so ScrollView is acceptable if virtualization isn't strictly enforced yet -->
+            <ui:ScrollView name="voice-list" class="voice-list-scroll" />
+        </ui:VisualElement>
+        
+        <!-- FOOTER (Pagination & Status) -->
+        <ui:VisualElement class="footer">
+            <ui:VisualElement class="pagination-controls">
+                <ui:Button name="prev-page" text="◄" class="btn btn-icon btn-secondary" />
+                <ui:Label name="page-label" text="Page 1 / 1" class="text-body" style="margin-left: 8px; margin-right: 8px;" />
+                <ui:Button name="next-page" text="►" class="btn btn-icon btn-secondary" />
+            </ui:VisualElement>
+            
+            <ui:Label name="voice-count" text="Total: 0" class="text-label" style="align-self: center;" />
+        </ui:VisualElement>
+        
+        <!-- PREVIEW BAR (Sticky Bottom) -->
+        <ui:VisualElement class="preview-bar">
+            <ui:TextField name="preview-text" value="Hello, this is a test." class="preview-text-field" multiline="false" />
+            <ui:VisualElement class="preview-controls">
+                <ui:Button name="preview-btn" text="▶ Preview" class="btn btn-primary" style="flex-grow: 1;" />
+                <ui:Button name="stop-btn" text="■" class="btn btn-icon btn-secondary" />
+            </ui:VisualElement>
+            <ui:Label name="status-text" text="Ready" class="text-label status-label" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

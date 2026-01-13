@@ -49,7 +49,19 @@ namespace VARCOVoice
         [SerializeField] private int maxCacheSizeMB = 100;
         
         // Properties
-        public string ApiKey => apiKey;
+        public string ApiKey
+        {
+            get
+            {
+#if UNITY_EDITOR
+                // In Editor, prefer EditorPrefs over serialized field
+                string editorKey = UnityEditor.EditorPrefs.GetString("VARCOVoice_ApiKey", "");
+                if (!string.IsNullOrEmpty(editorKey))
+                    return editorKey;
+#endif
+                return apiKey;
+            }
+        }
         public string BaseUrl => string.IsNullOrEmpty(baseUrl) ? DEFAULT_BASE_URL : baseUrl;
         public TTSModel DefaultModel => defaultModel;
         public string DefaultVoice => defaultVoice;
@@ -83,7 +95,9 @@ namespace VARCOVoice
                     _instance = Resources.Load<VarcoConfig>("VarcoConfig");
                     if (_instance == null)
                     {
+#if VARCO_DEBUG
                         Debug.LogWarning("[VARCOVoice] VarcoConfig not found in Resources. Creating default config.");
+#endif
                         _instance = CreateInstance<VarcoConfig>();
                     }
                 }
@@ -96,9 +110,11 @@ namespace VARCOVoice
         /// </summary>
         public bool IsValid()
         {
-            if (string.IsNullOrEmpty(apiKey))
+            if (string.IsNullOrEmpty(ApiKey))
             {
+#if VARCO_DEBUG
                 Debug.LogError("[VARCOVoice] API Key is not configured. Please set it in Project Settings or VarcoConfig asset.");
+#endif
                 return false;
             }
             return true;
@@ -157,6 +173,18 @@ namespace VARCOVoice
                 Language.Japanese => "japanese",
                 Language.Taiwanese => "taiwanese",
                 _ => "korean"
+            };
+        }
+        
+        public static Language FromApiString(string apiString)
+        {
+            return apiString?.ToLower() switch
+            {
+                "korean" => Language.Korean,
+                "english" => Language.English,
+                "japanese" => Language.Japanese,
+                "taiwanese" => Language.Taiwanese,
+                _ => Language.Korean
             };
         }
     }

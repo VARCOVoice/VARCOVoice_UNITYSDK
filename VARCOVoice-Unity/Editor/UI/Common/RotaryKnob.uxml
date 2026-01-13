@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd"
+>
+    <!--
+        로터리 노브 컴포넌트
+        Figma 디자인 기반 Unity UI Toolkit 구현
+        
+        사용법:
+        <RotaryKnob name="level-knob" label="LEVEL" value="0.5" min-value="0" max-value="1" />
+    -->
+    
+    <Style src="RotaryKnob.uss" />
+    
+    <!-- 기본 로터리 노브 (Range 0) -->
+    <engine:VisualElement name="rotary-knob" class="rotary-knob rotary-knob--range-0">
+        
+        <!-- 다이얼 컨테이너 -->
+        <engine:VisualElement name="dial-container" class="rotary-knob__dial-container">
+            
+            <!-- 배경 트랙 (회색 원) -->
+            <engine:VisualElement name="track" class="rotary-knob__track rotary-knob__track--shadow rotary-knob__track--inner-shadow" />
+            
+            <!-- 진행 아크 (청록색 활성 부분) -->
+            <!-- 주의: Unity UI Toolkit은 SVG 아크를 직접 지원하지 않으므로 -->
+            <!-- 커스텀 렌더러나 이미지 시퀀스 사용 필요 -->
+            <engine:VisualElement name="progress-arc" class="rotary-knob__progress-arc" />
+            
+            <!-- 회전 인디케이터 라인 -->
+            <engine:VisualElement name="indicator" class="rotary-knob__indicator" />
+            
+        </engine:VisualElement>
+        
+        <!-- 레이블 컨테이너 -->
+        <engine:VisualElement name="label-container" class="rotary-knob__label">
+            <engine:Label name="label-text" class="rotary-knob__label-text" text="LEVEL" />
+        </engine:VisualElement>
+        
+    </engine:VisualElement>
+    
+</engine:UXML>

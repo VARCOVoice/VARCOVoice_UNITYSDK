@@ -2,12 +2,12 @@
   "name": "com.varco.voice",
   "version": "1.0.0",
   "displayName": "VARCO Voice TTS",
-  "description": "Unity plugin for VARCO Voice TTS API with DSP effects and lip sync support",
-  "unity": "2022.3",
+  "description": "Unity plugin for VARCO Voice TTS API with DSP effects, lip sync, offline caching, and Burst-optimized audio processing",
+  "unity": "2021.3",
   "unityRelease": "0f1",
-  "documentationUrl": "https://github.com/your-repo/VARCOVoice-Unity#readme",
-  "changelogUrl": "https://github.com/your-repo/VARCOVoice-Unity/blob/main/CHANGELOG.md",
-  "licensesUrl": "https://github.com/your-repo/VARCOVoice-Unity/blob/main/LICENSE",
+  "documentationUrl": "https://github.com/VARCOVoice/VARCOVoice_UNITYSDK#readme",
+  "changelogUrl": "https://github.com/VARCOVoice/VARCOVoice_UNITYSDK/blob/main/CHANGELOG.md",
+  "licensesUrl": "https://github.com/VARCOVoice/VARCOVoice_UNITYSDK/blob/main/LICENSE",
   "keywords": [
     "tts",
     "text-to-speech",
@@ -16,41 +16,19 @@
     "dsp",
     "lip-sync",
     "varco",
-    "ai"
+    "ai",
+    "burst",
+    "addressables"
   ],
   "author": {
-    "name": "VARCOVoice Contributors",
-    "url": "https://github.com/your-repo/VARCOVoice-Unity"
+    "name": "NCAI VARCO Voice DevTeam",
+    "url": "https://github.com/VARCOVoice"
   },
   "dependencies": {
     "com.unity.nuget.newtonsoft-json": "3.2.1",
-    "com.cysharp.unitask": "2.5.0"
-  },
-  "samples": [
-    {
-      "displayName": "Basic TTS",
-      "description": "Simple TTS usage example",
-      "path": "Samples~/01_BasicTTS"
-    },
-    {
-      "displayName": "Dialogue System",
-      "description": "Game dialogue system with TTS",
-      "path": "Samples~/02_DialogueSystem"
-    },
-    {
-      "displayName": "3D Spatial Audio",
-      "description": "3D positional audio with TTS",
-      "path": "Samples~/03_3DSpatialAudio"
-    },
-    {
-      "displayName": "Lip Sync",
-      "description": "Character lip sync with TTS",
-      "path": "Samples~/04_LipSync"
-    },
-    {
-      "displayName": "DSP Effects",
-      "description": "Audio DSP effects demonstration",
-      "path": "Samples~/05_DSPEffects"
-    }
-  ]
+    "com.unity.burst": "1.8.11",
+    "com.unity.mathematics": "1.2.6",
+    "com.unity.collections": "2.1.4",
+    "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask#2.5.10"
+  }
 }

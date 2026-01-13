@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xsi:noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd"
+>
+    <Style src="PresetSelector.uss" />
+    
+    <!-- Preset Selector Component -->
+    <engine:VisualElement name="preset-selector-container" class="preset-selector">
+        
+        <!-- Previous Button -->
+        <engine:Button name="preset-prev" class="preset-selector__button preset-selector__button--prev">
+            <engine:VisualElement name="arrow-left" class="preset-selector__arrow preset-selector__arrow--left" />
+        </engine:Button>
+        
+        <!-- Preset Name Label -->
+        <engine:Label name="preset-name" class="preset-selector__label" text="Preset Name" />
+        
+        <!-- Next Button -->
+        <engine:Button name="preset-next" class="preset-selector__button preset-selector__button--next">
+            <engine:VisualElement name="arrow-right" class="preset-selector__arrow preset-selector__arrow--right" />
+        </engine:Button>
+        
+    </engine:VisualElement>
+    
+</engine:UXML>
