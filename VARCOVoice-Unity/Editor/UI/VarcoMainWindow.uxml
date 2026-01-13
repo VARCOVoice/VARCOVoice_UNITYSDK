@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd"
+>
+    <Style src="VarcoMainWindow.uss" />
+    
+    <!-- Main Container -->
+    <engine:VisualElement name="main-container" class="main-container">
+        
+        <!-- Header -->
+        <engine:VisualElement name="header" class="header">
+            <engine:VisualElement class="header__logo-section">
+                <engine:Label name="title" class="header__title" text="VARCO VOICE" />
+                <engine:Label name="version" class="header__version" text="v1.1.0" />
+            </engine:VisualElement>
+            <engine:VisualElement class="header__actions">
+                <engine:Button name="settings-btn" text="Settings" class="header__icon-button" tooltip="Settings" />
+            </engine:VisualElement>
+        </engine:VisualElement>
+        
+        <!-- Tab Navigation -->
+        <engine:VisualElement name="tab-bar" class="tab-bar">
+            <engine:Button name="tab-tts" class="tab-button tab-button--active" text="1. TTS" />
+            <engine:Button name="tab-dsp" class="tab-button" text="2. FX Studio" />
+            <engine:Button name="tab-export" class="tab-button" text="3. Export" />
+        </engine:VisualElement>
+        
+        <!-- Content Area -->
+        <engine:VisualElement name="content-area" class="content-area">
+            
+            <!-- TTS Panel (Default Active) -->
+            <engine:VisualElement name="panel-tts" class="panel panel--active">
+                <engine:Label class="panel__placeholder" text="🎤 TTS Generation Panel" />
+                <engine:Label class="panel__description" text="Phase 2에서 구현 예정" />
+            </engine:VisualElement>
+            
+            <!-- DSP Panel -->
+            <engine:VisualElement name="panel-dsp" class="panel">
+                <engine:Label class="panel__placeholder" text="🎚️ DSP Effects Panel" />
+                <engine:Label class="panel__description" text="Phase 3에서 구현 예정" />
+            </engine:VisualElement>
+            
+            <!-- Lip Sync Panel -->
+            <engine:VisualElement name="panel-lipsync" class="panel">
+                <engine:Label class="panel__placeholder" text="👄 Lip Sync Panel" />
+                <engine:Label class="panel__description" text="Phase 4에서 구현 예정" />
+            </engine:VisualElement>
+            
+            <!-- Export Panel -->
+            <engine:VisualElement name="panel-export" class="panel">
+                <engine:Label class="panel__placeholder" text="📁 Export Panel" />
+                <engine:Label class="panel__description" text="Phase 5에서 구현 예정" />
+            </engine:VisualElement>
+            
+        </engine:VisualElement>
+        
+        <!-- Status Bar -->
+        <engine:VisualElement name="status-bar" class="status-bar">
+            <engine:VisualElement class="status-bar__connection">
+                <engine:VisualElement name="connection-indicator" class="status-dot status-dot--disconnected" />
+                <engine:Label name="connection-status" class="status-bar__text" text="Disconnected" />
+            </engine:VisualElement>
+            <engine:VisualElement class="status-bar__info">
+                <engine:Label name="status-message" class="status-bar__message" text="Ready" />
+            </engine:VisualElement>
+        </engine:VisualElement>
+        
+    </engine:VisualElement>
+    
+</engine:UXML>

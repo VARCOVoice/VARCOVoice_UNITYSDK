@@ -1,0 +1,93 @@
+/* ==================== Slider Styles ==================== */
+
+/* Slider Container */
+.slider {
+    width: 11px;
+    height: 96px;
+    flex-direction: column;
+    position: relative;
+}
+
+/* Slider Track */
+.slider__track {
+    width: 11px;
+    height: 96px;
+    border-radius: 4px;
+    border-width: 1px;
+    border-color: var(--border-subtle);
+    background-color: var(--bg-control);
+    overflow: hidden;
+    position: relative;
+}
+
+/* Track Background Lines */
+.slider__track-bg {
+    width: 1px;
+    height: 87px;
+    background-color: var(--bg-control);
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    border-radius: 92px;
+}
+
+/* Slider Fill (Active Portion with Glow) */
+.slider__fill {
+    width: 1px;
+    height: 35px;
+    background-color: var(--text-primary);
+    position: absolute;
+    left: 5px;
+    bottom: 5px;
+    border-radius: 92px;
+}
+
+/* Icons Container */
+.slider__icons {
+    position: absolute;
+    width: 11px;
+    height: 96px;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+}
+
+/* Up Icon */
+.slider__icon--up {
+    width: 5px;
+    height: 4px;
+    position: absolute;
+    left: 3px;
+    top: 4px;
+}
+
+/* Down Icon */
+.slider__icon--down {
+    width: 7px;
+    height: 4px;
+    position: absolute;
+    left: 2px;
+    bottom: 4px;
+}
+
+/* ==================== Slider Variants ==================== */
+
+/* Slider with Icons */
+.slider--with-icons .slider__icons {
+    display: flex;
+}
+
+/* Slider without Icons */
+.slider--no-icons .slider__icons {
+    display: none;
+}
+
+/* ==================== Interaction States ==================== */
+
+.slider:hover .slider__track {
+    border-color: var(--bg-control);
+}
+
+.slider:active .slider__fill {
+    background-color: var(--varco-mint);
+}

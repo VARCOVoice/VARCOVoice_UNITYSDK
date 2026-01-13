@@ -1,0 +1,72 @@
+/* ==================== Double Number Selector Styles ==================== */
+
+/* Container */
+.double-number {
+    width: 103px;
+    height: 29px;
+    border-radius: 8px;
+    position: relative;
+}
+
+/* Number Labels Container */
+.double-number__labels {
+    width: 81px;
+    height: 17px;
+    position: absolute;
+    left: 10px;
+    top: 5px;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+/* Individual Number Label */
+.double-number__label {
+    color: var(--text-secondary);
+    font-size: 14px;
+    -unity-font: url('project://database/Packages/com.varco.voice/Runtime/Google_Sans_Flex/GoogleSansFlex-VariableFont_GRAD,ROND,opsz,slnt,wdth,wght.ttf');
+}
+
+/* Selector Container */
+.double-number__selector {
+    width: 41px;
+    height: 19px;
+    position: absolute;
+    left: 31px;
+    top: 0;
+}
+
+/* Selector Background */
+.double-number__selector-bg {
+    width: 41px;
+    height: 19px;
+    background-color: var(--bg-control-hover);
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+/* Selector Text */
+.double-number__selector-text {
+    color: var(--text-secondary);
+    font-size: 8px;
+    -unity-font: url('project://database/Packages/com.varco.voice/Runtime/Google_Sans_Flex/GoogleSansFlex-VariableFont_GRAD,ROND,opsz,slnt,wdth,wght.ttf');
+    -unity-text-align: middle-center;
+    position: absolute;
+    left: 11px;
+    top: 5px;
+    width: 20px;
+    height: 10px;
+}
+
+/* ==================== Selector Positions ==================== */
+
+/* Position 1 (Left) */
+.double-number__selector--position-1 {
+    left: 0;
+}
+
+/* Position 2 (Right) */
+.double-number__selector--position-2 {
+    left: 62px;
+}

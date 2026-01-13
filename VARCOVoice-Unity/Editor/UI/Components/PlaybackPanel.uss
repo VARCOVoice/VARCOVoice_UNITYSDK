@@ -1,0 +1,207 @@
+/* Playback Panel Styles (Shared: TTS + DSP) */
+.playback-panel {
+    flex-direction: row;
+    align-items: center;
+    padding: 6px 8px;
+    background-color: rgba(10, 12, 16, 1);
+    border-width: 1px;
+    border-color: rgba(0, 110, 255, 0.2);
+    border-radius: 4px;
+    width: 100%;
+    --panel-accent: #006EFF;
+    --panel-accent-dim: rgba(0, 110, 255, 0.25);
+    --panel-border: rgba(0, 110, 255, 0.25);
+    --panel-text: #FFFFFF; /* High contrast */
+    --panel-text-dim: rgba(255, 255, 255, 0.6); /* Brighter */
+}
+
+.playback-panel > * {
+    margin-right: 6px;
+}
+
+.playback-btn {
+    height: 28px;
+    width: 28px;
+    min-width: 28px;
+    padding: 0;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    border-radius: 0;
+    border-width: 1px;
+    border-color: var(--panel-border);
+    background-color: transparent;
+    color: var(--panel-text-dim);
+    -unity-text-align: middle-center;
+}
+
+.playback-btn--primary {
+    background-color: var(--panel-accent-dim);
+    color: #FFFFFF; /* Unified White */
+    border-color: var(--panel-accent);
+}
+
+.playback-btn:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--panel-text);
+}
+
+.playback-btn--primary:hover {
+    background-color: rgba(0, 110, 255, 0.35);
+    color: #FFFFFF;
+}
+
+.playback-toggle {
+    height: 22px;
+    min-width: 52px;
+    padding: 0 8px;
+    font-size: 10px;
+    border-radius: 0;
+    border-width: 1px;
+    border-color: var(--panel-border);
+    background-color: transparent;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.playback-toggle--active {
+    background-color: var(--panel-accent-dim);
+    border-color: var(--panel-accent);
+}
+
+.playback-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--panel-text);
+}
+
+.playback-marker {
+    height: 22px;
+    min-width: 28px;
+    padding: 0 6px;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    border-radius: 0;
+    border-width: 1px;
+    border-color: var(--panel-border);
+    background-color: transparent;
+    color: var(--panel-text-dim);
+}
+
+.playback-marker:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--panel-text);
+}
+
+.playback-marker--active {
+    border-color: var(--panel-accent);
+    color: var(--panel-accent);
+}
+
+.playback-scrub {
+    flex-grow: 1;
+    min-width: 120px;
+    height: 28px; /* Match button height */
+    margin-left: 12px;
+    margin-right: 12px;
+    overflow: visible;
+    justify-content: center; /* Center slider vertically */
+}
+
+.playback-scrub .unity-base-slider__tracker {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    height: 6px;
+    margin-top: -3px; /* Center (Tracker is absolute usually? No, flex item in slider) */
+    top: 50%;
+    position: absolute;
+    width: 100%;
+}
+
+.playback-scrub .unity-base-slider__tracker-border {
+    display: none;
+}
+
+.playback-scrub .unity-base-slider__fill {
+    background-color: var(--panel-accent);
+    border-radius: 3px;
+    height: 6px;
+    margin-top: -3px;
+    top: 50%;
+    position: absolute;
+}
+
+.playback-scrub .unity-base-slider__dragger {
+    background-color: #FFFFFF;
+    width: 6px;
+    height: 16px;
+    top: 50%;
+    margin-top: -8px; /* Center 16px height */
+    margin-left: -3px; /* Center 6px width */
+    border-radius: 3px;
+    border-width: 0;
+    position: absolute; /* Ensure free movement */
+}
+
+.playback-scrub .unity-base-slider__dragger-border {
+    display: none;
+}
+
+/* Hover fx */
+.playback-scrub:hover .unity-base-slider__dragger {
+    scale: 1.1;
+    background-color: var(--varco-mint);
+}
+
+.playback-time-label {
+    min-width: 110px;
+    font-size: 10px;
+    color: var(--panel-text);
+    -unity-text-align: middle-center;
+}
+
+.playback-toggle .unity-toggle__checkmark {
+    display: none;
+}
+
+.playback-toggle .unity-toggle__text {
+    color: var(--panel-text-dim);
+}
+
+.playback-toggle--active .unity-toggle__text {
+    color: #FFFFFF;
+}
+
+
+/* Light Mode - Playback Panel */
+.theme-light .playback-panel {
+    background-color: #FFFFFF;
+    border-color: rgba(15, 23, 42, 0.2);
+    --panel-accent: #0066DD;
+    --panel-accent-dim: rgba(0, 102, 221, 0.15);
+    --panel-border: rgba(15, 23, 42, 0.2);
+    --panel-text: #1B1F26;
+    --panel-text-dim: #6B7280;
+}
+
+.theme-light .playback-btn:hover {
+    background-color: rgba(15, 23, 42, 0.05);
+}
+
+.theme-light .playback-btn--primary {
+    color: #FFFFFF;
+}
+
+.theme-light .playback-toggle {
+    color: var(--panel-text-dim);
+}
+
+.theme-light .playback-toggle:hover {
+    background-color: rgba(15, 23, 42, 0.05);
+    color: var(--panel-text);
+}
+
+.theme-light .playback-scrub .unity-base-slider__tracker {
+    background-color: rgba(15, 23, 42, 0.12);
+}
+
+.theme-light .playback-scrub .unity-base-slider__dragger {
+    background-color: #1B1F26;
+}

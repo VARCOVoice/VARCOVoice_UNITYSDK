@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xsi:noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd"
+>
+    <Style src="SoundMeter.uss" />
+    
+    <!-- Sound Meter Component -->
+    <engine:VisualElement name="soundmeter-container" class="soundmeter">
+        
+        <!-- Meter Bars Container -->
+        <engine:VisualElement name="meter-bars" class="soundmeter__bars">
+            
+            <!-- Top Bar (Upper Level) -->
+            <engine:VisualElement name="meter-bar-top" class="soundmeter__bar soundmeter__bar--top">
+                <!-- Background Track -->
+                <engine:VisualElement name="bar-top-bg" class="soundmeter__bar-bg" />
+                <!-- Warning Track (Red Zone) -->
+                <engine:VisualElement name="bar-top-warning" class="soundmeter__bar-warning" />
+                <!-- Active Fill -->
+                <engine:VisualElement name="bar-top-fill" class="soundmeter__bar-fill" />
+                <!-- Peak Indicator Top -->
+                <engine:VisualElement name="bar-top-peak" class="soundmeter__peak" />
+            </engine:VisualElement>
+            
+            <!-- Bottom Bar (Lower Level) -->
+            <engine:VisualElement name="meter-bar-bottom" class="soundmeter__bar soundmeter__bar--bottom">
+                <!-- Background Track -->
+                <engine:VisualElement name="bar-bottom-bg" class="soundmeter__bar-bg" />
+                <!-- Warning Track (Red Zone) -->
+                <engine:VisualElement name="bar-bottom-warning" class="soundmeter__bar-warning" />
+                <!-- Active Fill -->
+                <engine:VisualElement name="bar-bottom-fill" class="soundmeter__bar-fill" />
+                <!-- Peak Indicator Bottom -->
+                <engine:VisualElement name="bar-bottom-peak" class="soundmeter__peak" />
+            </engine:VisualElement>
+            
+        </engine:VisualElement>
+        
+    </engine:VisualElement>
+    
+</engine:UXML>

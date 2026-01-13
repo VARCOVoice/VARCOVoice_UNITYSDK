@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xsi:noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd"
+>
+    <!-- Import Pro Component Styles -->
+    <Style src="../VarcoMainWindow.uss" />
+    <Style src="../Common/RotaryKnob.uss" />
+    <Style src="../Common/SoundMeter.uss" />
+    <Style src="../Common/Switch.uss" />
+    <Style src="../Common/Slider.uss" />
+    <Style src="../Components/PlaybackPanel.uss" />
+    <Style src="../Components/EffectDetailPanel.uss" />
+    <Style src="TTSPanel.uss" />
+    
+    <!-- TTS Panel -->
+    <engine:VisualElement name="tts-panel" class="tts-panel">
+        
+        <!-- Standard Header -->
+        <engine:VisualElement class="panel-header">
+            <engine:Label class="panel-header__title" text="TEXT TO SPEECH" />
+            <engine:VisualElement class="panel-header__controls">
+            </engine:VisualElement>
+        </engine:VisualElement>
+
+        <!-- Main Content (Flex Row) -->
+        <engine:VisualElement class="tts-content">
+        
+        <!-- =============== LEFT SECTION: Controls (Voice & Params) =============== -->
+        <engine:VisualElement class="tts-control-section">
+            
+            <!-- Voice Selection Module -->
+            <engine:VisualElement class="module module--voice">
+                <engine:Label class="module__title" text="VOICE SELECTION" />
+                
+                <!-- All Filters in One Row -->
+                <engine:VisualElement class="filter-row">
+                    <engine:Button name="tab-all" class="filter-btn filter-btn--active" text="All" />
+                    <engine:Button name="tab-male" class="filter-btn" text="Male" />
+                    <engine:Button name="tab-female" class="filter-btn" text="Female" />
+                    <engine:DropdownField name="filter-age" class="filter-select" />
+                    <engine:DropdownField name="filter-emotion" class="filter-select" />
+                    <engine:Button name="voice-refresh-btn" class="filter-btn icon-btn" text="↻" tooltip="Refresh Voice List" />
+                </engine:VisualElement>
+                
+                <!-- Search Field -->
+                <engine:TextField name="voice-search" class="voice-search" placeholder-text="Search voices..." />
+                
+                <!-- Voice List (Scrollable) with A/B buttons -->
+                <!-- Voice List (Virtualization Enabled) -->
+                <engine:ListView name="voice-list" class="voice-list" fixed-item-height="42" />
+                
+                <!-- Selected Voices (Always show both A and B) -->
+                <engine:VisualElement class="selected-voices-row">
+                    <engine:VisualElement class="selected-slot selected-slot--a">
+                        <engine:Label class="selected-slot__badge" text="A" />
+                        <engine:Label name="selected-a-name" class="selected-slot__name" text="Select..." />
+                        <engine:Button name="clear-a-btn" class="selected-slot__clear" text="X" />
+                    </engine:VisualElement>
+                    <engine:VisualElement class="selected-slot selected-slot--b">
+                        <engine:Label class="selected-slot__badge" text="B" />
+                        <engine:Label name="selected-b-name" class="selected-slot__name" text="Select..." />
+                        <engine:Button name="clear-b-btn" class="selected-slot__clear" text="X" />
+                    </engine:VisualElement>
+                </engine:VisualElement>
+                
+                <!-- Hidden dropdowns for compatibility -->
+                <engine:DropdownField name="voice-a-dropdown" class="hidden-slider" />
+                <engine:DropdownField name="voice-b-dropdown" class="hidden-slider" />
+            </engine:VisualElement>
+            
+        </engine:VisualElement>
+        
+        <!-- =============== RIGHT SECTION: Linear Layout =============== -->
+        <engine:VisualElement class="tts-right-section">
+            
+            <!-- SECTION A: TEXT INPUT -->
+            <engine:VisualElement class="tts-section">
+                <!-- Section Header -->
+                <engine:VisualElement class="section-header-row">
+                    <engine:Label class="section-title" text="TEXT INPUT" />
+                    <engine:VisualElement class="section-header-spacer" />
+                    <engine:Label name="char-count" class="section-stat" text="0 chars" />
+                    <engine:Label name="word-count" class="section-stat" text="0 words" />
+                </engine:VisualElement>
+
+                <!-- Input Area -->
+                <engine:VisualElement class="input-area">
+                    <engine:TextField name="tts-text-input" class="tts-text-input" multiline="true" value="" />
+                </engine:VisualElement>
+                
+                <!-- Generate Button Row -->
+                <engine:VisualElement class="button-row">
+                    <engine:Button name="generate-btn" class="btn-primary" text="Generate" />
+                </engine:VisualElement>
+            </engine:VisualElement>
+
+            <!-- Divider -->
+            <engine:VisualElement class="section-divider" />
+
+            <!-- SECTION B: SESSION PREVIEW -->
+            <engine:VisualElement class="tts-section session-section">
+                <!-- Section Header -->
+                <engine:VisualElement class="section-header-row">
+                    <engine:Label class="section-title" text="SESSION PREVIEW" />
+                    <engine:VisualElement class="section-header-spacer" />
+                    <engine:Label name="status-text" class="section-stat" text="READY" />
+                </engine:VisualElement>
+
+                <!-- Waveform Display -->
+                <engine:VisualElement name="waveform-container" class="waveform-container">
+                    <engine:VisualElement name="waveform-content" class="waveform-content">
+                        <engine:VisualElement name="waveform-image" class="waveform-image" />
+                        <engine:VisualElement name="playhead-overlay" class="playhead-overlay">
+                            <engine:VisualElement name="waveform-playhead" class="waveform-playhead" />
+                        </engine:VisualElement>
+                    </engine:VisualElement>
+                    <engine:Label name="time-label" class="time-display" text="00:00.0 / 00:00.0" />
+                </engine:VisualElement>
+
+                <!-- Unified Playback Controls -->
+                <engine:VisualElement class="playback-controls">
+                    <!-- Top Row: Transport + Scrubber -->
+                    <engine:VisualElement class="controls-row">
+                        <engine:Button name="playback-play" class="ctrl-btn ctrl-btn--play" text="▶" />
+                        <engine:Button name="playback-stop" class="ctrl-btn" text="■" />
+                        <engine:Slider name="playback-scrub" class="scrub-slider" low-value="0" high-value="1" value="0" />
+                    </engine:VisualElement>
+                    
+                    <!-- Bottom Row: A/B Compare + Actions -->
+                    <engine:VisualElement class="controls-row">
+                        <engine:VisualElement name="ab-comparison" class="ab-group">
+                            <engine:Button name="play-a-btn" class="ctrl-btn ctrl-btn--sm" text="A" />
+                            <engine:Button name="play-b-btn" class="ctrl-btn ctrl-btn--sm" text="B" />
+                            <engine:Button name="play-ab-btn" class="ctrl-btn ctrl-btn--sm" text="A/B" />
+                        </engine:VisualElement>
+                        <engine:VisualElement class="controls-spacer" />
+                        <engine:Button name="export-library-btn" class="ctrl-btn ctrl-btn--primary" text="Export" />
+                        <engine:Button name="to-dsp-btn" class="ctrl-btn ctrl-btn--primary" text="FX" />
+                    </engine:VisualElement>
+                </engine:VisualElement>
+                
+                <!-- Hidden Buttons for Compatibility -->
+                <engine:Button name="playback-set-a" class="hidden-control" text="A" />
+                <engine:Button name="playback-set-b" class="hidden-control" text="B" />
+                <engine:Button name="playback-clear" class="hidden-control" text="CLR" />
+                <engine:Button name="clear-text-btn" class="hidden-control" text="CLR" />
+            </engine:VisualElement>
+
+        
+        </engine:VisualElement> <!-- End tts-right-section -->        
+    </engine:VisualElement> <!-- End tts-content -->
+    
+    </engine:VisualElement> <!-- End tts-panel -->
+    
+</engine:UXML>

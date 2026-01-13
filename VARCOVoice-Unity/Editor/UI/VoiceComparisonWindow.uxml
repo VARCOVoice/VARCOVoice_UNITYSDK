@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:VisualElement class="comparison-window">
+        
+        <!-- HEADER -->
+        <ui:VisualElement class="header">
+            <ui:Label text="VARCO VOICE" class="header-title" />
+            <ui:Label text="A/B Comparison" class="header-subtitle" />
+            <ui:VisualElement class="header-spacer" />
+            <ui:Button name="settings-btn" text="Settings" class="btn-settings" />
+        </ui:VisualElement>
+
+        <!-- TEST SENTENCE INPUT -->
+        <ui:VisualElement class="form-section">
+            <ui:Label text="Test Sentence" class="section-label" />
+            <ui:TextField name="comparison-text" multiline="true" class="input-field input-multiline" />
+        </ui:VisualElement>
+
+        <!-- VOICE SELECTION SECTION -->
+        <ui:VisualElement class="voice-comparison-grid">
+            
+            <!-- VOICE A COLUMN -->
+            <ui:VisualElement class="voice-column voice-column--a">
+                <ui:Label text="Voice A" class="column-title column-title--a" />
+                
+                <ui:VisualElement class="form-row">
+                    <ui:TextField name="voice-a-name" class="voice-input" placeholder-text="Select voice..." />
+                    <ui:Button name="paste-a-btn" text="Pick" class="btn-pick" />
+                </ui:VisualElement>
+                
+                <ui:VisualElement class="action-row">
+                    <ui:Button name="generate-a-btn" text="Generate" class="btn-generate btn-generate--a" />
+                    <ui:Button name="play-a-btn" text="▶" class="btn-play" />
+                </ui:VisualElement>
+                
+                <ui:VisualElement class="result-row">
+                    <ui:Label name="duration-a" text="0.00s" class="duration-label" />
+                    <ui:Button name="export-a-btn" text="Export" class="btn-export" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            
+            <!-- VOICE B COLUMN -->
+            <ui:VisualElement class="voice-column voice-column--b">
+                <ui:Label text="Voice B" class="column-title column-title--b" />
+                
+                <ui:VisualElement class="form-row">
+                    <ui:TextField name="voice-b-name" class="voice-input" placeholder-text="Select voice..." />
+                    <ui:Button name="paste-b-btn" text="Pick" class="btn-pick" />
+                </ui:VisualElement>
+                
+                <ui:VisualElement class="action-row">
+                    <ui:Button name="generate-b-btn" text="Generate" class="btn-generate btn-generate--b" />
+                    <ui:Button name="play-b-btn" text="▶" class="btn-play" />
+                </ui:VisualElement>
+                
+                <ui:VisualElement class="result-row">
+                    <ui:Label name="duration-b" text="0.00s" class="duration-label" />
+                    <ui:Button name="export-b-btn" text="Export" class="btn-export" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            
+        </ui:VisualElement>
+
+        <!-- ACTION BAR -->
+        <ui:VisualElement class="action-bar">
+            <ui:Button name="generate-both-btn" text="Generate Both" class="btn btn-primary" />
+            <ui:Button name="play-sequence-btn" text="▶ Play A → B" class="btn btn-secondary" />
+            <ui:VisualElement class="spacer" />
+            <ui:Button name="stop-btn" text="■ Stop" class="btn btn-secondary" />
+            <ui:Button name="picker-btn" text="Browse All..." class="btn btn-secondary" />
+        </ui:VisualElement>
+        
+        <!-- STATUS BAR -->
+        <ui:Label name="status-text" text="Ready" class="status-bar" />
+        
+    </ui:VisualElement>
+</ui:UXML>

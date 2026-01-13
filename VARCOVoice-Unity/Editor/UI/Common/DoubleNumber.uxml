@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xsi:noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd"
+>
+    <Style src="DoubleNumber.uss" />
+    
+    <!-- Double Number Selector Component -->
+    <engine:VisualElement name="double-number-container" class="double-number">
+        
+        <!-- Number Labels Container -->
+        <engine:VisualElement name="number-labels" class="double-number__labels">
+            <engine:Label name="number-1" class="double-number__label" text="1" />
+            <engine:Label name="number-2" class="double-number__label" text="2" />
+        </engine:VisualElement>
+        
+        <!-- Selector Indicator -->
+        <engine:VisualElement name="number-selector" class="double-number__selector">
+            <!-- Selector Background Shape -->
+            <engine:VisualElement name="selector-bg" class="double-number__selector-bg" />
+            <!-- Selector Text -->
+            <engine:Label name="selector-text" class="double-number__selector-text" text="TEXT" />
+        </engine:VisualElement>
+        
+    </engine:VisualElement>
+    
+</engine:UXML>

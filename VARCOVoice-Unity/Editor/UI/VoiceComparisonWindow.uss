@@ -1,0 +1,384 @@
+/* Voice Comparison Window - Line & Linear Redesign */
+
+/* Root Container */
+.comparison-window {
+    flex-grow: 1;
+    flex-direction: column;
+    background-color: #0D1117;
+    padding: 12px;
+    --color-blue: #006EFF;
+    --color-red: #FF4757;
+    --color-border: rgba(255, 255, 255, 0.15);
+    --color-text: rgba(255, 255, 255, 0.92);
+    --color-text-muted: rgba(255, 255, 255, 0.6);
+}
+
+/* Header - MainWindow와 동일 스타일 (height: 48px) */
+.header {
+    height: 48px;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 16px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(255, 255, 255, 0.15);
+    flex-shrink: 0;
+    margin: -12px -12px 0 -12px; /* 부모의 padding을 상쇄하여 끝까지 확장 */
+}
+
+.text-h1 {
+    font-size: 16px;
+    color: var(--color-text);
+    -unity-font-style: bold;
+}
+
+/* Form Section - Test Sentence 영역 */
+.form-section {
+    margin-top: 12px;
+    margin-bottom: 16px;
+    padding: 12px;
+}
+
+.section-label {
+    font-size: 11px;
+    color: var(--color-text-muted);
+    margin-bottom: 6px;
+    padding-bottom: 6px;
+    -unity-font-style: bold;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(255, 255, 255, 0.15);
+}
+
+.input-field {
+    background-color: #151921;
+    border-width: 1px;
+    border-color: var(--color-border);
+    border-radius: 0px;
+    color: var(--color-text);
+    padding: 4px 8px;
+}
+
+.input-multiline {
+    height: 60px;
+    white-space: normal;
+}
+
+/* TextField 내부 요소 스타일 오버라이드 - 중복 테두리 제거 */
+.input-field .unity-text-field__input,
+.input-multiline .unity-text-field__input {
+    background-color: transparent;
+    border-width: 0;
+    padding: 4px 8px;
+}
+
+/* Voice Comparison Grid - 2 Column */
+.voice-comparison-grid {
+    flex-direction: row;
+    flex-grow: 1;
+    margin-bottom: 12px;
+    padding: 12px;
+}
+
+.voice-column {
+    flex-grow: 1;
+    flex-basis: 0;
+    padding: 0 8px;
+    margin-right: 16px;
+}
+
+.voice-column--b {
+    margin-right: 0;
+}
+
+/* Column Titles - 선 길게 */
+.column-title {
+    font-size: 12px;
+    -unity-font-style: bold;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(255, 255, 255, 0.2);
+}
+
+.column-title--a {
+    color: var(--color-blue);
+    border-bottom-color: rgba(0, 110, 255, 0.4);
+}
+
+.column-title--b {
+    color: var(--color-red);
+    border-bottom-color: rgba(255, 71, 87, 0.4);
+}
+
+/* Form Row */
+.form-row {
+    flex-direction: row;
+    margin-bottom: 8px;
+    align-items: center;
+}
+
+.voice-input {
+    flex-grow: 1;
+    flex-shrink: 1;
+    height: 26px;
+    background-color: #151921;
+    border-width: 1px;
+    border-color: var(--color-border);
+    border-radius: 0px;
+    color: var(--color-text);
+    font-size: 11px;
+    padding: 2px 6px;
+}
+
+/* voice-input 내부 테두리 제거 */
+.voice-input .unity-text-field__input {
+    background-color: transparent;
+    border-width: 0;
+    padding: 2px 6px;
+}
+
+.btn-pick {
+    width: 40px;
+    height: 24px;
+    margin-left: 4px;
+    background-color: transparent;
+    border-width: 1px;
+    border-color: var(--color-border);
+    border-radius: 0px;
+    color: var(--color-text-muted);
+    font-size: 10px;
+    flex-shrink: 0;
+}
+
+.btn-pick:hover {
+    border-color: var(--color-blue);
+    color: var(--color-blue);
+}
+
+/* Action Row */
+.action-row {
+    flex-direction: row;
+    margin-bottom: 8px;
+}
+
+.btn-generate {
+    flex-grow: 1;
+    height: 28px;
+    border-width: 1px;
+    border-radius: 0px;
+    font-size: 11px;
+    -unity-font-style: bold;
+}
+
+.btn-generate--a {
+    background-color: rgba(0, 110, 255, 0.15);
+    border-color: var(--color-blue);
+    color: var(--color-blue);
+}
+
+.btn-generate--a:hover {
+    background-color: rgba(0, 110, 255, 0.3);
+}
+
+.btn-generate--b {
+    background-color: rgba(255, 71, 87, 0.15);
+    border-color: var(--color-red);
+    color: var(--color-red);
+}
+
+.btn-generate--b:hover {
+    background-color: rgba(255, 71, 87, 0.3);
+}
+
+.btn-play {
+    width: 32px;
+    height: 28px;
+    margin-left: 4px;
+    background-color: transparent;
+    border-width: 1px;
+    border-color: var(--color-border);
+    border-radius: 0px;
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+}
+
+.btn-play:hover {
+    border-color: var(--color-blue);
+    color: var(--color-blue);
+}
+
+/* Result Row */
+.result-row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.duration-label {
+    font-size: 11px;
+    color: var(--color-text-muted);
+}
+
+.btn-export {
+    height: 22px;
+    padding: 0 8px;
+    background-color: transparent;
+    border-width: 1px;
+    border-color: var(--color-border);
+    border-radius: 0px;
+    color: var(--color-text-muted);
+    font-size: 10px;
+}
+
+.btn-export:hover {
+    border-color: var(--color-blue);
+    color: var(--color-blue);
+}
+
+/* Action Bar */
+.action-bar {
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 0;
+    border-top-width: 1px;
+    border-top-color: var(--color-border);
+}
+
+.action-bar .btn {
+    height: 28px;
+    padding: 0 12px;
+    margin-right: 8px;
+    border-width: 1px;
+    border-radius: 0px;
+    font-size: 11px;
+}
+
+.btn-primary {
+    background-color: rgba(0, 110, 255, 0.2);
+    border-color: var(--color-blue);
+    color: var(--color-blue);
+    -unity-font-style: bold;
+}
+
+.btn-primary:hover {
+    background-color: rgba(0, 110, 255, 0.35);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    border-color: var(--color-border);
+    color: var(--color-text-muted);
+}
+
+.btn-secondary:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+    color: var(--color-text);
+}
+
+.spacer {
+    flex-grow: 1;
+}
+
+/* Status Bar */
+.status-bar {
+    font-size: 10px;
+    color: var(--color-text-muted);
+    padding: 4px 0;
+    border-top-width: 1px;
+    border-top-color: var(--color-border);
+    margin-top: 4px;
+}
+
+/* Legacy compatibility - hide old elements */
+.accent-blue { color: var(--color-blue); }
+.accent-red { color: var(--color-red); }
+
+/* ==================== Light Mode ==================== */
+.theme-light .comparison-window {
+    background-color: #F5F7FA;
+    --color-blue: #0066DD;
+    --color-red: #E53935;
+    --color-border: rgba(0, 0, 0, 0.12);
+    --color-text: #1A1A1A;
+    --color-text-muted: rgba(0, 0, 0, 0.5);
+}
+
+.theme-light .comparison-window .header {
+    background-color: #FFFFFF;
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+.theme-light .comparison-window .header-title {
+    color: #1A1A1A;
+}
+
+.theme-light .comparison-window .header-subtitle {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.theme-light .comparison-window .section-label {
+    color: #555555;
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+.theme-light .comparison-window .input-field,
+.theme-light .comparison-window .input-multiline {
+    background-color: #FFFFFF;
+    border-color: rgba(0, 0, 0, 0.15);
+    color: #1A1A1A;
+}
+
+.theme-light .comparison-window .voice-input {
+    background-color: #FFFFFF;
+    border-color: rgba(0, 0, 0, 0.15);
+    color: #1A1A1A;
+}
+
+.theme-light .comparison-window .btn-pick,
+.theme-light .comparison-window .btn-play,
+.theme-light .comparison-window .btn-export {
+    background-color: transparent;
+    border-color: rgba(0, 0, 0, 0.15);
+    color: #333333;
+}
+
+.theme-light .comparison-window .btn-generate--a {
+    background-color: #0066DD;
+}
+
+.theme-light .comparison-window .btn-generate--b {
+    background-color: #E53935;
+}
+
+.theme-light .comparison-window .btn-settings {
+    color: rgba(0, 0, 0, 0.6);
+    border-color: rgba(0, 0, 0, 0.15);
+}
+
+
+/* Light Mode - Comparison Buttons */
+.theme-light .comparison-window .btn-generate--a,
+.theme-light .comparison-window .btn-primary {
+    background-color: #0066DD;
+    border-color: #0066DD;
+    color: #FFFFFF;
+}
+
+.theme-light .comparison-window .btn-generate--a:hover,
+.theme-light .comparison-window .btn-primary:hover {
+    background-color: #0059C1;
+}
+
+.theme-light .comparison-window .btn-generate--b {
+    background-color: #E53935;
+    border-color: #E53935;
+    color: #FFFFFF;
+}
+
+.theme-light .comparison-window .btn-generate--b:hover {
+    background-color: #CC332F;
+}
+
+.theme-light .comparison-window .btn-secondary:hover {
+    border-color: rgba(15, 23, 42, 0.3);
+    color: #1B1F26;
+}

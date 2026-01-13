@@ -2,7 +2,9 @@
     "name": "VARCOVoice.Editor",
     "rootNamespace": "VARCOVoice.Editor",
     "references": [
-        "VARCOVoice.Runtime"
+        "VARCOVoice.Runtime",
+        "UniTask",
+        "Newtonsoft.Json"
     ],
     "includePlatforms": [
         "Editor"
@@ -16,3 +18,4 @@
     "versionDefines": [],
     "noEngineReferences": false
 }
+

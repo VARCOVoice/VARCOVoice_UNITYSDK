@@ -1,0 +1,86 @@
+/* GenericEffectUI Styles */
+
+.generic-effect-ui {
+    padding: 8px;
+}
+
+.effect-type-label {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.55);
+    margin-bottom: 12px;
+    -unity-font-style: italic;
+}
+
+.parameters-container {
+    flex-grow: 1;
+}
+
+/* Parameter Controls */
+.param-row {
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+    min-height: 26px;
+    padding-bottom: 6px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+.param-label {
+    width: 110px;
+    font-size: 11px;
+    color: var(--text-secondary);
+    -unity-text-align: middle-left;
+}
+
+.param-slider {
+    flex-grow: 1;
+    margin: 0 10px;
+    height: 18px;
+}
+
+.param-value {
+    width: 55px;
+    font-size: 11px;
+    color: var(--varco-mint);
+    -unity-text-align: middle-right;
+    -unity-font-style: bold;
+}
+
+.param-toggle {
+    margin-left: 4px;
+}
+
+.param-dropdown {
+    flex-grow: 1;
+    margin-left: 10px;
+    height: 22px;
+}
+
+/* Slider Track Override */
+.param-slider .unity-base-slider__dragger {
+    background-color: var(--varco-mint);
+    border-radius: 3px;
+    width: 8px;
+    height: 8px;
+}
+
+.param-slider .unity-base-slider__tracker {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 3px;
+    height: 4px;
+}
+
+
+/* Light Mode - Generic Effect UI */
+.theme-light .effect-type-label {
+    color: #6B7280;
+}
+
+.theme-light .param-row {
+    border-bottom-color: rgba(15, 23, 42, 0.12);
+}
+
+.theme-light .param-slider .unity-base-slider__tracker {
+    background-color: rgba(15, 23, 42, 0.12);
+}

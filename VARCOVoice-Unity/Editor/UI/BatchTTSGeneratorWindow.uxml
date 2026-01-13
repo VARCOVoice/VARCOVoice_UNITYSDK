@@ -1,0 +1,85 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:VisualElement class="batch-window">
+        <!-- HEADER (제목만) -->
+        <ui:VisualElement class="header">
+            <ui:Label text="VARCO VOICE" class="header-title" />
+            <ui:Label text="BATCH TTS" class="header-subtitle" />
+            <ui:VisualElement class="header-spacer" />
+            <ui:Button name="settings-btn" text="Settings" class="btn-settings" />
+        </ui:VisualElement>
+        
+        <!-- CONFIG SECTION (Source, Voice, Output) -->
+        <ui:VisualElement class="config-section">
+            <!-- Source File -->
+            <ui:VisualElement class="control-row form-row">
+                <uie:ObjectField name="text-asset" label="Source Text" type="UnityEngine.TextAsset, UnityEngine.CoreModule" allow-scene-objects="false" style="flex-grow: 1; flex-shrink: 1;" />
+                <ui:Button name="load-file-btn" text="+" class="btn btn-secondary" tooltip="Load Text File" style="width: 30px; flex-shrink: 0;" />
+            </ui:VisualElement>
+            
+            <!-- Voice Selection -->
+            <ui:VisualElement class="control-row form-row">
+                 <ui:TextField name="voice-name" label="Default Voice" class="input-field" style="flex-grow: 1; flex-shrink: 1;" />
+                 <ui:Button name="pick-voice-btn" text="Pick" class="btn btn-secondary btn-mini" style="width: 50px; flex-shrink: 0;" />
+            </ui:VisualElement>
+            
+            <!-- Output -->
+            <ui:VisualElement class="control-row form-row">
+                <ui:TextField name="output-path" label="Output Folder" style="flex-grow: 1; flex-shrink: 1;" />
+                <ui:Button name="browse-btn" text="..." class="btn btn-secondary btn-mini" style="width: 30px; flex-shrink: 0;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        
+        <!-- BODY: Tabs for Queue / Mapping -->
+        <ui:VisualElement class="tab-container">
+             <ui:VisualElement class="tab-header">
+                 <ui:Label text="Batch Queue" class="tab-label tab-label--active" name="tab-queue-label" />
+                 <ui:Label text="Character Mapping" class="tab-label" name="tab-mapping-label" />
+             </ui:VisualElement>
+             
+             <!-- QUEUE VIEW -->
+             <ui:VisualElement name="view-queue" class="tab-content" style="display: flex;">
+                 <ui:VisualElement class="list-toolbar">
+                     <ui:Label name="item-count" text="0 items" class="text-body" />
+                     <ui:Button name="clear-all-btn" text="Clear All" class="btn btn-secondary btn-mini" />
+                 </ui:VisualElement>
+                 <ui:ScrollView name="queue-list" class="list-scroll" />
+             </ui:VisualElement>
+             
+             <!-- MAPPING VIEW -->
+             <ui:VisualElement name="view-mapping" class="tab-content" style="display: none;"> <!-- Hidden by default via CSS or Logic -->
+                 <ui:VisualElement class="list-toolbar">
+                     <ui:Button name="add-mapping-btn" text="+ Add Character" class="btn btn-secondary btn-mini" />
+                 </ui:VisualElement>
+                 <ui:ScrollView name="voice-mapping-list" class="list-scroll" />
+             </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- FOOTER: Logs & Actions -->
+        <ui:VisualElement class="footer">
+            <ui:VisualElement class="progress-section">
+                <ui:ProgressBar name="progress-bar" title="0%" class="progress-bar" />
+                <ui:VisualElement class="stats-row">
+                    <ui:Label name="current-status" text="Ready" class="text-body status-text" style="flex-grow: 1;" />
+                    <ui:Label name="completed-count" text="Completed: 0" class="text-body success-text" />
+                    <ui:Label name="error-count" text="Errors: 0" class="text-body error-text" style="margin-left: 8px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            
+            <ui:VisualElement class="action-bar">
+                <ui:Button name="export-library-btn" text="Export to Library" class="btn btn-secondary" />
+                <ui:VisualElement style="flex-grow: 1;" />
+                <ui:Button name="cancel-btn" text="Cancel" class="btn btn-accent-red" style="margin-right: 8px;" />
+                <ui:Button name="generate-all-btn" text="Generate All" class="btn btn-primary" style="width: 120px;" />
+            </ui:VisualElement>
+             
+             <!-- Mini Log with Header -->
+             <ui:VisualElement class="log-separator" style="margin-top: 8px; border-top-width: 1px; padding-top: 4px;">
+                 <ui:VisualElement style="flex-direction: row; justify-content: space-between; margin-bottom: 2px;">
+                     <ui:Label text="Log" class="text-label" style="opacity: 0.7;" />
+                     <ui:Button name="clear-log-btn" text="Clear Log" class="btn btn-secondary btn-mini" style="height: 18px; font-size: 10px;" />
+                 </ui:VisualElement>
+                 <ui:ScrollView name="log-list" class="log-scroll" style="height: 60px;" />
+             </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

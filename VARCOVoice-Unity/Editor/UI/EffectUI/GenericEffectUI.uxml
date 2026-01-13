@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <!-- GenericEffectUI: Fallback UI for effects without custom UI -->
+    <!-- Dynamically populated by EffectDetailController using reflection -->
+    <ui:VisualElement name="generic-effect-ui" class="generic-effect-ui">
+        <ui:Label name="effect-type" text="Effect Type" class="effect-type-label"/>
+        <ui:VisualElement name="parameters-container" class="parameters-container"/>
+    </ui:VisualElement>
+</ui:UXML>

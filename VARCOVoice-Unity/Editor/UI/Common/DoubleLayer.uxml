@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xsi:noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd"
+>
+    <Style src="DoubleLayer.uss" />
+    
+    <!-- Double Layer Component -->
+    <engine:VisualElement name="double-layer-container" class="double-layer">
+        
+        <!-- Main Title -->
+        <engine:Label name="layer-title" class="double-layer__title" text="TEXT" />
+        
+        <!-- Visual Indicator (Shape/Line) -->
+        <engine:VisualElement name="layer-shape" class="double-layer__shape">
+            <engine:VisualElement name="shape-line" class="double-layer__line" />
+        </engine:VisualElement>
+        
+        <!-- Subtitle -->
+        <engine:VisualElement name="layer-subtitle-container" class="double-layer__subtitle-container">
+            <engine:Label name="layer-subtitle" class="double-layer__subtitle" text="text" />
+        </engine:VisualElement>
+        
+    </engine:VisualElement>
+    
+</engine:UXML>

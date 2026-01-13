@@ -1,0 +1,35 @@
+/* ==================== Switch Styles ==================== */
+
+/* Switch Button */
+.switch {
+    background-color: transparent;
+    border-width: 0;
+    margin: 0;
+    padding: 5px 10px;
+    cursor: link;
+}
+
+/* Switch Label */
+.switch__label {
+    color: var(--text-secondary);
+    font-size: 11px;
+    -unity-font: url('project://database/Packages/com.varco.voice/Runtime/Google_Sans_Flex/GoogleSansFlex-VariableFont_GRAD,ROND,opsz,slnt,wdth,wght.ttf');
+    -unity-text-align: middle-center;
+}
+
+/* ==================== Active State ==================== */
+
+.switch--active .switch__label {
+    color: var(--varco-mint);
+    -unity-font-style: bold;
+}
+
+/* ==================== Hover State ==================== */
+
+.switch:hover .switch__label {
+    color: var(--text-secondary);
+}
+
+.switch--active:hover .switch__label {
+    color: var(--varco-blue);
+}

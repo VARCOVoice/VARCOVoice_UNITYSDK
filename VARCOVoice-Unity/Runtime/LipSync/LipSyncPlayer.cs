@@ -208,17 +208,17 @@ namespace VARCOVoice.LipSync
         {
             if (targetRenderer == null || _blendShapeIndices == null) return;
             
-            // Get target weights
+            // Get target weights (using Non-Alloc APIs to avoid GC)
             if (useRealtimeAnalysis && _realtimeBuffer != null)
             {
                 // Real-time analysis from audio buffer
-                _targetWeights = _analyzer.AnalyzeRealtimeWeights(_realtimeBuffer, 2);
+                _analyzer.AnalyzeRealtimeWeights(_realtimeBuffer, 2, _targetWeights);
             }
             else if (_lipSyncData != null && audioSource != null)
             {
-                // Pre-analyzed data
+                // Pre-analyzed data (using Non-Alloc overload)
                 float currentTime = audioSource.time;
-                _targetWeights = _lipSyncData.GetVisemeWeightsAtTime(currentTime);
+                _lipSyncData.GetVisemeWeightsAtTime(currentTime, _targetWeights);
             }
             else
             {
