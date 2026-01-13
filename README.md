@@ -1,8 +1,6 @@
 <div align="center">
 
-<img src="./logo_varco_voice_black.png" height="60" alt="VARCO Voice" />
-
-**Unity SDK for VARCO Voice API (Preview)**
+# Unity SDK for VARCO Voice API (Preview)
 
 VARCO Voice API를 Unity에서 평가 및 테스트하기 위한 프리뷰 SDK입니다.
 
@@ -212,5 +210,3 @@ void Start() {
 ## 라이선스
 
 Licensed under the [Apache License 2.0](LICENSE).
-
-**상표**: VARCO Voice™는 NCAI Corporation의 상표입니다.
