@@ -1,8 +1,8 @@
 <div align="center">
 
-<div align="center">
+<img src="./logo.png" height="56" alt="VARCO Voice" />
 
-# <img src="./logo.png" height="44" alt="VARCO Voice" style="vertical-align:middle;"> VARCO Voice
+<strong style="font-size:32px;">VARCO Voice</strong>
 
 </div>
 
