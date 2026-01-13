@@ -1,0 +1,56 @@
+{
+  "name": "com.varco.voice",
+  "version": "1.0.0",
+  "displayName": "VARCO Voice TTS",
+  "description": "Unity plugin for VARCO Voice TTS API with DSP effects and lip sync support",
+  "unity": "2022.3",
+  "unityRelease": "0f1",
+  "documentationUrl": "https://github.com/your-repo/VARCOVoice-Unity#readme",
+  "changelogUrl": "https://github.com/your-repo/VARCOVoice-Unity/blob/main/CHANGELOG.md",
+  "licensesUrl": "https://github.com/your-repo/VARCOVoice-Unity/blob/main/LICENSE",
+  "keywords": [
+    "tts",
+    "text-to-speech",
+    "voice",
+    "audio",
+    "dsp",
+    "lip-sync",
+    "varco",
+    "ai"
+  ],
+  "author": {
+    "name": "VARCOVoice Contributors",
+    "url": "https://github.com/your-repo/VARCOVoice-Unity"
+  },
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "3.2.1",
+    "com.cysharp.unitask": "2.5.0"
+  },
+  "samples": [
+    {
+      "displayName": "Basic TTS",
+      "description": "Simple TTS usage example",
+      "path": "Samples~/01_BasicTTS"
+    },
+    {
+      "displayName": "Dialogue System",
+      "description": "Game dialogue system with TTS",
+      "path": "Samples~/02_DialogueSystem"
+    },
+    {
+      "displayName": "3D Spatial Audio",
+      "description": "3D positional audio with TTS",
+      "path": "Samples~/03_3DSpatialAudio"
+    },
+    {
+      "displayName": "Lip Sync",
+      "description": "Character lip sync with TTS",
+      "path": "Samples~/04_LipSync"
+    },
+    {
+      "displayName": "DSP Effects",
+      "description": "Audio DSP effects demonstration",
+      "path": "Samples~/05_DSPEffects"
+    }
+  ]
+}
