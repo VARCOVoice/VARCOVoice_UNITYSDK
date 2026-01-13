@@ -28,8 +28,8 @@ VARCO Voice API를 Unity에서 평가 및 테스트하기 위한 프리뷰 SDK�
 - **안정성**: API 및 SDK 구조는 예고 없이 변경될 수 있으며, 호환성이 깨질 수 있습니다.
 - **Support**: Best-effort support only. No SLA or response time guarantees.
 - **지원**: 최선의 노력으로 지원하나, SLA 및 응답 시간을 보장하지 않습니다.
-- **Production use**: Not for production use.
-- **프로덕션 사용**: 프로덕션 사용 금지.
+- **Production use**: Not recommended. Use at your own risk.
+- **프로덕션 사용**: 권장하지 않습니다. 사용 시 책임은 사용자에게 있습니다.
 - **Security**: Never hard-code API keys in builds. Use server-side proxy or short-lived tokens.
 - **보안**: API 키를 빌드에 하드코딩하지 마세요. 서버 프록시 또는 단기 토큰을 사용하세요.
 
@@ -40,11 +40,11 @@ VARCO Voice API를 Unity에서 평가 및 테스트하기 위한 프리뷰 SDK�
 | Feature | Runtime | Editor | Description | 상세 설명 |
 | :---: | :---: | :---: | :--- | :--- |
 | **TTS** | ● | ● | AI voice synthesis | AI 음성 합성 (Standard / Lite) |
-| **FX Studio** | △ | ● | 80+ DSP presets (Radio, Hall, Phone, Character, etc.) | 80+ DSP 프리셋 (라디오, 홀, 전화, 캐릭터 등) |
+| **FX Studio** | ○ | ● | 80+ DSP presets (Radio, Hall, Phone, Character, etc.) | 80+ DSP 프리셋 (라디오, 홀, 전화, 캐릭터 등) |
 | **LipSync** | ● | ● | Viseme generation & playback | 입 모양 생성 및 재생 |
 | **Caching** | ● | ● | Local cache to minimize API calls | API 호출 최적화를 위한 로컬 캐시 |
 
-**Legend:** ● Full support / 완전 지원 | △ Limited runtime support (varies by version) / 런타임 지원 제한 (버전에 따라 다름)
+**Legend:** ● Full support / 완전 지원 | ○ Preset application via API / API로 프리셋 적용 가능
 
 </div>
 
@@ -52,8 +52,8 @@ VARCO Voice API를 Unity에서 평가 및 테스트하기 위한 프리뷰 SDK�
 
 ## Requirements / 요구 사항
 
-- **Tested on Unity 2022.3 LTS – Unity 6 (6.0 / 6000.x). Unity 2021.3 may work but is untested.**
-- **테스트 완료: Unity 2022.3 LTS – Unity 6 (6.0 / 6000.x). Unity 2021.3은 미검증.**
+- **Tested on Unity 2022.3 LTS – Unity 6 (Unity 2021.3 may work but is untested)**
+- **테스트 완료: Unity 2022.3 LTS – Unity 6 (Unity 2021.3은 미검증)**
 - UniTask, Burst, Mathematics (auto-installed / 자동 설치)
 
 > Other versions may work but are not guaranteed. Please [open an issue](../../issues/new) if you encounter problems.
@@ -92,15 +92,6 @@ https://github.com/VARCOVoice/VARCOVoice_UNITYSDK.git?path=/VARCOVoice-Unity
 **Warning**: The `main` branch may contain breaking changes at any time. Version pinning is strongly recommended.
 
 **경고**: `main` 브랜치는 언제든지 호환성이 깨지는 변경사항을 포함할 수 있습니다. 버전 고정을 강력히 권장합니다.
-
-### Troubleshooting / 문제 해결
-
-If you encounter UPM cache issues or package conflicts:
-UPM 캐시 문제 또는 패키지 충돌이 발생하는 경우:
-
-1. Remove the package from Package Manager / Package Manager에서 패키지 제거
-2. Close Unity and delete `Library/PackageCache` / Unity를 닫고 `Library/PackageCache` 삭제
-3. Reopen Unity and re-add the package / Unity를 다시 열고 패키지 재추가
 
 ---
 
@@ -177,19 +168,10 @@ audioSource.PlayOneShot(clip);
 ```
 
 **Advanced Options / 고급 옵션:**
-
-**Note**: The following features and parameters may vary depending on your SDK version and API plan. Behavior may change between preview versions.
-
-**참고**: 아래 기능 및 매개변수는 SDK 버전 및 API 플랜에 따라 다를 수 있으며, 프리뷰 버전 간 동작이 변경될 수 있습니다.
-
-- **Cancellation**: If supported, pass `CancellationToken` to cancel in-flight requests
-- **취소**: 지원되는 경우 `CancellationToken`으로 진행 중인 요청 중단 가능
-- **Error handling**: Exact exception types and status codes may vary. Check SDK documentation for your version.
-- **에러 처리**: 정확한 예외 타입과 상태 코드는 버전에 따라 다를 수 있음. 버전별 SDK 문서를 확인하세요.
-- **Caching**: Caching behavior (cache key composition, eviction policy) may change between preview versions.
-- **캐싱**: 캐싱 동작 (캐시 키 구성, 삭제 정책)은 프리뷰 버전 간 변경될 수 있습니다.
-- **Parameters**: Available parameters (`voice`, `speed`, `pitch`, `emotion`, `sampleRate`, `format`) and their valid ranges depend on API plan and SDK version.
-- **매개변수**: 사용 가능한 매개변수 및 유효 범위는 API 플랜과 SDK 버전에 따라 다릅니다.
+- **Cancellation**: Pass `CancellationToken` to cancel requests / 취소 토큰으로 요청 중단 가능
+- **Error handling**: Catch `VarcoException` for API errors (401, 429, network failures) / API 에러 처리 (인증, 제한, 네트워크)
+- **Caching**: Automatically caches by `(text, voice, speed, pitch)` / 자동 캐시 (텍스트, 음성, 속도, 피치)
+- **Parameters**: `voice`, `speed` (0.5–2.0), `pitch` (-12–12), `emotion`, `sampleRate`, `format` / 매개변수 상세
 
 ### 2. Playing Assets with LipSync / 데이터 기반 재생
 
@@ -209,19 +191,9 @@ void Start() {
 ```
 
 **Cache Management / 캐시 관리:**
-
-**Note**: Cache behavior is subject to change in preview versions.
-
-**참고**: 캐시 동작은 프리뷰 버전에서 변경될 수 있습니다.
-
-- **Location**: Typically `Application.persistentDataPath/VarcoCache` (may vary)
-- **위치**: 일반적으로 `Application.persistentDataPath/VarcoCache` (변경 가능)
-- **Policy**: Cache keys and retention policies may change between versions
-- **정책**: 캐시 키 및 보관 정책은 버전 간 변경될 수 있음
-- **Cleanup**: Monitor disk usage and clear cache periodically. Use SDK-provided cleanup methods if available.
-- **정리**: 디스크 사용량을 모니터링하고 주기적으로 캐시를 정리하세요. SDK 제공 정리 메서드가 있다면 사용하세요.
-- **Manual clear**: If supported, use `VarcoTTS.Instance.ClearCache()` or delete cache directory manually
-- **수동 삭제**: 지원되는 경우 `VarcoTTS.Instance.ClearCache()` 사용 또는 캐시 디렉터리 수동 삭제
+- **Location**: `Application.persistentDataPath/VarcoCache` / 위치
+- **Policy**: Key = hash(text, voice, params), no expiration / 정책: 만료 없음
+- **Clear**: `VarcoTTS.Instance.ClearCache()` / 캐시 삭제
 
 ---
 
@@ -265,8 +237,8 @@ When reporting issues, please include the following information:
 
 ## Version Support Policy / 버전 지원 정책
 
-- **Unity**: Tested on Unity 2022.3 LTS – Unity 6 (6.0 / 6000.x). Other versions are not guaranteed.
-- **Unity**: Unity 2022.3 LTS – Unity 6 (6.0 / 6000.x)에서 테스트됨. 다른 버전은 보장하지 않음.
+- **Unity**: Tested on Unity 2022.3 LTS – Unity 6. Other versions are not guaranteed.
+- **Unity**: Unity 2022.3 LTS – Unity 6에서 테스트됨. 다른 버전은 보장하지 않음.
 - **Preview Versioning**: Preview releases use `v0.x.y-preview` tags. Breaking changes may occur between preview versions.
 - **프리뷰 버저닝**: 프리뷰 릴리스는 `v0.x.y-preview` 태그를 사용하며, 프리뷰 버전 간 호환성이 깨질 수 있습니다.
 
