@@ -1,6 +1,8 @@
 <div align="center">
 
-# <img src="./logo.png" height="40" alt="VARCO Voice" style="vertical-align:middle;"> VARCO Voice
+<img src="./logo.png" height="60" alt="VARCO Voice" />
+
+# VARCO Voice
 
 **Unity SDK for VARCO Voice API (Preview)**
 
@@ -11,6 +13,8 @@ VARCO Voice API를 Unity에서 평가 및 테스트하기 위한 프리뷰 SDK�
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![GitHub release](https://img.shields.io/github/v/release/VARCOVoice/VARCOVoice_UNITYSDK?include_prereleases)](https://github.com/VARCOVoice/VARCOVoice_UNITYSDK/releases)
 [![Build](https://github.com/VARCOVoice/VARCOVoice_UNITYSDK/actions/workflows/validate.yml/badge.svg)](https://github.com/VARCOVoice/VARCOVoice_UNITYSDK/actions)
+
+</div>
 
 ---
 
@@ -36,8 +40,6 @@ VARCO Voice API를 Unity에서 평가 및 테스트하기 위한 프리뷰 SDK�
 | **Caching** | ● | ● | API 호출 최적화를 위한 로컬 캐시 |
 
 **범례:** ● 완전 지원 | ○ API로 프리셋 적용 가능
-
-</div>
 
 ---
 
