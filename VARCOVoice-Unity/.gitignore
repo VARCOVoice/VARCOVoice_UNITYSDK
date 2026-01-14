@@ -124,6 +124,9 @@ fastlane/readme.md
 # Version control
 .svn/
 
+# Documentation (Unity Hidden Folders)
+Documentation~/
+
 # macOS
 .DS_Store
 .AppleDouble
