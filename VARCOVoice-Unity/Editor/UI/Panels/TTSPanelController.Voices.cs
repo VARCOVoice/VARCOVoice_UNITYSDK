@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
 using VARCOVoice.Editor;
-using Cysharp.Threading.Tasks;
+using System.Threading.Tasks;
 
 namespace VARCOVoice.Editor
 {
@@ -13,7 +13,7 @@ namespace VARCOVoice.Editor
         
         private bool _isLoadingVoices = false;
 
-        private async UniTaskVoid LoadVoicesAsync(bool forceRefresh = false)
+        private async void LoadVoicesAsync(bool forceRefresh = false)
         {
             // Cache check: If voices already loaded and not forced, skip
             if (!forceRefresh && _voices != null && _voices.Count > 0)

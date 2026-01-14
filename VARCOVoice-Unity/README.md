@@ -30,7 +30,7 @@ VARCO Voice API를 Unity에서 사용하기 위한 공식 SDK입니다.
 ## Requirements / 요구 사항
 
 - Unity 2022.3 LTS or later / Unity 2022.3 LTS 이상
-- UniTask, Burst, Mathematics (auto-installed / 자동 설치)
+- Burst, Mathematics (auto-installed / 자동 설치)
 
 ---
 

@@ -34,15 +34,17 @@
             <engine:VisualElement class="module module--voice">
                 <engine:Label class="module__title" text="VOICE SELECTION" />
                 
-                <!-- All Filters in One Row -->
+                <!-- All Filters in One Row (Compact) -->
                 <engine:VisualElement class="filter-row">
-                    <engine:Button name="tab-all" class="filter-btn filter-btn--active" text="All" />
-                    <engine:Button name="tab-male" class="filter-btn" text="Male" />
-                    <engine:Button name="tab-female" class="filter-btn" text="Female" />
-                    <engine:DropdownField name="filter-age" class="filter-select" />
-                    <engine:DropdownField name="filter-emotion" class="filter-select" />
-                    <engine:Button name="voice-refresh-btn" class="filter-btn icon-btn" text="↻" tooltip="Refresh Voice List" />
+                    <engine:DropdownField name="filter-language" class="filter-select filter-select--xs" tooltip="Language" />
+                    <engine:DropdownField name="filter-gender" class="filter-select filter-select--sm" tooltip="Gender" />
+                    <engine:DropdownField name="filter-age" class="filter-select filter-select--sm" tooltip="Age" />
+                    <engine:DropdownField name="filter-emotion" class="filter-select filter-select--sm" tooltip="Emotion" />
+                    <engine:Button name="voice-refresh-btn" class="filter-btn icon-btn" text="↻" tooltip="Refresh" />
                 </engine:VisualElement>
+
+
+
                 
                 <!-- Search Field -->
                 <engine:TextField name="voice-search" class="voice-search" placeholder-text="Search voices..." />

@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
-using Cysharp.Threading.Tasks;
+using System.Threading.Tasks;
 
 namespace VARCOVoice.Editor
 {
@@ -185,8 +185,8 @@ namespace VARCOVoice.Editor
             if (pasteBBtn != null) pasteBBtn.clicked += () => ShowVoiceDropdown(_voiceBName);
             
             // Generate buttons
-            if (_generateABtn != null) _generateABtn.clicked += () => GenerateVoiceA().Forget();
-            if (_generateBBtn != null) _generateBBtn.clicked += () => GenerateVoiceB().Forget();
+            if (_generateABtn != null) _generateABtn.clicked += () => _ = GenerateVoiceA();
+            if (_generateBBtn != null) _generateBBtn.clicked += () => _ = GenerateVoiceB();
             
             // Play buttons
             if (_playABtn != null) _playABtn.clicked += () => PlayClip(_clipA);
@@ -270,7 +270,7 @@ namespace VARCOVoice.Editor
         
         #region Generation
         
-        private async UniTaskVoid GenerateVoiceA()
+        private async Task GenerateVoiceA()
         {
             if (string.IsNullOrEmpty(_voiceA))
             {
@@ -302,7 +302,7 @@ namespace VARCOVoice.Editor
             }
         }
         
-        private async UniTaskVoid GenerateVoiceB()
+        private async Task GenerateVoiceB()
         {
             if (string.IsNullOrEmpty(_voiceB))
             {
@@ -336,8 +336,8 @@ namespace VARCOVoice.Editor
         
         private void GenerateBoth()
         {
-            GenerateVoiceA().Forget();
-            GenerateVoiceB().Forget();
+            _ = GenerateVoiceA();
+            _ = GenerateVoiceB();
         }
         
         #endregion
@@ -381,7 +381,7 @@ namespace VARCOVoice.Editor
             _audioSource.Play();
             _isPlaying = true;
             
-            await UniTask.Delay((int)(_clipA.length * 1000) + 500);
+            await Task.Delay((int)(_clipA.length * 1000) + 500);
             
             if (!_isPlaying) return;
             
@@ -389,7 +389,7 @@ namespace VARCOVoice.Editor
             _audioSource.clip = _clipB;
             _audioSource.Play();
             
-            await UniTask.Delay((int)(_clipB.length * 1000));
+            await Task.Delay((int)(_clipB.length * 1000));
             
             _isPlaying = false;
             UpdateStatus("Comparison complete!");
@@ -507,7 +507,7 @@ namespace VARCOVoice.Editor
             {
                  // User requested "Main Settings Page's Docu Popup". 
                  // Assuming they mean the "About" dialog which contains version info.
-                 EditorUtility.DisplayDialog("VARCO Voice", "VARCO Voice Unity SDK\nVersion 1.0.0\n\n(c) NC AI", "OK");
+                 EditorUtility.DisplayDialog("VARCO Voice", "VARCO Voice Unity SDK\nVersion 1.0.1\n\n(c) NC AI", "OK");
             });
 
             menu.AddItem(new GUIContent("About VARCO Voice"), false, () =>

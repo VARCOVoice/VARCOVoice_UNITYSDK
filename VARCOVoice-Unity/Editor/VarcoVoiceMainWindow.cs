@@ -534,7 +534,7 @@ namespace VARCOVoice.Editor
 
             menu.AddItem(new GUIContent("Documentation"), false, () =>
             {
-                EditorUtility.DisplayDialog("VARCO Voice", "VARCO Voice Unity SDK\nVersion 1.0.0\n\n(c) NC AI", "OK");
+                EditorUtility.DisplayDialog("VARCO Voice", "VARCO Voice Unity SDK\nVersion 1.0.1\n\n(c) NC AI", "OK");
             });
             
             menu.AddItem(new GUIContent("About VARCO Voice"), false, () =>
@@ -647,7 +647,7 @@ namespace VARCOVoice.Editor
             title.style.unityFontStyleAndWeight = FontStyle.Bold;
             header.Add(title);
             
-            var version = new Label("v1.1.0");
+            var version = new Label("v1.0.1");
             version.style.fontSize = 10;
             version.style.color = new Color(0.44f, 0.44f, 0.48f);
             version.style.marginLeft = 8;

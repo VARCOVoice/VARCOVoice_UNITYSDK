@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
-using Cysharp.Threading.Tasks;
+using System.Threading.Tasks;
 
 namespace VARCOVoice.Editor
 {
@@ -282,7 +282,7 @@ namespace VARCOVoice.Editor
             // Load voices if not loaded
             if (!_voicesLoaded)
             {
-                LoadVoiceListAsync().Forget();
+                _ = LoadVoiceListAsync();
             }
             else
             {
@@ -290,7 +290,7 @@ namespace VARCOVoice.Editor
             }
         }
         
-        private async UniTaskVoid LoadVoiceListAsync()
+        private async Task LoadVoiceListAsync()
         {
             try
             {
@@ -747,9 +747,6 @@ namespace VARCOVoice.Editor
                 return;
             }
             
-            _isProcessing = true;
-            _completedCount = 0;
-            _errorCount = 0;
             _currentIndex = 0;
             
             foreach (var item in _items)
@@ -764,10 +761,10 @@ namespace VARCOVoice.Editor
             UpdateProgress();
             RefreshQueueList();
             
-            ProcessNextItem().Forget();
+            _ = ProcessNextItem();
         }
         
-        private async UniTaskVoid ProcessNextItem()
+        private async Task ProcessNextItem()
         {
             while (_isProcessing && _currentIndex < _items.Count)
             {
@@ -1045,7 +1042,7 @@ namespace VARCOVoice.Editor
 
             menu.AddItem(new GUIContent("About VARCO Voice"), false, () =>
             {
-                EditorUtility.DisplayDialog("VARCO Voice", "VARCO Voice Unity SDK\nVersion 1.0.0\n\n(c) NC AI", "OK");
+                EditorUtility.DisplayDialog("VARCO Voice", "VARCO Voice Unity SDK\nVersion 1.0.1\n\n(c) NC AI", "OK");
             });
 
             menu.ShowAsContext();
