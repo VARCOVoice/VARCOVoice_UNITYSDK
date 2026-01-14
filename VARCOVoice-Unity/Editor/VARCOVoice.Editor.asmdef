@@ -3,7 +3,6 @@
     "rootNamespace": "VARCOVoice.Editor",
     "references": [
         "VARCOVoice.Runtime",
-        "UniTask",
         "Newtonsoft.Json"
     ],
     "includePlatforms": [

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
-using Cysharp.Threading.Tasks;
+using System.Threading.Tasks;
 
 namespace VARCOVoice.Editor
 {
@@ -32,6 +32,10 @@ namespace VARCOVoice.Editor
         private Label _voiceBNameLabel;
         private string _selectedVoiceA;
         private string _selectedVoiceB;
+        
+        // Language Selection
+        private DropdownField _languageDropdown;
+        private Language _selectedLanguage = Language.Korean;
         
         private Slider _speedSlider;
         private Slider _pitchSlider;
@@ -119,7 +123,7 @@ namespace VARCOVoice.Editor
                 InitializeWaveform();
                 EnsureAudioSource(); // Ensure AudioSource exists
                 SetupEventHandlers();
-                LoadVoicesAsync().Forget();
+                _ = LoadVoicesAsync();
 
                 // Force A/B comparison visible
                 UpdateABVisibility();
@@ -383,20 +387,32 @@ namespace VARCOVoice.Editor
                 _voiceSearchField.RegisterValueChangedCallback(OnVoiceSearchChanged);
             }
             
-            // Filter Tabs
-            var tabAll = _root.Q<Button>("tab-all");
-            var tabMale = _root.Q<Button>("tab-male");
-            var tabFemale = _root.Q<Button>("tab-female");
+            // Gender Filter Dropdown (replaces old buttons)
+            var genderDropdown = _root.Q<DropdownField>("filter-gender");
+            if (genderDropdown != null)
+            {
+                genderDropdown.choices = new List<string> { "All", "M", "F" };
+                genderDropdown.value = "All";
+                genderDropdown.RegisterValueChangedCallback(OnGenderDropdownChanged);
+            }
             
-            if (tabAll != null) tabAll.clicked += () => SetGenderFilter(Gender.Unknown, tabAll, tabMale, tabFemale);
-            if (tabMale != null) tabMale.clicked += () => SetGenderFilter(Gender.Male, tabAll, tabMale, tabFemale);
-            if (tabFemale != null) tabFemale.clicked += () => SetGenderFilter(Gender.Female, tabAll, tabMale, tabFemale);
+            // Language Filter Dropdown
+            _languageDropdown = _root.Q<DropdownField>("filter-language");
+            if (_languageDropdown != null)
+            {
+                // Restricted to KR for 1.0.1
+                _languageDropdown.choices = new List<string> { "KR", "EN (Locked)", "JP (Locked)", "TW (Locked)" };
+                _languageDropdown.value = "KR";
+                _languageDropdown.style.width = 80; // Adjusted width for locked labels
+                _languageDropdown.style.flexGrow = 0;
+                _languageDropdown.RegisterValueChangedCallback(OnLanguageChanged);
+            }
             
             // Age Filter Dropdown
             var ageFilter = _root.Q<DropdownField>("filter-age");
             if (ageFilter != null)
             {
-                ageFilter.choices = new List<string> { "All", "Child", "Young", "Middle", "Senior" };
+                ageFilter.choices = new List<string> { "All", "Child", "Young", "Mid", "Old" };
                 ageFilter.value = "All";
                 ageFilter.RegisterValueChangedCallback(OnAgeFilterChanged);
             }
@@ -408,14 +424,13 @@ namespace VARCOVoice.Editor
                 emotionFilter.choices = new List<string> { "All", "Neutral", "Happy", "Sad", "Angry" };
                 emotionFilter.value = "All";
                 emotionFilter.RegisterValueChangedCallback(OnEmotionFilterChanged);
-                emotionFilter.RegisterValueChangedCallback(OnEmotionFilterChanged);
             }
 
             // Refresh Button
             var refreshBtn = _root.Q<Button>("voice-refresh-btn");
             if (refreshBtn != null)
             {
-                refreshBtn.clicked += () => LoadVoicesAsync(true).Forget();
+                refreshBtn.clicked += () => _ = LoadVoicesAsync(true);
             }
             
             // Parameters
@@ -656,7 +671,7 @@ namespace VARCOVoice.Editor
             var playABBtn = _root.Q<Button>("play-ab-btn");
             if (playABBtn != null)
             {
-                playABBtn.clicked += () => PlaySequenceAsync().Forget();
+                playABBtn.clicked += () => _ = PlaySequenceAsync();
             }
             
             // Voice preview buttons
@@ -679,7 +694,7 @@ namespace VARCOVoice.Editor
             }
         }
         
-        private async UniTaskVoid PlaySequenceAsync()
+        private async Task PlaySequenceAsync()
         {
             if (_generatedClipA == null || _generatedClipB == null)
             {
@@ -691,10 +706,10 @@ namespace VARCOVoice.Editor
             
             // Play A
             PlayAudio(_generatedClipA);
-            await UniTask.WaitWhile(() => _previewSource != null && _previewSource.isPlaying);
+            await AsyncUtils.WaitWhile(() => _previewSource != null && _previewSource.isPlaying);
             
             // Small gap
-            await UniTask.Delay(500);
+            await Task.Delay(500);
             
             // Play B
             PlayAudio(_generatedClipB);
@@ -866,6 +881,34 @@ namespace VARCOVoice.Editor
             _currentEmotionFilter = evt.newValue ?? "All";
             ApplyFilters();
         }
+        
+        private void OnGenderDropdownChanged(ChangeEvent<string> evt)
+        {
+            string val = evt.newValue ?? "All";
+            _currentGenderFilter = val switch
+            {
+                "M" => Gender.Male,
+                "F" => Gender.Female,
+                _ => Gender.Unknown // "All" = Unknown means no filter
+            };
+            ApplyFilters();
+        }
+        
+        private void OnLanguageChanged(ChangeEvent<string> evt)
+        {
+            string val = evt.newValue ?? "KR";
+            
+            if (val != "KR")
+            {
+                UpdateStatus("Only Korean (KR) is supported in this version.", StatusType.Warning);
+                _languageDropdown.SetValueWithoutNotify("KR");
+                return;
+            }
+            
+            _selectedLanguage = Language.Korean;
+            UpdateStatus($"Language: {val}", StatusType.Info);
+        }
+
         
         private void ApplyFilters()
         {
@@ -1144,7 +1187,7 @@ namespace VARCOVoice.Editor
                 _generatedClipA = await client.SynthesizeAsync(
                     text, 
                     voiceName, 
-                    language: null,
+                    language: _selectedLanguage,
                     speed: speed, 
                     pitch: pitch);
                 
@@ -1159,11 +1202,12 @@ namespace VARCOVoice.Editor
                         _generatedClipB = await client.SynthesizeAsync(
                             text, 
                             voiceBName, 
-                            language: null,
+                            language: _selectedLanguage,
                             speed: speed, 
                             pitch: pitch);
                     }
                 }
+
                 
                 SetProgress(1f);
                 UpdateStatus("Generation complete!", StatusType.Success);
@@ -1181,6 +1225,18 @@ namespace VARCOVoice.Editor
             catch (VarcoException ex)
             {
                 UpdateStatus($"Error: {ex.Message}", StatusType.Error);
+            }
+            catch (System.Exception ex)
+            {
+                // Check for 400 Bad Request - likely language not supported
+                if (ex.Message.Contains("400") || ex.Message.Contains("Bad Request") || ex.Message.Contains("처리할 수 없는"))
+                {
+                    UpdateStatus($"Language not supported for this voice!", StatusType.Error);
+                }
+                else
+                {
+                    UpdateStatus($"Error: {ex.Message}", StatusType.Error);
+                }
             }
             finally
             {

@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
-using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -119,7 +119,7 @@ namespace VARCOVoice
         /// <summary>
         /// Synthesize text to speech (with caching)
         /// </summary>
-        public async UniTask<AudioClip> SynthesizeAsync(
+        public async Task<AudioClip> SynthesizeAsync(
             string text,
             string voice = null,
             Language? language = null,
@@ -188,7 +188,7 @@ namespace VARCOVoice
         /// <summary>
         /// Synthesize with TTSRequest object
         /// </summary>
-        public async UniTask<AudioClip> SynthesizeAsync(TTSRequest request, CancellationToken cancellationToken = default)
+        public async Task<AudioClip> SynthesizeAsync(TTSRequest request, CancellationToken cancellationToken = default)
         {
             ValidateConfig();
             ValidateText(request.Text);
@@ -201,7 +201,7 @@ namespace VARCOVoice
         /// <summary>
         /// Get raw audio bytes instead of AudioClip
         /// </summary>
-        public async UniTask<byte[]> SynthesizeBytesAsync(
+        public async Task<byte[]> SynthesizeBytesAsync(
             string text,
             string voice = null,
             Language? language = null,
@@ -237,7 +237,7 @@ namespace VARCOVoice
         /// <summary>
         /// Convert voice using pre-trained speaker
         /// </summary>
-        public async UniTask<AudioClip> ConvertVoiceAsync(
+        public async Task<AudioClip> ConvertVoiceAsync(
             byte[] audioData,
             string speakerName,
             string audioFileName = "input.wav",
@@ -260,7 +260,7 @@ namespace VARCOVoice
         /// <summary>
         /// Convert voice using custom reference audio
         /// </summary>
-        public async UniTask<AudioClip> ConvertVoiceCustomAsync(
+        public async Task<AudioClip> ConvertVoiceCustomAsync(
             byte[] sourceAudio,
             byte[] referenceAudio,
             string sourceFileName = "source.wav",
@@ -289,7 +289,7 @@ namespace VARCOVoice
         /// <summary>
         /// Get available voices
         /// </summary>
-        public async UniTask<List<VarcoVoice>> GetVoicesAsync(
+        public async Task<List<VarcoVoice>> GetVoicesAsync(
             bool forceRefresh = false,
             CancellationToken cancellationToken = default)
         {
@@ -402,7 +402,7 @@ namespace VARCOVoice
         /// <summary>
         /// Search voices with filter
         /// </summary>
-        public async UniTask<List<VarcoVoice>> SearchVoicesAsync(
+        public async Task<List<VarcoVoice>> SearchVoicesAsync(
             VoiceFilter filter,
             CancellationToken cancellationToken = default)
         {
@@ -446,18 +446,18 @@ namespace VARCOVoice
             }
         }
         
-        private async UniTask<T> GetAsync<T>(string url, CancellationToken cancellationToken)
+        private async Task<T> GetAsync<T>(string url, CancellationToken cancellationToken)
         {
             return await SendRequestAsync<T>(url, UnityWebRequest.kHttpVerbGET, null, cancellationToken);
         }
         
-        private async UniTask<T> PostAsync<T>(string url, object body, CancellationToken cancellationToken)
+        private async Task<T> PostAsync<T>(string url, object body, CancellationToken cancellationToken)
         {
             var json = JsonConvert.SerializeObject(body);
             return await SendRequestAsync<T>(url, UnityWebRequest.kHttpVerbPOST, json, cancellationToken);
         }
         
-        private async UniTask<T> SendRequestAsync<T>(
+        private async Task<T> SendRequestAsync<T>(
             string url,
             string method,
             string body,
@@ -480,7 +480,13 @@ namespace VARCOVoice
                     request.SetRequestHeader("OPENAPI_KEY", _config.ApiKey);
                     request.SetRequestHeader("Content-Type", "application/json");
                     
-                    await request.SendWebRequest().WithCancellation(cancellationToken);
+                    await request.SendWebRequest();
+                    
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        request.Abort();
+                        throw new OperationCanceledException(cancellationToken);
+                    }
                     
                     if (request.result == UnityWebRequest.Result.Success)
                     {
@@ -494,11 +500,11 @@ namespace VARCOVoice
                 {
                     // Use server-provided Retry-After value, or fallback to exponential backoff
                     int waitSeconds = ex.RetryAfterSeconds > 0 ? ex.RetryAfterSeconds : (int)(_retryDelaySeconds * (attempt + 1));
-                    await UniTask.Delay(TimeSpan.FromSeconds(waitSeconds), cancellationToken: cancellationToken);
+                    await Task.Delay(TimeSpan.FromSeconds(waitSeconds), cancellationToken);
                 }
                 catch (VarcoServerException) when (attempt < _maxRetries)
                 {
-                    await UniTask.Delay(TimeSpan.FromSeconds(_retryDelaySeconds * (attempt + 1)), cancellationToken: cancellationToken);
+                    await Task.Delay(TimeSpan.FromSeconds(_retryDelaySeconds * (attempt + 1)), cancellationToken);
                 }
             }
             

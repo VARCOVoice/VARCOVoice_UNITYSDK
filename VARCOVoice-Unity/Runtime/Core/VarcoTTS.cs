@@ -1,7 +1,7 @@
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
-using Cysharp.Threading.Tasks;
 using VARCOVoice.DSP;
 
 namespace VARCOVoice
@@ -133,7 +133,7 @@ namespace VARCOVoice
         /// <summary>
         /// Synthesize text and play immediately
         /// </summary>
-        public async UniTask SpeakAsync(string text, CancellationToken cancellationToken = default)
+        public async Task SpeakAsync(string text, CancellationToken cancellationToken = default)
         {
             var clip = await SynthesizeAsync(text, cancellationToken: cancellationToken);
             Play(clip);
@@ -142,7 +142,7 @@ namespace VARCOVoice
         /// <summary>
         /// Synthesize text with specific voice and play
         /// </summary>
-        public async UniTask SpeakAsync(string text, string voice, CancellationToken cancellationToken = default)
+        public async Task SpeakAsync(string text, string voice, CancellationToken cancellationToken = default)
         {
             var clip = await SynthesizeAsync(text, voice, cancellationToken: cancellationToken);
             Play(clip);
@@ -151,7 +151,7 @@ namespace VARCOVoice
         /// <summary>
         /// Synthesize text to AudioClip
         /// </summary>
-        public async UniTask<AudioClip> SynthesizeAsync(
+        public async Task<AudioClip> SynthesizeAsync(
             string text,
             string voice = null,
             Language? language = null,
@@ -187,7 +187,7 @@ namespace VARCOVoice
         /// <summary>
         /// Synthesize using TTSRequest for full control
         /// </summary>
-        public async UniTask<AudioClip> SynthesizeAsync(TTSRequest request, CancellationToken cancellationToken = default)
+        public async Task<AudioClip> SynthesizeAsync(TTSRequest request, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -230,7 +230,7 @@ namespace VARCOVoice
             OnPlaybackStarted?.Invoke();
             
             // Track completion
-            TrackPlaybackCompletion(clip.length).Forget();
+            _ = TrackPlaybackCompletion(clip.length);
         }
         
         /// <summary>
@@ -275,9 +275,9 @@ namespace VARCOVoice
             }
         }
         
-        private async UniTaskVoid TrackPlaybackCompletion(float duration)
+        private async Task TrackPlaybackCompletion(float duration)
         {
-            await UniTask.Delay(TimeSpan.FromSeconds(duration), ignoreTimeScale: true);
+            await Task.Delay(TimeSpan.FromSeconds(duration));
             OnPlaybackComplete?.Invoke();
         }
         
@@ -288,7 +288,7 @@ namespace VARCOVoice
         /// <summary>
         /// Get all available voices
         /// </summary>
-        public async UniTask<System.Collections.Generic.List<VarcoVoice>> GetVoicesAsync(
+        public async Task<System.Collections.Generic.List<VarcoVoice>> GetVoicesAsync(
             CancellationToken cancellationToken = default)
         {
             return await ApiClient.GetVoicesAsync(cancellationToken: cancellationToken);
@@ -297,7 +297,7 @@ namespace VARCOVoice
         /// <summary>
         /// Search voices with filter
         /// </summary>
-        public async UniTask<System.Collections.Generic.List<VarcoVoice>> SearchVoicesAsync(
+        public async Task<System.Collections.Generic.List<VarcoVoice>> SearchVoicesAsync(
             VoiceFilter filter,
             CancellationToken cancellationToken = default)
         {

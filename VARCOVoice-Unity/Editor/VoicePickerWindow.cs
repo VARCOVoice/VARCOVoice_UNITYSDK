@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
-using Cysharp.Threading.Tasks;
+using System.Threading.Tasks;
 
 namespace VARCOVoice.Editor
 {
@@ -127,7 +127,7 @@ namespace VARCOVoice.Editor
             
             CacheUIElements();
             SetupEventHandlers();
-            LoadVoicesAsync().Forget();
+            _ = LoadVoicesAsync();
         }
         
         private void OnDisable()
@@ -164,7 +164,7 @@ namespace VARCOVoice.Editor
             var refreshBtn = _root.Q<Button>("refresh-btn");
             if (refreshBtn != null)
             {
-                refreshBtn.clicked += () => LoadVoicesAsync(forceRefresh: true).Forget();
+                refreshBtn.clicked += () => _ = LoadVoicesAsync(forceRefresh: true);
             }
 
             var settingsBtn = _root.Q<Button>("settings-btn");
@@ -272,7 +272,7 @@ namespace VARCOVoice.Editor
         
         #region Data Loading
         
-        private async UniTaskVoid LoadVoicesAsync(bool forceRefresh = false)
+        private async Task LoadVoicesAsync(bool forceRefresh = false)
         {
             if (!VarcoConfig.Instance.IsValid())
             {
@@ -511,7 +511,7 @@ namespace VARCOVoice.Editor
             {
                 // User requested "Main Settings Page's Docu Popup". 
                 // Assuming they mean the "About" dialog which contains version info.
-                EditorUtility.DisplayDialog("VARCO Voice", "VARCO Voice Unity SDK\nVersion 1.0.0\n\n(c) NC AI", "OK");
+                EditorUtility.DisplayDialog("VARCO Voice", "VARCO Voice Unity SDK\nVersion 1.0.1\n\n(c) NC AI", "OK");
             });
 
             menu.AddItem(new GUIContent("About VARCO Voice"), false, () =>
@@ -541,7 +541,7 @@ namespace VARCOVoice.Editor
         {
             if (_selectedIndex >= 0 && _selectedIndex < _filteredVoices.Count)
             {
-                PreviewVoice(_filteredVoices[_selectedIndex]).Forget();
+                _ = PreviewVoice(_filteredVoices[_selectedIndex]);
             }
             else
             {
@@ -549,7 +549,7 @@ namespace VARCOVoice.Editor
             }
         }
         
-        private async UniTaskVoid PreviewVoice(VarcoVoice voice)
+        private async Task PreviewVoice(VarcoVoice voice)
         {
             UpdateStatus($"Generating preview for {voice.SpeakerName}...");
             

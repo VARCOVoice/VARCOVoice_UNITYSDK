@@ -2,7 +2,6 @@
     "name": "VARCOVoice.Runtime",
     "rootNamespace": "VARCOVoice",
     "references": [
-        "UniTask",
         "Newtonsoft.Json",
         "Unity.Burst",
         "Unity.Mathematics",
