@@ -1,0 +1,414 @@
+/* ==================== VARCO Voice Design System ==================== */
+/* Theme: Line & Linear (Blue / Cool Grey / Square) */
+
+/* Colors - Dark Mode (Default) */
+:root {
+    --color-bg-base: #0A0C10;       /* Main Window Background */
+    --color-bg-panel: #0F1218;      /* Sidebars / Panels */
+    --color-bg-module: #151921;     /* Cards / Modules */
+    --color-bg-input: #080A0D;      /* Input Fields */
+    --color-bg-hover: #1F2430;      /* Hover State */
+    
+    /* Replaced Mint with Varco Blue */
+    --color-accent-mint: #006EFF;   /* Primary Accent (Blue now) */
+    --color-accent-blue: #1F7BFF;   /* Secondary Blue */
+    --color-accent-red: #FF4444;    /* Error / B */
+    
+    --color-text-white: #FFFFFF;    /* Primary Text */
+    --color-text-muted: #AAAAAA;    /* Secondary Text */
+    --color-text-dim: #888888;      /* Disabled / Labels */
+    
+    --color-border: rgba(255, 255, 255, 0.15); /* Stronger borders for Linear look */
+    --color-divider: rgba(255, 255, 255, 0.08);
+}
+
+/* Light Mode Theme */
+.theme-light {
+    --color-bg-base: #F4F6F9;       /* 밝은 회색 배경 */
+    --color-bg-panel: #FFFFFF;      /* 흰색 패널 */
+    --color-bg-module: #F0F2F6;     /* 모듈 배경 */
+    --color-bg-input: #FFFFFF;      /* 입력 필드 배경 */
+    --color-bg-hover: #E8EDF4;      /* 호버 상태 */
+    
+    --color-accent-mint: #0066DD;   /* 진한 블루 (가독성) */
+    --color-accent-blue: #1A6FDD;   /* Secondary Blue */
+    --color-accent-red: #E53935;    /* 빨간색 */
+    
+    --color-text-white: #1B1F26;    /* 어두운 텍스트 */
+    --color-text-muted: #4B5563;    /* 중간 텍스트 */
+    --color-text-dim: #6B7280;      /* 연한 텍스트 */
+    
+    --color-border: rgba(15, 23, 42, 0.16);  /* 어두운 테두리 */
+    --color-divider: rgba(15, 23, 42, 0.08); /* 연한 구분선 */
+}
+
+/* Light Mode 적용 시 배경/텍스트 오버라이드 */
+.theme-light .header {
+    background-color: #FFFFFF;
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+.theme-light .header-title {
+    color: #1A1A1A;
+}
+
+.theme-light .header-subtitle {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.theme-light .btn-settings {
+    color: rgba(0, 0, 0, 0.6);
+    border-color: rgba(0, 0, 0, 0.15);
+}
+
+.theme-light .btn-settings:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: #1A1A1A;
+}
+
+/* Typography (Google Sans Flex - Fallback to System) */
+.text-h1 {
+    font-size: 16px;
+    -unity-font-style: bold;
+    color: var(--color-text-white);
+    margin-bottom: 12px;
+}
+
+.text-h2 {
+    font-size: 13px;
+    -unity-font-style: bold;
+    color: var(--color-text-white);
+    margin-bottom: 8px;
+}
+
+.text-body {
+    font-size: 12px;
+    color: var(--color-text-muted);
+}
+
+.text-label {
+    font-size: 11px;
+    color: var(--color-text-dim);
+    -unity-font-style: bold;
+}
+
+/* Header Logo Styles */
+.header-logo {
+    width: 120px;
+    height: 20px;
+    -unity-background-scale-mode: scale-to-fit;
+    flex-shrink: 0;
+}
+
+/* Header Title (VARCO VOICE 텍스트) - MainWindow와 동일 */
+.header-title {
+    font-size: 16px;
+    color: #FFFFFF;
+    -unity-font-style: bold;
+    flex-shrink: 0;
+}
+
+.header-subtitle {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-left: 8px;
+    -unity-font-style: normal;
+}
+
+.header__logo-image {
+    width: 130px;
+    height: 22px;
+    -unity-background-scale-mode: scale-to-fit;
+    flex-shrink: 0;
+}
+
+/* Header Spacer - 오른쪽 정렬용 */
+.header-spacer {
+    flex-grow: 1;
+}
+
+/* Settings Button - 모든 창 공통 */
+.btn-settings {
+    height: 28px;
+    min-width: 60px;
+    padding: 0 10px;
+    border-radius: 0;
+    background-color: transparent;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.15);
+    -unity-text-align: middle-center;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.btn-settings:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #FFFFFF;
+}
+
+/* ==================== Components ==================== */
+
+/* Buttons (Square & Linear) */
+.btn {
+    height: 28px;
+    border-radius: 0px; /* Square */
+    border-width: 1px;
+    border-color: var(--color-border);
+    margin: 2px;
+    background-color: transparent; /* Linear style */
+    color: var(--color-text-white);
+    -unity-font-style: bold;
+    font-size: 11px;
+    cursor: link;
+    transition-duration: 0.1s;
+}
+
+.btn:hover {
+    background-color: rgba(255, 255, 255, 0.05); /* Subtle hover */
+    border-color: var(--color-text-muted);
+}
+
+.btn:active {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.btn-primary {
+    background-color: rgba(0, 110, 255, 0.1); /* Ghost Blue */
+    color: #4D9EFF; /* Brighter Blue Text */
+    border-color: rgba(0, 110, 255, 0.5);
+}
+
+.btn-primary:hover {
+    background-color: rgba(0, 110, 255, 0.2);
+    border-color: #006EFF;
+}
+
+.btn-primary:active {
+    background-color: rgba(0, 110, 255, 0.3);
+}
+
+.btn-secondary {
+    border-color: var(--color-border);
+    color: var(--color-text-muted);
+}
+
+.btn-secondary:hover {
+    color: var(--color-text-white);
+    border-color: var(--color-text-muted);
+}
+
+.btn-accent-blue {
+    background-color: rgba(0, 110, 255, 0.1);
+    color: #4D9EFF;
+    border-color: rgba(0, 110, 255, 0.5);
+}
+
+.btn-accent-blue:hover {
+    background-color: rgba(0, 110, 255, 0.2);
+    border-color: #006EFF;
+}
+
+.btn-accent-red {
+    background-color: rgba(255, 68, 68, 0.1);
+    color: #FF8888;
+    border-color: rgba(255, 68, 68, 0.5);
+}
+
+.btn-accent-red:hover {
+    background-color: rgba(255, 68, 68, 0.2);
+    border-color: #FF4444;
+}
+
+/* Icons / Small Buttons */
+.btn-icon {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    background-color: transparent;
+    border-width: 0;
+}
+
+.btn-icon:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Inputs */
+.unity-text-field__input {
+    background-color: var(--color-bg-input);
+    border-color: var(--color-border);
+    border-width: 1px;
+    border-radius: 0px; /* Square */
+    color: var(--color-text-white);
+    padding: 4px 8px;
+    -unity-background-image-tint-color: transparent; /* Remove unity default rendering gloss */
+}
+
+.unity-text-field__input:hover {
+    border-color: var(--color-text-muted);
+}
+
+.unity-text-field__input:focus {
+    border-color: var(--color-accent-mint); /* Blue focus */
+}
+
+/* Search Field Special */
+.search-field .unity-text-field__input {
+    background-color: var(--color-bg-module);
+    border-radius: 2px; /* Very subtle rounding for search, or square */
+    padding-left: 24px;
+}
+
+/* Toggle / Toggles */
+.unity-toggle__checkmark {
+    border-radius: 0px; /* Square checkbox */
+}
+
+/* ScrollView - Hidden Scrollbars (scroll still works) */
+.unity-scroller--vertical {
+    width: 0;
+    min-width: 0;
+    opacity: 0;
+    border-left-width: 0;
+}
+
+.unity-scroller--horizontal {
+    height: 0;
+    min-height: 0;
+    opacity: 0;
+    border-top-width: 0;
+}
+
+.unity-scroller__slider {
+    width: 0;
+    height: 0;
+    opacity: 0;
+}
+
+.unity-scroller__high-button, .unity-scroller__low-button {
+    display: none;
+}
+
+.unity-scroll-view__content-viewport {
+    margin-right: 0;
+    margin-bottom: 0;
+}
+
+
+/* Light Mode - Components */
+.theme-light .btn {
+    background-color: #FFFFFF;
+    border-color: rgba(15, 23, 42, 0.2);
+    color: #1B1F26;
+}
+
+.theme-light .btn:hover {
+    background-color: #F3F6FB;
+    border-color: rgba(15, 23, 42, 0.3);
+}
+
+.theme-light .btn:active {
+    background-color: #E9EEF6;
+}
+
+.theme-light .btn-primary,
+.theme-light .btn-accent-blue {
+    background-color: #0066DD;
+    border-color: #0066DD;
+    color: #FFFFFF;
+}
+
+.theme-light .btn-primary:hover,
+.theme-light .btn-accent-blue:hover {
+    background-color: #0059C1;
+    border-color: #0059C1;
+}
+
+.theme-light .btn-secondary {
+    background-color: #FFFFFF;
+    border-color: rgba(15, 23, 42, 0.2);
+    color: #4B5563;
+}
+
+.theme-light .btn-secondary:hover {
+    background-color: #F3F6FB;
+    color: #1B1F26;
+}
+
+.theme-light .btn-accent-red {
+    background-color: #E53935;
+    border-color: #E53935;
+    color: #FFFFFF;
+}
+
+.theme-light .btn-accent-red:hover {
+    background-color: #CC332F;
+    border-color: #CC332F;
+}
+
+.theme-light .btn-icon {
+    background-color: transparent;
+    color: #4B5563;
+}
+
+.theme-light .btn-icon:hover {
+    background-color: rgba(15, 23, 42, 0.06);
+    color: #1B1F26;
+}
+
+.theme-light .unity-text-field__input {
+    background-color: #FFFFFF;
+    border-color: rgba(15, 23, 42, 0.2);
+    color: #1B1F26;
+}
+
+.theme-light .unity-text-field__input:hover {
+    border-color: rgba(15, 23, 42, 0.3);
+}
+
+.theme-light .unity-text-field__input:focus {
+    border-color: #0066DD;
+}
+
+.theme-light .unity-scroller--vertical {
+    border-left-color: rgba(15, 23, 42, 0.16);
+    background-color: #F4F6F9;
+}
+
+.theme-light .unity-scroller__slider {
+    background-color: rgba(15, 23, 42, 0.2);
+}
+
+.theme-light .unity-scroller__slider:hover {
+    background-color: rgba(15, 23, 42, 0.35);
+}
+
+/* ==================== Hide Scrollbars Globally ==================== */
+/* Scrolling still works, only visual scrollbar is hidden */
+
+.unity-scroller--vertical {
+    width: 0;
+    min-width: 0;
+    opacity: 0;
+}
+
+.unity-scroller--vertical .unity-base-slider__dragger {
+    width: 0;
+}
+
+.unity-scroller--vertical .unity-base-slider__tracker {
+    width: 0;
+}
+
+.unity-scroller--horizontal {
+    height: 0;
+    min-height: 0;
+    opacity: 0;
+}
+
+.unity-scroll-view__content-viewport {
+    margin-right: 0;
+    margin-bottom: 0;
+}

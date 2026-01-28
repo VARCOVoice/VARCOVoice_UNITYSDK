@@ -1,0 +1,28 @@
+{
+    "name": "VARCOVoice.Runtime",
+    "rootNamespace": "VARCOVoice",
+    "references": [
+        "UniTask",
+        "Newtonsoft.Json",
+        "Unity.Burst",
+        "Unity.Mathematics",
+        "Unity.Collections"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.addressables",
+            "expression": "1.0.0",
+            "define": "ADDRESSABLES_ENABLED"
+        }
+    ],
+    "noEngineReferences": false
+}
+
+

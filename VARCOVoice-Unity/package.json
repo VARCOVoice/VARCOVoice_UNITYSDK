@@ -1,0 +1,34 @@
+{
+  "name": "com.varco.voice",
+  "version": "0.0.1",
+  "displayName": "VARCO Voice TTS",
+  "description": "Unity plugin for VARCO Voice TTS API with DSP effects, lip sync, offline caching, and Burst-optimized audio processing",
+  "unity": "2021.3",
+  "unityRelease": "0f1",
+  "documentationUrl": "https://github.com/VARCOVoice/VARCOVoice_UNITYSDK#readme",
+  "changelogUrl": "https://github.com/VARCOVoice/VARCOVoice_UNITYSDK/blob/main/CHANGELOG.md",
+  "licensesUrl": "https://github.com/VARCOVoice/VARCOVoice_UNITYSDK/blob/main/LICENSE",
+  "keywords": [
+    "tts",
+    "text-to-speech",
+    "voice",
+    "audio",
+    "dsp",
+    "lip-sync",
+    "varco",
+    "ai",
+    "burst",
+    "addressables"
+  ],
+  "author": {
+    "name": "NCAI VARCO Voice DevTeam",
+    "url": "https://github.com/VARCOVoice"
+  },
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "3.2.1",
+    "com.unity.burst": "1.8.11",
+    "com.unity.mathematics": "1.2.6",
+    "com.unity.collections": "2.1.4",
+    "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask#2.5.10"
+  }
+}

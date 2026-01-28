@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="node-popup" class="eq-node-popup">
+        <!-- Filter Type Row -->
+        <ui:VisualElement class="popup-row filter-row">
+            <ui:Button name="btn-bell" text="Bell" class="filter-btn left" />
+            <ui:Button name="btn-lcut" text="LCut" class="filter-btn center" />
+            <ui:Button name="btn-hcut" text="HCut" class="filter-btn right" />
+        </ui:VisualElement>
+        
+        <!-- Frequency Row -->
+        <ui:VisualElement class="popup-row">
+            <ui:Label text="Freq" class="popup-label" />
+            <ui:Slider name="slider-freq" low-value="20" high-value="20000" class="popup-slider" />
+            <ui:Label name="value-freq" text="1000 Hz" class="popup-value" />
+        </ui:VisualElement>
+
+        <!-- Gain Row -->
+        <ui:VisualElement class="popup-row">
+            <ui:Label text="Gain" class="popup-label" />
+            <ui:Slider name="slider-gain" low-value="-24" high-value="24" class="popup-slider" />
+            <ui:Label name="value-gain" text="0.0 dB" class="popup-value" />
+        </ui:VisualElement>
+
+        <!-- Q Factor Row -->
+        <ui:VisualElement class="popup-row">
+            <ui:Label text="Q" class="popup-label" />
+            <ui:Slider name="slider-q" low-value="0.1" high-value="30" class="popup-slider" />
+            <ui:Label name="value-q" text="1.0" class="popup-value" />
+        </ui:VisualElement>
+        
+        <!-- Delete Hint (Subtle) -->
+         <ui:VisualElement class="popup-footer">
+            <ui:Label text="Right-click to delete" class="popup-hint" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

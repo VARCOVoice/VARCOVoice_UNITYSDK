@@ -1,0 +1,500 @@
+﻿.export-panel {
+    flex-direction: column;
+    flex-grow: 1;
+    height: 100%;
+    background-color: var(--bg-dark);
+    padding: 0;
+}
+
+.export-body {
+    flex-direction: row;
+    flex-grow: 1;
+    min-height: 0;
+}
+
+.export-sidebar {
+    width: 300px;
+    min-width: 200px;
+    flex-shrink: 0;
+    background-color: transparent; /* Linear: No BG */
+    border-right-width: 1px;
+    border-right-color: rgba(255, 255, 255, 0.3); /* Stronger Vertical Line */
+    padding: 12px;
+}
+
+.export-section-title {
+    font-size: 12px;
+    color: var(--text-muted); /* Brighter */
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    -unity-font-style: bold;
+}
+
+.object-list {
+    flex-grow: 1;
+    border-width: 0; /* Remove container border */
+    border-top-width: 1px; /* Only top line */
+    border-color: rgba(255, 255, 255, 0.2);
+    background-color: transparent;
+}
+
+.object-item {
+    padding: 8px 10px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(255, 255, 255, 0.15); /* Stronger line */
+    background-color: transparent;
+    margin: 0;
+}
+
+.object-item:hover {
+    background-color: var(--bg-control-hover);
+}
+
+.object-item--selected {
+    background-color: rgba(0, 110, 255, 0.15);
+    border-left-width: 2px;
+    border-left-color: var(--varco-mint);
+}
+
+.object-name {
+    font-size: 14px;
+    color: var(--text-primary);
+}
+
+.object-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.export-create {
+    margin-top: 8px;
+    height: 28px;
+    border-radius: 0;
+    background-color: rgba(0, 110, 255, 0.2);
+    border-width: 1px;
+    border-color: rgba(0, 110, 255, 0.4);
+    color: #FFFFFF; /* Unified White */
+    -unity-font-style: bold;
+    font-size: 13px;
+}
+
+.export-create:hover {
+    background-color: rgba(0, 110, 255, 0.35);
+    border-color: rgba(0, 110, 255, 0.6);
+}
+
+.btn-secondary {
+    height: 24px; /* Slightly smaller for header buttons? Or 28px? Refresh is header. */
+    border-radius: 0;
+    background-color: rgba(0, 110, 255, 0.15);
+    border-width: 1px;
+    border-color: rgba(0, 110, 255, 0.3);
+    color: #FFFFFF; /* Unified White */
+    -unity-font-style: bold;
+    font-size: 12px;
+    padding: 0 12px;
+}
+.btn-secondary:hover {
+    background-color: rgba(0, 110, 255, 0.3);
+    border-color: rgba(0, 110, 255, 0.6);
+}
+
+.detail-panel {
+    flex-grow: 1;
+    padding: 12px;
+    flex-direction: column;
+}
+
+.detail-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--border-subtle);
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+}
+
+.detail-title {
+    font-size: 16px;
+    color: var(--text-primary);
+    -unity-font-style: bold;
+}
+
+.detail-clip {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.detail-scroll {
+    flex-grow: 1;
+    min-height: 0;
+}
+
+.placeholder-text {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+/* Slot Card Style */
+.slot-container {
+    background-color: rgba(255, 255, 255, 0.03);
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    margin-bottom: 8px; /* Gap between cards */
+    padding: 0; /* Content padding handled inside */
+    overflow: hidden; /* Clip header radius */
+}
+
+/* Card Header */
+.slot-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(255, 255, 255, 0.05); /* Slightly lighter header */
+    padding: 6px 10px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(255, 255, 255, 0.05);
+}
+
+.slot-title {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+    -unity-font-style: bold;
+    opacity: 0.8;
+}
+
+/* Card Body Content */
+.slot-content {
+    padding: 10px;
+}
+
+/* Light Mode Card Overrides */
+.theme-light .slot-container {
+    background-color: #FFFFFF;
+    border-color: rgba(0, 0, 0, 0.08); /* Soft border */
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* (Unity usually ignores box-shadow, but for reference) */
+}
+
+.theme-light .slot-header {
+    background-color: #F8F9FA;
+    border-bottom-color: rgba(0, 0, 0, 0.06);
+}
+
+.slot-grid {
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.slot-field {
+    flex-grow: 1;
+    min-width: 140px;
+    margin-right: 6px;
+    margin-bottom: 4px;
+}
+
+.slot-field--wide {
+    min-width: 200px;
+}
+
+.slot-actions {
+    flex-direction: row;
+    align-items: center;
+    margin-top: 6px;
+}
+
+.slot-actions > * {
+    margin-right: 4px;
+}
+
+.btn-danger {
+    min-width: 60px;
+    height: 24px;
+    background-color: transparent;
+    border-width: 1px;
+    border-color: var(--text-muted);
+    color: var(--text-muted);
+    border-radius: 2px;
+    -unity-text-align: middle-center;
+}
+
+.btn-danger:hover {
+    background-color: var(--bg-control-hover);
+    color: var(--text-primary);
+}
+
+.assign-button {
+    height: 22px;
+}
+
+/* Slot Play/Stop Buttons (Square, Linear) */
+.slot-action-bar {
+    flex-direction: row;
+    margin-top: 6px;
+    align-items: center;
+}
+
+.slot-run-btn {
+    width: 24px;
+    height: 24px;
+    border-radius: 0;
+    margin-right: 4px;
+    background-color: rgba(0, 110, 255, 0.15);
+    border-width: 1px;
+    border-color: rgba(0, 110, 255, 0.3);
+    color: #FFFFFF; /* Unified White */
+    padding: 0;
+    -unity-text-align: middle-center;
+}
+
+.slot-run-btn:hover {
+    background-color: rgba(0, 110, 255, 0.35);
+    border-color: rgba(0, 110, 255, 0.6);
+}
+
+.slot-stop-btn {
+    width: 24px;
+    height: 24px;
+    border-radius: 0;
+    margin-right: 4px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #FFFFFF; /* Unified White */
+    padding: 0;
+    -unity-text-align: middle-center;
+}
+
+.slot-stop-btn:hover {
+    background-color: rgba(255, 50, 50, 0.2);
+    border-color: #FF4040;
+    color: #FF4040;
+}
+
+/* Library Panel Styles */
+.export-library {
+    width: 300px; /* Matched to Sidebar (300px) */
+    min-width: 300px;
+    flex-shrink: 0;
+    background-color: transparent; /* Linear: No BG */
+    border-left-width: 1px;
+    border-left-color: rgba(255, 255, 255, 0.3); /* Stronger Vertical Line */
+    padding: 12px;
+    flex-direction: column;
+}
+
+.library-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.library-list {
+    flex-grow: 1;
+    border-width: 0; /* Remove container border */
+    border-top-width: 1px; /* Only top line */
+    border-color: rgba(255, 255, 255, 0.2);
+    background-color: transparent;
+    min-height: 100px;
+}
+
+.library-item {
+    padding: 6px 8px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(255, 255, 255, 0.15); /* Stronger line */
+    background-color: transparent;
+    flex-direction: row;
+    align-items: center;
+    cursor: link;
+    margin: 0;
+}
+
+.library-item:hover {
+    background-color: var(--bg-control-hover);
+}
+
+.library-item--dragging {
+    background-color: rgba(0, 200, 150, 0.2);
+    border-color: var(--varco-mint);
+}
+
+.library-item-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+    color: var(--varco-mint);
+}
+
+.library-item-name {
+    font-size: 13px;
+    color: var(--text-primary);
+    flex-grow: 1;
+    flex-shrink: 1; /* Allow shrink */
+    min-width: 0; /* Enable ellipsis */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 8px;
+}
+
+.library-item-actions {
+    flex-direction: row;
+    align-items: center;
+    flex-shrink: 0; /* Prevent squish */
+}
+
+.library-btn {
+    width: 24px;
+    height: 24px;
+    background-color: transparent;
+    border-width: 0;
+    border-radius: 2px;
+    margin-left: 2px;
+    -unity-background-scale-mode: scale-to-fit;
+    padding: 4px;
+    color: #FFFFFF; /* Unified White */
+}
+
+.library-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+}
+
+.library-btn--play {
+    color: #FFFFFF; /* Unified White */
+}
+.library-btn--delete:hover {
+    background-color: rgba(255, 50, 50, 0.2);
+    color: #FF4040;
+}
+
+.library-item-duration {
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-right: 8px;
+    min-width: 30px;
+    -unity-text-align: middle-right;
+    flex-shrink: 0; /* Prevent squish */
+}
+
+.library-hint {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 8px;
+    -unity-text-align: middle-center;
+}
+
+.slot-drop-target {
+    border-color: var(--varco-mint);
+    border-width: 2px;
+    background-color: rgba(0, 200, 150, 0.1);
+}
+
+/* ==================== Light Mode Theme ==================== */
+.theme-light .export-panel {
+    --bg-dark: #F5F5F5;
+    --bg-secondary: #FFFFFF;
+    --bg-card: rgba(255, 255, 255, 0.95);
+    --bg-elevated: #FAFAFA;
+    --bg-control: #EEEEEE;
+    --bg-control-hover: #E0E0E0;
+    --text-primary: #1A1A1A;
+    --text-secondary: #4A4A4A;
+    --text-muted: #7A7A7A;
+    --text-dim: #9A9A9A;
+    --border-subtle: rgba(0, 0, 0, 0.08);
+    --border-strong: rgba(0, 0, 0, 0.16);
+}
+
+
+/* Light Mode - Export Panel */
+.theme-light .export-panel {
+    background-color: #F4F6F9;
+}
+
+.theme-light .export-sidebar {
+    border-right-color: rgba(15, 23, 42, 0.16);
+}
+
+.theme-light .export-library {
+    border-left-color: rgba(15, 23, 42, 0.16);
+}
+
+.theme-light .object-list {
+    border-color: rgba(15, 23, 42, 0.12);
+}
+
+.theme-light .object-item {
+    border-bottom-color: rgba(15, 23, 42, 0.12);
+}
+
+.theme-light .object-item:hover {
+    background-color: #F3F6FB;
+}
+
+.theme-light .slot-container {
+    border-color: rgba(15, 23, 42, 0.16);
+}
+
+.theme-light .library-list {
+    border-color: rgba(15, 23, 42, 0.12);
+}
+
+.theme-light .library-item {
+    border-bottom-color: rgba(15, 23, 42, 0.12);
+}
+
+.theme-light .library-item:hover {
+    background-color: #F3F6FB;
+}
+
+.theme-light .library-btn {
+    color: #4B5563;
+}
+
+.theme-light .library-btn:hover {
+    background-color: rgba(15, 23, 42, 0.06);
+    color: #1B1F26;
+}
+
+.theme-light .library-btn--play {
+    color: #0066DD;
+}
+
+.theme-light .export-create,
+.theme-light .slot-run-btn {
+    background-color: #0066DD;
+    border-color: #0066DD;
+    color: #FFFFFF;
+}
+
+.theme-light .export-create:hover,
+.theme-light .slot-run-btn:hover {
+    background-color: #0059C1;
+    border-color: #0059C1;
+}
+
+.theme-light .btn-secondary {
+    background-color: #FFFFFF;
+    border-color: rgba(15, 23, 42, 0.2);
+    color: #4B5563;
+}
+
+.theme-light .btn-secondary:hover {
+    background-color: #F3F6FB;
+    color: #1B1F26;
+}
+
+.theme-light .slot-stop-btn {
+    background-color: rgba(15, 23, 42, 0.04);
+    border-color: rgba(15, 23, 42, 0.2);
+    color: #4B5563;
+}
+
+.theme-light .slot-stop-btn:hover {
+    background-color: rgba(229, 57, 53, 0.12);
+    border-color: #E53935;
+    color: #E53935;
+}

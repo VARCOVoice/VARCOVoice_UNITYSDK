@@ -1,0 +1,198 @@
+/* EffectStackPanel Styles */
+
+.effect-stack-panel {
+    flex-grow: 1;
+    background-color: #000000;
+    border-radius: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    min-width: 0;
+    -unity-font: url('project://database/Packages/com.varco.voice/Runtime/Google_Sans_Flex/GoogleSansFlex-VariableFont_GRAD,ROND,opsz,slnt,wdth,wght.ttf');
+}
+
+/* Header */
+.stack-header {
+    flex-direction: row;
+    align-items: center;
+    height: 36px;
+    padding: 0 12px;
+    background-color: var(--bg-elevated);
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+.section-title {
+    font-size: 13px;
+    -unity-font-style: bold;
+    color: #FFFFFF; /* High contrast */
+    letter-spacing: 1px;
+}
+
+.header-spacer {
+    flex-grow: 1;
+}
+
+.preset-btn {
+    width: 60px; /* Fixed width to prevent stretching */
+    flex-grow: 0;
+    flex-shrink: 0;
+    height: 24px;
+    padding: 2px 12px;
+    margin-left: 8px;
+    font-size: 13px;
+    background-color: rgba(0, 110, 255, 0.2);
+    border-radius: 0;
+    border-width: 1px;
+    border-color: rgba(0, 110, 255, 0.4);
+    color: #FFFFFF; /* Unified White */
+}
+
+.preset-btn:hover {
+    background-color: rgba(0, 110, 255, 0.35);
+}
+
+.preset-dropdown {
+    width: 220px;
+    height: 24px;
+    margin-left: 8px;
+    margin-right: 0;
+}
+
+.preset-dropdown .unity-base-field__input,
+.preset-dropdown .unity-popup-field__input {
+    background-color: rgba(255, 255, 255, 0.06);
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    color: #FFFFFF;
+    padding-left: 6px;
+}
+
+.preset-dropdown:hover .unity-base-field__input,
+.preset-dropdown:hover .unity-popup-field__input {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.preset-dropdown .unity-base-popup-field__text,
+.preset-dropdown .unity-popup-field__text {
+    margin-left: 2px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.preset-dropdown .unity-base-popup-field__arrow,
+.preset-dropdown .unity-popup-field__arrow {
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0.7);
+}
+
+.clear-btn {
+    height: 24px;
+    padding: 2px 12px;
+    margin-left: 8px;
+    font-size: 13px;
+    background-color: rgba(0, 110, 255, 0.2);
+    border-radius: 0;
+    border-width: 1px;
+    border-color: rgba(0, 110, 255, 0.4);
+    color: #FFFFFF; /* Unified White */
+}
+
+.clear-btn:hover {
+    background-color: rgba(0, 110, 255, 0.35);
+}
+
+/* Master-Detail Container */
+.master-detail-container {
+    flex-direction: row;
+    flex-grow: 1;
+    min-height: 250px;
+}
+
+/* Chain Sidebar - Expanded for better visibility */
+.chain-sidebar {
+    width: 216px;
+    min-width: 180px;
+    max-width: 300px;
+    background-color: var(--bg-elevated);
+    border-right-width: 1px;
+    border-right-color: rgba(255, 255, 255, 0.12);
+    padding: 6px 4px;
+}
+
+.sidebar-title {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.9); /* Brighter */
+    -unity-font-style: bold;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    padding-left: 8px;
+}
+
+.pill-list {
+    flex-grow: 1;
+    flex-direction: column;
+}
+
+.add-fx-btn {
+    height: 30px;
+    margin: 8px 4px 4px 4px;
+    font-size: 13px;
+    -unity-font-style: bold;
+    background-color: rgba(0, 110, 255, 0.15);
+    border-radius: 0;
+    border-width: 1px;
+    border-color: rgba(0, 110, 255, 0.3);
+    color: #FFFFFF; /* Unified White */
+}
+
+.add-fx-btn:hover {
+    background-color: rgba(0, 110, 255, 0.3);
+    border-color: rgba(0, 110, 255, 0.6);
+}
+
+/* Detail Panel Container */
+.detail-panel-container {
+    flex-grow: 1;
+    padding: 0;
+    min-width: 0;
+    overflow: hidden;
+}
+
+
+/* Light Mode - Effect Stack Panel */
+.theme-light .effect-stack-panel {
+    background-color: #F4F6F9;
+}
+
+.theme-light .effect-stack-panel .stack-header {
+    background-color: #FFFFFF;
+    border-bottom-color: rgba(15, 23, 42, 0.12);
+}
+
+.theme-light .effect-stack-panel .section-title {
+    color: #1B1F26;
+}
+
+.theme-light .effect-stack-panel .chain-sidebar {
+    border-right-color: rgba(15, 23, 42, 0.16);
+}
+
+.theme-light .effect-stack-panel .sidebar-title {
+    color: #1B1F26;
+}
+
+.theme-light .effect-stack-panel .preset-btn,
+.theme-light .effect-stack-panel .clear-btn,
+.theme-light .effect-stack-panel .add-fx-btn {
+    background-color: #0066DD;
+    border-color: #0066DD;
+    color: #FFFFFF;
+}
+
+.theme-light .effect-stack-panel .preset-btn:hover,
+.theme-light .effect-stack-panel .clear-btn:hover,
+.theme-light .effect-stack-panel .add-fx-btn:hover {
+    background-color: #0059C1;
+    border-color: #0059C1;
+}

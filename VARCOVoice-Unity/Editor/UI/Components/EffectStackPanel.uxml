@@ -1,0 +1,29 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <!-- EffectStackPanel: Master-Detail layout for Effect Stack section -->
+    <ui:VisualElement name="effect-stack-panel" class="effect-stack-panel">
+        <!-- Header with Preset Controls -->
+        <ui:VisualElement name="stack-header" class="stack-header">
+            <ui:Label text="EFFECT STACK" class="section-title"/>
+            <ui:VisualElement class="header-spacer"/>
+            <ui:Button name="random-btn" text="Gacha" class="preset-btn" style="margin-right: 4px; background-color: rgba(153, 51, 255, 0.15); border-color: rgba(153, 51, 255, 0.3); color: white; -unity-font-style: bold;"/>
+            <ui:Button name="save-preset-btn" text="Save" class="preset-btn"/>
+            <ui:DropdownField name="load-preset-dropdown" class="preset-dropdown"/>
+            <ui:Button name="clear-btn" text="Clear" class="clear-btn"/>
+        </ui:VisualElement>
+        
+        <!-- Main Content: Master-Detail -->
+        <ui:VisualElement name="master-detail-container" class="master-detail-container">
+            <!-- Left: Chain Pills -->
+            <ui:VisualElement name="chain-sidebar" class="chain-sidebar">
+                <ui:Label text="CHAIN" class="sidebar-title"/>
+                <ui:ScrollView name="pill-list" class="pill-list"/>
+                <ui:Button name="add-fx-btn" text="+ Add FX" class="add-fx-btn"/>
+            </ui:VisualElement>
+            
+            <!-- Right: Effect Detail -->
+            <ui:VisualElement name="detail-panel-container" class="detail-panel-container">
+                <!-- EffectDetailPanel will be instantiated here -->
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

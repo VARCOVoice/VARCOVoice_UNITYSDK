@@ -1,0 +1,358 @@
+/* VarcoSettingsPanel.uss - Clean Foldout Design */
+
+/* Root Container */
+.settings-root {
+    flex-grow: 1;
+    flex-direction: column;
+    padding: 16px;
+    background-color: #1A1D24;
+}
+
+/* Hide scrollbar but keep scrolling */
+.settings-root .unity-scroll-view__content-viewport {
+    margin-right: 0;
+}
+
+.settings-root .unity-scroller--vertical {
+    width: 0;
+    opacity: 0;
+}
+
+.settings-root .unity-scroller--vertical .unity-base-slider__dragger {
+    width: 0;
+}
+
+.settings-root .unity-scroller--vertical .unity-base-slider__tracker {
+    width: 0;
+}
+
+/* Header */
+.settings-header {
+    flex-direction: row;
+    align-items: center;
+    height: 36px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.header-title {
+    font-size: 16px;
+    -unity-font-style: bold;
+    color: #FFFFFF;
+    margin-right: 8px;
+}
+
+.header-subtitle {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Status Card */
+.status-card {
+    flex-direction: column;
+    background-color: #22262E;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.status-row {
+    flex-direction: row;
+    align-items: center;
+    height: 20px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    margin-right: 8px;
+}
+
+.status-dot--connected {
+    background-color: #00D68F;
+}
+
+.status-dot--disconnected {
+    background-color: #FF4444;
+}
+
+.status-label {
+    font-size: 12px;
+    -unity-font-style: bold;
+    color: #FFFFFF;
+    flex-grow: 1;
+}
+
+.status-info {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.status-muted {
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: 4px;
+}
+
+/* Foldout Sections */
+.settings-foldout {
+    margin-bottom: 8px;
+    background-color: #22262E;
+    border-radius: 6px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.settings-foldout > .unity-foldout__toggle {
+    background-color: transparent;
+    padding: 10px 12px;
+    margin: 0;
+    border-radius: 6px 6px 0 0;
+}
+
+.settings-foldout > .unity-foldout__toggle:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.settings-foldout > .unity-foldout__toggle > .unity-foldout__text {
+    font-size: 12px;
+    -unity-font-style: bold;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.settings-foldout > .unity-foldout__toggle > .unity-foldout__checkmark {
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0.6);
+}
+
+.settings-foldout > .unity-foldout__content {
+    padding: 0;
+    margin: 0;
+}
+
+.foldout-content {
+    padding: 12px 16px;
+    padding-top: 8px;
+    border-top-width: 1px;
+    border-top-color: rgba(255, 255, 255, 0.06);
+}
+
+/* Field Styles */
+.field-flex {
+    margin-bottom: 8px;
+}
+
+.field-flex .unity-base-field__label {
+    min-width: 140px;
+    width: 140px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.7);
+    -unity-text-align: middle-left;
+}
+
+.field-flex .unity-base-field__input {
+    flex-grow: 1;
+    background-color: #1A1D24;
+    border-color: rgba(255, 255, 255, 0.12);
+    border-radius: 4px;
+    color: #FFFFFF;
+    height: 24px;
+    font-size: 11px;
+}
+
+.field-flex .unity-base-field__input:focus {
+    border-color: #006EFF;
+}
+
+/* Dropdown */
+.field-flex.unity-dropdown-field .unity-base-popup-field__input {
+    background-color: #1A1D24;
+    border-color: rgba(255, 255, 255, 0.12);
+    border-radius: 4px;
+    height: 24px;
+}
+
+/* Button Group */
+.button-group {
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+
+.button-group > Button {
+    margin-right: 6px;
+    margin-bottom: 4px;
+}
+
+/* Button Styles */
+.btn-sm {
+    height: 26px;
+    padding: 0 12px;
+    font-size: 10px;
+    background-color: #2A2E36;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.12);
+    border-radius: 4px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.btn-sm:hover {
+    background-color: #353A44;
+}
+
+.btn-sm.btn-primary {
+    background-color: #006EFF;
+    border-color: #006EFF;
+    color: #FFFFFF;
+}
+
+.btn-sm.btn-primary:hover {
+    background-color: #0058CC;
+}
+
+.btn-sm.btn-danger {
+    background-color: transparent;
+    border-color: #FF4444;
+    color: #FF4444;
+}
+
+.btn-sm.btn-danger:hover {
+    background-color: rgba(255, 68, 68, 0.15);
+}
+
+.btn-full {
+    height: 32px;
+    flex-grow: 1;
+    font-size: 11px;
+    background-color: #2A2E36;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.12);
+    border-radius: 4px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.btn-full.btn-primary {
+    background-color: #006EFF;
+    border-color: #006EFF;
+    color: #FFFFFF;
+}
+
+.btn-full.btn-primary:hover {
+    background-color: #0058CC;
+}
+
+/* Stats */
+.stats-grid {
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+}
+
+.stat-item {
+    flex-direction: column;
+    width: 90px;
+    margin-right: 8px;
+    margin-bottom: 6px;
+}
+
+.stat-label {
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 2px;
+}
+
+.stat-value {
+    font-size: 16px;
+    -unity-font-style: bold;
+    color: #FFFFFF;
+}
+
+.stat-value--accent {
+    color: #00D68F;
+}
+
+/* Inline Stats Row */
+.stats-row-inline {
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.stat-inline-label {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.5);
+    margin-right: 4px;
+}
+
+.stat-inline-value {
+    font-size: 11px;
+    -unity-font-style: bold;
+    color: #FFFFFF;
+    margin-right: 16px;
+}
+
+/* Progress Bar */
+.progress-container {
+    margin-bottom: 8px;
+}
+
+.mini-label {
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 4px;
+}
+
+.usage-bar,
+.hit-rate-bar {
+    height: 20px;
+}
+
+.usage-bar .unity-progress-bar__background,
+.hit-rate-bar .unity-progress-bar__background {
+    background-color: #1A1D24;
+    border-radius: 4px;
+}
+
+.usage-bar .unity-progress-bar__progress,
+.hit-rate-bar .unity-progress-bar__progress {
+    background-color: #00D68F;
+    border-radius: 4px;
+}
+
+.usage-bar .unity-progress-bar__title,
+.hit-rate-bar .unity-progress-bar__title {
+    color: #FFFFFF;
+    font-size: 10px;
+    -unity-text-align: middle-center;
+}
+
+/* Info Box */
+.info-box {
+    background-color: rgba(0, 110, 255, 0.08);
+    border-radius: 4px;
+    padding: 10px 12px;
+    margin-top: 8px;
+    border-left-width: 3px;
+    border-left-color: #006EFF;
+}
+
+.info-title {
+    font-size: 10px;
+    -unity-font-style: bold;
+    color: #006EFF;
+    margin-bottom: 4px;
+}
+
+.info-text {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Toggle */
+.field-flex.unity-toggle {
+    height: 24px;
+}

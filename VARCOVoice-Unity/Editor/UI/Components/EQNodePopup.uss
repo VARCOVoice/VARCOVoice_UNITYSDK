@@ -1,0 +1,150 @@
+/* EQ Node Popup Styles */
+
+.eq-node-popup {
+    width: 200px;
+    background-color: rgba(28, 32, 38, 0.95);
+    border-radius: 8px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.12);
+    padding: 10px;
+    position: absolute;
+    /* Shadow effect simulated via border/bg */
+}
+
+/* Rows */
+.popup-row {
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 6px;
+    height: 20px;
+}
+
+.filter-row {
+    margin-bottom: 10px;
+    height: 24px;
+}
+
+/* Filter Type Buttons */
+.filter-btn {
+    flex-grow: 1;
+    height: 24px;
+    margin: 0;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 10px;
+    -unity-font-style: bold;
+    padding: 0;
+}
+
+.filter-btn.left {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border-right-width: 0;
+}
+
+.filter-btn.center {
+    border-left-width: 0;
+    border-right-width: 0;
+    border-radius: 0;
+}
+
+.filter-btn.right {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-left-width: 0;
+}
+
+.filter-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #FFFFFF;
+}
+
+.filter-btn.selected {
+    background-color: rgba(0, 192, 160, 0.2); /* Varco Mint tint */
+    border-color: rgba(0, 192, 160, 0.5);
+    color: #00FFD0; /* Varco Mint Bright */
+}
+
+/* Labels */
+.popup-label {
+    width: 35px;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.5);
+    -unity-text-align: middle-left;
+}
+
+.popup-value {
+    width: 50px;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.9);
+    -unity-text-align: middle-right;
+    -unity-font-style: bold;
+}
+
+/* Custom Slider Styling */
+.popup-slider {
+    flex-grow: 1;
+    margin: 0 6px;
+    height: 16px;
+}
+
+.popup-slider .unity-base-slider__tracker {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    height: 3px;
+    margin-top: -1.5px;
+}
+
+.popup-slider .unity-base-slider__dragger {
+    width: 12px;
+    height: 12px;
+    border-radius: 6px;
+    background-color: #00FFD0; /* Varco Mint */
+    border-width: 0;
+    margin-top: -6px;
+}
+
+.popup-slider .unity-base-slider__dragger:hover {
+    background-color: #FFFFFF;
+    scale: 1.1;
+}
+
+/* Footer Hint */
+.popup-footer {
+    margin-top: 4px;
+    align-items: center;
+    opacity: 0.4;
+}
+
+.popup-hint {
+    font-size: 9px;
+    color: #FFFFFF;
+    -unity-font-style: italic;
+}
+
+/* Light Mode Overrides */
+.theme-light .eq-node-popup {
+    background-color: rgba(245, 245, 245, 0.95);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+.theme-light .popup-label { color: #666666; }
+.theme-light .popup-value { color: #222222; }
+.theme-light .filter-btn {
+    background-color: #E0E0E0;
+    border-color: #CCCCCC;
+    color: #666666;
+}
+.theme-light .filter-btn.selected {
+    background-color: rgba(0, 150, 255, 0.2);
+    border-color: rgba(0, 150, 255, 0.5);
+    color: #0066DD;
+}
+.theme-light .popup-slider .unity-base-slider__tracker {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+.theme-light .popup-slider .unity-base-slider__dragger {
+    background-color: #0066DD;
+}

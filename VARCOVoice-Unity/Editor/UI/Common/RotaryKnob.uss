@@ -1,0 +1,216 @@
+/* ==================== Rotary Knob Styles ==================== */
+
+/* 노브 컨테이너 */
+.rotary-knob {
+    width: 43px;
+    height: 47px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 노브 다이얼 컨테이너 */
+.rotary-knob__dial-container {
+    width: 32px;
+    height: 29px;
+    position: relative;
+}
+
+/* 노브 배경 트랙 (회색 아크) */
+.rotary-knob__track {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    border-radius: 50%;
+    background-color: var(--bg-control);
+    border-width: 0.5px;
+    border-color: var(--border-subtle);
+    -unity-background-image-tint-color: var(--bg-control);
+}
+
+/* 노브 활성 아크 (청록색 진행 표시) */
+.rotary-knob__progress-arc {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    border-radius: 50%;
+    /* SVG나 벡터 그래픽으로 렌더링 필요 */
+}
+
+/* 노브 인디케이터 라인 */
+.rotary-knob__indicator {
+    width: 3px;
+    height: 10px;
+    background-color: white;
+    position: absolute;
+    left: 50%;
+    top: 8%;
+    translate: -50% 0;
+    border-radius: 1px;
+}
+
+/* 노브 레이블 컨테이너 */
+.rotary-knob__label {
+    width: 43px;
+    height: 13px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 2px;
+    border-width: 0.5px;
+    border-color: var(--border-subtle);
+    background-color: var(--bg-control);
+    padding: 1px;
+}
+
+/* 레이블 텍스트 */
+.rotary-knob__label-text {
+    color: white;
+    font-size: 11px; /* Bumped from 10px */
+    -unity-font: url('project://database/Packages/com.varco.voice/Runtime/Google_Sans_Flex/GoogleSansFlex-VariableFont_GRAD,ROND,opsz,slnt,wdth,wght.ttf');
+    -unity-font-style: normal;
+    -unity-text-align: middle-center;
+    letter-spacing: -0.63px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/* ==================== 범위별 스타일 ==================== */
+
+/* Range 0: 기본 (소량 회전) */
+.rotary-knob--range-0 .rotary-knob__track {
+    /* 기본 스타일 */
+}
+
+.rotary-knob--range-0 .rotary-knob__progress-arc {
+    /* 작은 각도 아크 */
+}
+
+/* Range 1: 작은 범위 */
+.rotary-knob--range-1 .rotary-knob__progress-arc {
+    /* 약 45도 아크 */
+}
+
+/* Range 2: 중간 범위 */
+.rotary-knob--range-2 .rotary-knob__progress-arc {
+    /* 약 90도 아크 */
+}
+
+/* Range 3: 큰 범위 */
+.rotary-knob--range-3 .rotary-knob__progress-arc {
+    /* 약 135도 아크 */
+}
+
+/* Range 4: 최대 범위 */
+.rotary-knob--range-4 .rotary-knob__progress-arc {
+    /* 약 270도 아크 */
+}
+
+/* ==================== 상태별 스타일 ==================== */
+
+/* 호버 상태 */
+.rotary-knob:hover .rotary-knob__track {
+    border-color: var(--bg-control);
+}
+
+/* 활성/드래그 상태 */
+.rotary-knob:active .rotary-knob__track {
+    background-color: var(--bg-control);
+}
+
+/* 비활성화 상태 */
+.rotary-knob:disabled {
+    opacity: 0.5;
+}
+
+.rotary-knob:disabled .rotary-knob__label-text {
+    color: var(--text-dim);
+}
+
+/* ==================== 글로우 효과 (활성 아크) ==================== */
+
+/* 청록색 글로우 */
+.rotary-knob__progress-arc--active {
+    /* CSS 필터 대체: Unity에서는 커스텀 셰이더 필요 */
+    -unity-background-image-tint-color: var(--varco-blue);
+}
+
+/* ==================== 그림자 효과 ==================== */
+
+/* 외부 그림자 (드롭섀도우) */
+.rotary-knob__track--shadow {
+    /* Unity UI Toolkit은 box-shadow를 지원하지 않으므로 */
+    /* 커스텀 셰이더나 이미지로 구현 필요 */
+}
+
+/* 내부 그림자 */
+.rotary-knob__track--inner-shadow {
+    /* 커스텀 셰이더 필요 */
+}
+
+/* ==================== 특수 노브 타입 ==================== */
+
+/* ENV (Envelope) 노브 */
+.rotary-knob--env {
+    /* 엔벨로프 전용 스타일 */
+}
+
+/* LFO 노브 */
+.rotary-knob--lfo {
+    /* LFO 전용 스타일 */
+}
+
+/* 필터 노브 */
+.rotary-knob--filter {
+    /* 필터 전용 스타일 */
+}
+
+/* Macro 노브 (더 큰 사이즈) */
+.rotary-knob--macro {
+    width: 43px;
+    height: 52px;
+}
+
+.rotary-knob--macro .rotary-knob__label {
+    height: 13px;
+    margin-top: 4px;
+}
+
+/* ==================== 레이블 변형 ==================== */
+
+/* 볼드 레이블 */
+.rotary-knob__label-text--bold {
+    -unity-font: url('project://database/Packages/com.varco.voice/Runtime/Google_Sans_Flex/GoogleSansFlex-VariableFont_GRAD,ROND,opsz,slnt,wdth,wght.ttf');
+}
+
+/* 작은 레이블 */
+.rotary-knob__label-text--small {
+    font-size: 8px;
+}
+
+/* ==================== 유틸리티 클래스 ==================== */
+
+/* 레이블 숨김 */
+.rotary-knob--no-label .rotary-knob__label {
+    display: none;
+}
+
+/* 컴팩트 모드 */
+.rotary-knob--compact {
+    height: 40px;
+}
+
+
+/* Light Mode - Rotary Knob */
+.theme-light .rotary-knob__indicator {
+    background-color: #1B1F26;
+}
+
+.theme-light .rotary-knob__label {
+    background-color: #FFFFFF;
+    border-color: rgba(15, 23, 42, 0.2);
+}
+
+.theme-light .rotary-knob__label-text {
+    color: #1B1F26;
+}

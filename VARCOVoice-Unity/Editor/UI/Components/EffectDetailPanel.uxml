@@ -1,0 +1,29 @@
+﻿<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <!-- Effect Detail Panel: Right side container for the selected effect's full UI -->
+    <ui:VisualElement name="effect-detail-panel" class="effect-detail-panel">
+        <!-- Header -->
+        <ui:VisualElement name="detail-header" class="detail-header">
+            <ui:VisualElement name="header-left" class="header-left">
+                <ui:Label name="effect-title" text="Select an Effect" class="effect-title"/>
+                <ui:VisualElement name="preset-controls" class="preset-controls">
+                    <ui:Label text="Preset" class="preset-label"/>
+                    <ui:DropdownField name="preset-dropdown" class="detail-preset-dropdown"/>
+                    <ui:Button name="save-preset-btn" text="Save" tooltip="Save current settings as preset" class="header-btn save-btn"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="header-controls" class="header-controls">
+                <ui:Toggle name="bypass-toggle" label="Bypass" class="bypass-toggle"/>
+                <ui:Button name="reset-btn" text="Reset" class="header-btn"/>
+                <ui:Button name="popout-btn" text="Open" tooltip="Open in separate window" class="header-btn popout-btn"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Dynamic Content Area (effect-specific UI loaded here) -->
+        <ui:VisualElement name="detail-content" class="detail-content"/>
+
+        <!-- Empty State -->
+        <ui:VisualElement name="empty-state" class="empty-state">
+            <ui:Label text="Select an effect from the chain" class="empty-label"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

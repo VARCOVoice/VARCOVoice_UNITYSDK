@@ -1,0 +1,119 @@
+/* ==================== Sound Meter Styles ==================== */
+
+/* Meter Container */
+.soundmeter {
+    width: 248px;
+    height: 14px;
+    flex-direction: column;
+    gap: 2px;
+    position: relative;
+}
+
+/* Bars Container */
+.soundmeter__bars {
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    gap: 2px;
+}
+
+/* Individual Bar */
+.soundmeter__bar {
+    width: 213px;
+    height: 6px;
+    position: relative;
+}
+
+/* Background Track (Inactive) */
+.soundmeter__bar-bg {
+    width: 207px;
+    height: 6px;
+    background-color: var(--bg-elevated);
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 3px;
+}
+
+/* Warning Zone (Red/Orange - Right Side) */
+.soundmeter__bar-warning {
+    width: 26px;
+    height: 6px;
+    background-color: var(--bg-control);
+    position: absolute;
+    right: 0;
+    top: 0;
+    border-radius: 3px;
+}
+
+/* Active Fill (Normal - Cyan Gradient) */
+.soundmeter__bar-fill {
+    height: 6px;
+    background: linear-gradient(90deg, var(--varco-mint) 0%, var(--varco-mint) 100%);
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 3px;
+}
+
+/* Top Bar Fill (Normal State) */
+.soundmeter__bar--top .soundmeter__bar-fill {
+    width: 112px;
+}
+
+/* Bottom Bar Fill (Normal State) */
+.soundmeter__bar--bottom .soundmeter__bar-fill {
+    width: 129px;
+}
+
+/* Peak Indicator */
+.soundmeter__peak {
+    width: 2px;
+    height: 2px;
+    background-color: var(--varco-mint);
+    position: absolute;
+    top: 2px;
+    border-radius: 1px;
+}
+
+/* Top Bar Peak Position */
+.soundmeter__bar--top .soundmeter__peak {
+    left: 159px;
+}
+
+/* Bottom Bar Peak Position */
+.soundmeter__bar--bottom .soundmeter__peak {
+    left: 153px;
+}
+
+/* ==================== Distorted State ==================== */
+
+/* Distorted Container */
+.soundmeter--distorted .soundmeter__bar-fill {
+    background: linear-gradient(90deg, var(--color-warning) 17.19%, var(--color-error) 100%);
+}
+
+/* Distorted Top Bar Fill */
+.soundmeter--distorted .soundmeter__bar--top .soundmeter__bar-fill {
+    width: 179px;
+}
+
+/* Distorted Bottom Bar Fill */
+.soundmeter--distorted .soundmeter__bar--bottom .soundmeter__bar-fill {
+    width: 185px;
+}
+
+/* Distorted Peak Color */
+.soundmeter--distorted .soundmeter__peak {
+    background-color: var(--color-error);
+}
+
+/* Distorted Top Peak Position */
+.soundmeter--distorted .soundmeter__bar--top .soundmeter__peak {
+    left: 189px;
+}
+
+/* Distorted Bottom Peak Position */
+.soundmeter--distorted .soundmeter__bar--bottom .soundmeter__peak {
+    left: 200px;
+}

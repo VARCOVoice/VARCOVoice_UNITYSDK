@@ -1,0 +1,58 @@
+/* ==================== Preset Selector Styles ==================== */
+
+/* Container */
+.preset-selector {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 20px;
+}
+
+/* Navigation Buttons */
+.preset-selector__button {
+    width: 5px;
+    height: 9px;
+    background-color: transparent;
+    border-width: 0;
+    margin: 0;
+    padding: 0;
+    cursor: link;
+}
+
+/* Arrow Icons */
+.preset-selector__arrow {
+    width: 3.5px;
+    height: 7px;
+    border-left-width: 1.4px;
+    border-bottom-width: 1.4px;
+    border-color: var(--text-dim);
+}
+
+/* Left Arrow */
+.preset-selector__arrow--left {
+    rotate: 45deg;
+}
+
+/* Right Arrow */
+.preset-selector__arrow--right {
+    rotate: -135deg;
+}
+
+/* Preset Name Label */
+.preset-selector__label {
+    color: var(--text-secondary);
+    font-size: 13px;
+    -unity-font: url('project://database/Packages/com.varco.voice/Runtime/Google_Sans_Flex/GoogleSansFlex-VariableFont_GRAD,ROND,opsz,slnt,wdth,wght.ttf');
+    -unity-text-align: middle-center;
+    flex-grow: 1;
+}
+
+/* ==================== Button States ==================== */
+
+.preset-selector__button:hover .preset-selector__arrow {
+    border-color: var(--text-muted);
+}
+
+.preset-selector__button:active .preset-selector__arrow {
+    border-color: var(--varco-mint);
+}
