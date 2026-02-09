@@ -49,7 +49,7 @@
     height: 96px;
     left: 0;
     top: 0;
-    pointer-events: none;
+    picking-mode: ignore;
 }
 
 /* Up Icon */

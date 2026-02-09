@@ -5,7 +5,7 @@
     width: 74px;
     height: 28px;
     flex-direction: row;
-    gap: 6px;
+    /* gap: 6px; - Not supported in this context/version, layout handles it */
     justify-content: space-between;
     align-items: center;
 }
@@ -70,19 +70,19 @@
 /* Active/Pressed State */
 .plusminus__button:active,
 .plusminus__button--active {
-    background: linear-gradient(270deg, var(--bg-control) 4.41%, var(--bg-control) 100%);
+    background-image: linear-gradient(270deg, var(--bg-control) 4.41%, var(--bg-control) 100%);
 }
 
 /* Plus Button Active */
 .plusminus__button--plus:active,
 .plusminus__button--plus.plusminus__button--active {
-    background: linear-gradient(270deg, var(--bg-control) 4.41%, var(--bg-control) 100%);
+    background-image: linear-gradient(270deg, var(--bg-control) 4.41%, var(--bg-control) 100%);
 }
 
 /* Minus Button Active */
 .plusminus__button--minus:active,
 .plusminus__button--minus.plusminus__button--active {
-    background: linear-gradient(90deg, var(--bg-control) 5.88%, var(--bg-control) 98.53%);
+    background-image: linear-gradient(90deg, var(--bg-control) 5.88%, var(--bg-control) 98.53%);
 }
 
 /* ==================== Specific Button Overrides ==================== */

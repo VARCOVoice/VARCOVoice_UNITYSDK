@@ -5,7 +5,7 @@
     width: 248px;
     height: 14px;
     flex-direction: column;
-    gap: 2px;
+    /* gap: 2px; */
     position: relative;
 }
 
@@ -14,7 +14,7 @@
     width: 100%;
     height: 100%;
     flex-direction: column;
-    gap: 2px;
+    /* gap: 2px; */
 }
 
 /* Individual Bar */
@@ -49,11 +49,15 @@
 /* Active Fill (Normal - Cyan Gradient) */
 .soundmeter__bar-fill {
     height: 6px;
-    background: linear-gradient(90deg, var(--varco-mint) 0%, var(--varco-mint) 100%);
+    background-image: linear-gradient(90deg, var(--varco-mint) 0%, var(--varco-mint) 100%);
     position: absolute;
     left: 0;
     top: 0;
     border-radius: 3px;
+}
+
+.soundmeter__bar--top {
+    margin-bottom: 2px;
 }
 
 /* Top Bar Fill (Normal State) */
@@ -90,7 +94,7 @@
 
 /* Distorted Container */
 .soundmeter--distorted .soundmeter__bar-fill {
-    background: linear-gradient(90deg, var(--color-warning) 17.19%, var(--color-error) 100%);
+    background-image: linear-gradient(90deg, var(--color-warning) 17.19%, var(--color-error) 100%);
 }
 
 /* Distorted Top Bar Fill */
