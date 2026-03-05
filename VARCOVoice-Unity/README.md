@@ -11,7 +11,7 @@ VARCO Voice API를 Unity에서 사용하기 위한 공식 SDK입니다.
 
 ## Release Notes
 
-### v1.0.0
+### v0.0.1
 - Initial release with full TTS, FX Studio, and LipSync features.
 - 80+ DSP effects including EQ, Reverb, Compressor.
 - Automatic viseme data generation for lip sync.
@@ -39,7 +39,7 @@ VARCO Voice API를 Unity에서 사용하기 위한 공식 SDK입니다.
 
 ## Requirements / 요구 사항
 
-- Unity 2022.3 LTS or later / Unity 2022.3 LTS 이상
+- Unity 2022.3 LTS or later / Unity6 LTS 이상
 - UniTask, Burst, Mathematics (auto-installed / 자동 설치)
 
 ---
