@@ -56,7 +56,7 @@ VARCO Voice API를 Unity에서 평가 및 테스트하기 위한 프리뷰 SDK�
 특정 프리뷰 태그 또는 커밋 해시를 사용하여 호환성 문제를 방지하세요:
 
 ```
-https://github.com/VARCOVoice/VARCOVoice_UNITYSDK.git?path=/VARCOVoice-Unity#v1.0.0
+https://github.com/VARCOVoice/VARCOVoice_UNITYSDK.git?path=/VARCOVoice-Unity#v0.0.1
 ```
 
 `v0.1.0-preview`를 원하는 [릴리스 태그](https://github.com/VARCOVoice/VARCOVoice_UNITYSDK/releases)로 교체하거나 커밋 해시를 사용하세요:
