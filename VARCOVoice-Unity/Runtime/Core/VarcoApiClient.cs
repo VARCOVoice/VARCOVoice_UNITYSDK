@@ -562,90 +562,156 @@ namespace VARCOVoice
     {
         public static AudioClip ToAudioClip(byte[] wavData, string clipName = "clip")
         {
-            // Parse WAV header
-            int channels = BitConverter.ToInt16(wavData, 22);
-            int sampleRate = BitConverter.ToInt32(wavData, 24);
-            int bitsPerSample = BitConverter.ToInt16(wavData, 34);
-            
-#if VARCO_DEBUG
-
-#endif
-            
-            // Find data chunk
-            int dataOffset = 44;
-            for (int i = 36; i < wavData.Length - 4; i++)
+            if (wavData == null || wavData.Length < 44)
             {
-                if (wavData[i] == 'd' && wavData[i + 1] == 'a' && 
-                    wavData[i + 2] == 't' && wavData[i + 3] == 'a')
+                throw new VarcoBadRequestException("Invalid WAV data: header is too short.");
+            }
+
+            if (wavData[0] != 'R' || wavData[1] != 'I' || wavData[2] != 'F' || wavData[3] != 'F' ||
+                wavData[8] != 'W' || wavData[9] != 'A' || wavData[10] != 'V' || wavData[11] != 'E')
+            {
+                throw new VarcoBadRequestException("Invalid WAV data: RIFF/WAVE header not found.");
+            }
+
+            short audioFormat = 0;
+            int channels = 0;
+            int sampleRate = 0;
+            int bitsPerSample = 0;
+            int dataOffset = -1;
+            int dataLength = 0;
+
+            int chunkOffset = 12;
+            while (chunkOffset <= wavData.Length - 8)
+            {
+                int chunkSize = BitConverter.ToInt32(wavData, chunkOffset + 4);
+                if (chunkSize < 0)
                 {
-                    dataOffset = i + 8;
                     break;
                 }
-            }
-            
-            int dataLength = wavData.Length - dataOffset;
-            int bytesPerSample = bitsPerSample / 8;
-            int sampleCount = dataLength / bytesPerSample / channels;
-            
-#if VARCO_DEBUG
 
-#endif
-            
-            // Convert to float samples
-            var samples = new float[sampleCount * channels];
-            
+                int chunkDataOffset = chunkOffset + 8;
+                if (chunkDataOffset > wavData.Length)
+                {
+                    break;
+                }
+
+                int availableSize = wavData.Length - chunkDataOffset;
+                int readableSize = Math.Min(chunkSize, availableSize);
+
+                bool isFmt = wavData[chunkOffset] == 'f' && wavData[chunkOffset + 1] == 'm' &&
+                             wavData[chunkOffset + 2] == 't' && wavData[chunkOffset + 3] == ' ';
+                bool isData = wavData[chunkOffset] == 'd' && wavData[chunkOffset + 1] == 'a' &&
+                              wavData[chunkOffset + 2] == 't' && wavData[chunkOffset + 3] == 'a';
+
+                if (isFmt)
+                {
+                    if (readableSize < 16)
+                    {
+                        throw new VarcoBadRequestException("Invalid WAV data: fmt chunk is malformed.");
+                    }
+
+                    audioFormat = BitConverter.ToInt16(wavData, chunkDataOffset + 0);
+                    channels = BitConverter.ToInt16(wavData, chunkDataOffset + 2);
+                    sampleRate = BitConverter.ToInt32(wavData, chunkDataOffset + 4);
+                    bitsPerSample = BitConverter.ToInt16(wavData, chunkDataOffset + 14);
+                }
+                else if (isData)
+                {
+                    dataOffset = chunkDataOffset;
+                    dataLength = readableSize;
+                }
+
+                long nextChunkOffset = (long)chunkDataOffset + chunkSize + (chunkSize & 1);
+                if (nextChunkOffset <= chunkOffset || nextChunkOffset > int.MaxValue)
+                {
+                    break;
+                }
+                chunkOffset = (int)nextChunkOffset;
+            }
+
+            if (channels <= 0 || channels > 8)
+            {
+                throw new VarcoBadRequestException("Invalid WAV data: unsupported channel count.");
+            }
+
+            if (sampleRate <= 0 || sampleRate > 384000)
+            {
+                throw new VarcoBadRequestException("Invalid WAV data: unsupported sample rate.");
+            }
+
+            if (bitsPerSample != 8 && bitsPerSample != 16 && bitsPerSample != 32)
+            {
+                throw new VarcoBadRequestException("Invalid WAV data: unsupported bit depth.");
+            }
+
+            if (audioFormat != 1 && audioFormat != 3)
+            {
+                throw new VarcoBadRequestException("Invalid WAV data: unsupported PCM format.");
+            }
+
+            // 32-bit integer PCM is not supported in this decoder.
+            if (bitsPerSample == 32 && audioFormat != 3)
+            {
+                throw new VarcoBadRequestException("Invalid WAV data: only 32-bit float PCM is supported.");
+            }
+
+            if (dataOffset < 0 || dataLength <= 0)
+            {
+                throw new VarcoBadRequestException("Invalid WAV data: data chunk not found.");
+            }
+
+            int bytesPerSample = bitsPerSample / 8;
+            if (bytesPerSample <= 0)
+            {
+                throw new VarcoBadRequestException("Invalid WAV data: invalid bytes-per-sample.");
+            }
+
+            int sampleCount = dataLength / bytesPerSample / channels;
+            if (sampleCount <= 0)
+            {
+                throw new VarcoBadRequestException("Invalid WAV data: no audio samples.");
+            }
+
+            if (sampleCount > int.MaxValue / channels)
+            {
+                throw new VarcoBadRequestException("Invalid WAV data: sample count is too large.");
+            }
+
+            int totalSampleCount = sampleCount * channels;
+            var samples = new float[totalSampleCount];
+            int dataEnd = dataOffset + dataLength;
+
             if (bitsPerSample == 32)
             {
-                // 32-bit float PCM
-                for (int i = 0; i < samples.Length; i++)
+                for (int i = 0; i < totalSampleCount; i++)
                 {
                     int byteIndex = dataOffset + i * 4;
-                    if (byteIndex + 3 < wavData.Length)
-                    {
-                        samples[i] = BitConverter.ToSingle(wavData, byteIndex);
-                    }
+                    if (byteIndex + 3 >= dataEnd) break;
+                    samples[i] = BitConverter.ToSingle(wavData, byteIndex);
                 }
             }
             else if (bitsPerSample == 16)
             {
-                // 16-bit PCM
-                for (int i = 0; i < samples.Length; i++)
+                for (int i = 0; i < totalSampleCount; i++)
                 {
                     int byteIndex = dataOffset + i * 2;
-                    if (byteIndex + 1 < wavData.Length)
-                    {
-                        short sample = BitConverter.ToInt16(wavData, byteIndex);
-                        samples[i] = sample / 32768f;
-                    }
+                    if (byteIndex + 1 >= dataEnd) break;
+                    short sample = BitConverter.ToInt16(wavData, byteIndex);
+                    samples[i] = sample / 32768f;
                 }
             }
-            else if (bitsPerSample == 8)
+            else // 8-bit PCM
             {
-                // 8-bit PCM
-                for (int i = 0; i < samples.Length; i++)
+                for (int i = 0; i < totalSampleCount; i++)
                 {
                     int byteIndex = dataOffset + i;
-                    if (byteIndex < wavData.Length)
-                    {
-                        samples[i] = (wavData[byteIndex] - 128) / 128f;
-                    }
+                    if (byteIndex >= dataEnd) break;
+                    samples[i] = (wavData[byteIndex] - 128) / 128f;
                 }
             }
-            
-            // Check sample values
-            float maxSample = 0f;
-            for (int i = 0; i < Mathf.Min(samples.Length, 1000); i++)
-            {
-                if (Mathf.Abs(samples[i]) > maxSample) maxSample = Mathf.Abs(samples[i]);
-            }
-#if VARCO_DEBUG
 
-#endif
-            
-            // Create AudioClip
             var clip = AudioClip.Create(clipName, sampleCount, channels, sampleRate, false);
             clip.SetData(samples, 0);
-            
             return clip;
         }
     }

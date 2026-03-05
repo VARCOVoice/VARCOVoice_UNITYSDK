@@ -10,19 +10,6 @@ namespace VARCOVoice.Tests
     [TestFixture]
     public class AudioCacheManagerTests
     {
-        private AudioCacheManager _cache;
-        
-        [SetUp]
-        public void Setup()
-        {
-            // We can't use the singleton in tests, so we'll test the key generation
-        }
-        
-        [TearDown]
-        public void TearDown()
-        {
-        }
-        
         [Test]
         public void GenerateKey_SameInputs_ReturnsSameKey()
         {
@@ -35,8 +22,8 @@ namespace VARCOVoice.Tests
             int quality = 8;
             
             // Act
-            string key1 = cache.GenerateKey(text, voice, speed, pitch, quality);
-            string key2 = cache.GenerateKey(text, voice, speed, pitch, quality);
+            string key1 = cache.GenerateKey(text, voice, "korean", speed, pitch, quality);
+            string key2 = cache.GenerateKey(text, voice, "korean", speed, pitch, quality);
             
             // Assert
             Assert.AreEqual(key1, key2);
@@ -49,8 +36,8 @@ namespace VARCOVoice.Tests
             var cache = AudioCacheManager.Instance;
             
             // Act
-            string key1 = cache.GenerateKey("Hello", "멀더", 1.0f, 1.0f, 8);
-            string key2 = cache.GenerateKey("World", "멀더", 1.0f, 1.0f, 8);
+            string key1 = cache.GenerateKey("Hello", "멀더", "korean", 1.0f, 1.0f, 8);
+            string key2 = cache.GenerateKey("World", "멀더", "korean", 1.0f, 1.0f, 8);
             
             // Assert
             Assert.AreNotEqual(key1, key2);
@@ -63,8 +50,8 @@ namespace VARCOVoice.Tests
             var cache = AudioCacheManager.Instance;
             
             // Act
-            string key1 = cache.GenerateKey("Test", "멀더", 1.0f, 1.0f, 8);
-            string key2 = cache.GenerateKey("Test", "수혜", 1.0f, 1.0f, 8);
+            string key1 = cache.GenerateKey("Test", "멀더", "korean", 1.0f, 1.0f, 8);
+            string key2 = cache.GenerateKey("Test", "수혜", "korean", 1.0f, 1.0f, 8);
             
             // Assert
             Assert.AreNotEqual(key1, key2);
@@ -77,25 +64,25 @@ namespace VARCOVoice.Tests
             var cache = AudioCacheManager.Instance;
             
             // Act
-            string key = cache.GenerateKey("Test", "Voice", 1.0f, 1.0f, 8);
+            string key = cache.GenerateKey("Test", "Voice", "korean", 1.0f, 1.0f, 8);
             
             // Assert
             Assert.AreEqual(32, key.Length);
         }
         
         [Test]
-        public void GetStatistics_ReturnsValidStats()
+        public void GetStats_ReturnsValidStats()
         {
             // Arrange
             var cache = AudioCacheManager.Instance;
             
             // Act
-            var stats = cache.GetStatistics();
+            var stats = cache.GetStats();
             
             // Assert
-            Assert.GreaterOrEqual(stats.MemoryEntries, 0);
-            Assert.GreaterOrEqual(stats.MaxMemoryBytes, 0);
-            Assert.IsFalse(string.IsNullOrEmpty(stats.DiskCachePath));
+            Assert.GreaterOrEqual(stats.MemoryCacheCount, 0);
+            Assert.GreaterOrEqual(stats.MaxSizeBytes, 0);
+            Assert.IsFalse(string.IsNullOrEmpty(stats.CacheDirectory));
         }
     }
     

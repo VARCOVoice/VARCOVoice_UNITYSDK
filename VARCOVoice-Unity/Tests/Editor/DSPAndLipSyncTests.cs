@@ -12,10 +12,10 @@ namespace VARCOVoice.Tests
     public class DSPEffectTests
     {
         [Test]
-        public void PitchShiftEffect_ZeroSemitones_NoChange()
+        public void PitchShift_ZeroPitch_NoChange()
         {
             // Arrange
-            var effect = new PitchShiftEffect { Semitones = 0f };
+            var effect = new PitchShift { Pitch = 0f };
             float[] data = { 0.5f, -0.5f, 0.3f, -0.3f };
             float[] original = (float[])data.Clone();
             
@@ -30,10 +30,10 @@ namespace VARCOVoice.Tests
         }
         
         [Test]
-        public void GranularPitchShift_ZeroSemitones_NoChange()
+        public void PitchShift_Disabled_NoChange()
         {
             // Arrange
-            var effect = new GranularPitchShift { Pitch = 0f };
+            var effect = new PitchShift { Pitch = 7f, Enabled = false };
             float[] data = { 0.5f, -0.5f, 0.3f, -0.3f };
             float[] original = (float[])data.Clone();
             
@@ -48,10 +48,10 @@ namespace VARCOVoice.Tests
         }
         
         [Test]
-        public void ReverbEffect_OffPreset_NoChange()
+        public void FDNReverb_DryMix_NoChange()
         {
             // Arrange
-            var effect = new ReverbEffect { Preset = ReverbPreset.Off };
+            var effect = new FDNReverb { Mix = 0f };
             float[] data = { 0.5f, -0.5f, 0.3f, -0.3f };
             float[] original = (float[])data.Clone();
             

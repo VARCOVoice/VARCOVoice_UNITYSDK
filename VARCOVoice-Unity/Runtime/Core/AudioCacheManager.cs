@@ -14,6 +14,9 @@ namespace VARCOVoice
     /// </summary>
     public class AudioCacheManager
     {
+        private const string CacheEnabledPrefKey = "VARCOVoice_CacheEnabled";
+        private const string MaxCacheSizePrefKey = "VARCOVoice_MaxCacheSize";
+
         #region Singleton
         
         private static AudioCacheManager _instance;
@@ -61,6 +64,7 @@ namespace VARCOVoice
             _cacheDirectory = Path.Combine(Application.persistentDataPath, "VARCOVoice", "Cache");
             _indexPath = Path.Combine(_cacheDirectory, "index.json");
             
+            ApplyInitialSettings();
             EnsureDirectoryExists();
             LoadIndex();
         }
@@ -246,22 +250,22 @@ namespace VARCOVoice
         /// Preload audio for specific text/voice combination
         /// </summary>
         public async UniTask PreloadAsync(string text, string voice, string language, 
-            float speed = 1f, float pitch = 1f, int qualityLevel = 2)
+            float speed = 1f, float pitch = 1f, int qualityLevel = -1)
         {
-            string key = GenerateKey(text, voice, language, speed, pitch, qualityLevel);
+            var config = VarcoConfig.Instance;
+            if (config == null) return;
+
+            int resolvedQuality = qualityLevel > 0 ? Mathf.Clamp(qualityLevel, 8, 20) : config.QualityLevel;
+            string key = GenerateKey(text, voice, language, speed, pitch, resolvedQuality);
             
             if (TryGet(key, out _))
             {
                 return; // Already cached
             }
             
-            // Use VarcoApiClient to synthesize
-            var config = VarcoConfig.Instance;
-            if (config == null) return;
-            
             var client = new VarcoApiClient(config);
             var clip = await client.SynthesizeAsync(text, voice, 
-                LanguageExtensions.FromApiString(language), speed, pitch, qualityLevel);
+                LanguageExtensions.FromApiString(language), speed, pitch, resolvedQuality);
             
             if (clip != null)
             {
@@ -368,6 +372,29 @@ namespace VARCOVoice
         #endregion
         
         #region Private Methods
+
+        private void ApplyInitialSettings()
+        {
+            var config = VarcoConfig.Instance;
+            if (config != null)
+            {
+                Enabled = config.EnableCache;
+                MaxCacheSizeBytes = Mathf.Max(1, config.MaxCacheSizeMB) * 1024L * 1024L;
+            }
+
+#if UNITY_EDITOR
+            if (UnityEditor.EditorPrefs.HasKey(CacheEnabledPrefKey))
+            {
+                Enabled = UnityEditor.EditorPrefs.GetBool(CacheEnabledPrefKey, Enabled);
+            }
+
+            if (UnityEditor.EditorPrefs.HasKey(MaxCacheSizePrefKey))
+            {
+                float sizeMb = UnityEditor.EditorPrefs.GetFloat(MaxCacheSizePrefKey, MaxCacheSizeBytes / (1024f * 1024f));
+                MaxCacheSizeBytes = (long)(Mathf.Max(1f, sizeMb) * 1024f * 1024f);
+            }
+#endif
+        }
         
         private void EnsureDirectoryExists()
         {

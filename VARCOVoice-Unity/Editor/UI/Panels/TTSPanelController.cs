@@ -847,8 +847,9 @@ namespace VARCOVoice.Editor
                 {
                     if (child is Button btn)
                     {
+                        string buttonText = btn.text ?? string.Empty;
                         bool matches = string.IsNullOrEmpty(filter) || 
-                                       btn.text.ToLower().Contains(filter);
+                                       buttonText.IndexOf(filter, System.StringComparison.OrdinalIgnoreCase) >= 0;
                         btn.style.display = matches ? DisplayStyle.Flex : DisplayStyle.None;
                     }
                 }
@@ -861,8 +862,9 @@ namespace VARCOVoice.Editor
                 {
                     if (child is Button btn)
                     {
+                        string buttonText = btn.text ?? string.Empty;
                         bool matches = string.IsNullOrEmpty(filter) || 
-                                       btn.text.ToLower().Contains(filter);
+                                       buttonText.IndexOf(filter, System.StringComparison.OrdinalIgnoreCase) >= 0;
                         btn.style.display = matches ? DisplayStyle.Flex : DisplayStyle.None;
                     }
                 }
@@ -928,19 +930,21 @@ namespace VARCOVoice.Editor
         {
             if (_voiceList == null) return;
             
-            string searchText = _voiceSearchField?.value?.ToLower() ?? "";
+            string searchText = _voiceSearchField?.value ?? "";
             
             // Filter the data list directly
             _filteredVoices = new List<VarcoVoice>();
             
             foreach (var voice in _voices)
             {
+                if (voice == null) continue;
                 bool matches = true;
                 
                 // Search filter
                 if (!string.IsNullOrEmpty(searchText))
                 {
-                     matches = matches && voice.SpeakerName.ToLower().Contains(searchText);
+                     string speakerName = voice?.SpeakerName ?? string.Empty;
+                     matches = matches && speakerName.IndexOf(searchText, System.StringComparison.OrdinalIgnoreCase) >= 0;
                 }
                 
                 // Gender filter

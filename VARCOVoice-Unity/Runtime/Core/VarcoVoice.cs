@@ -186,6 +186,8 @@ namespace VARCOVoice
         
         public bool Matches(VarcoVoice voice)
         {
+            if (voice == null) return false;
+
             if (Gender.HasValue && voice.Gender != Gender.Value)
                 return false;
             
@@ -200,10 +202,14 @@ namespace VARCOVoice
             
             if (!string.IsNullOrEmpty(SearchText))
             {
-                var lowerSearch = SearchText.ToLower();
-                if (!voice.SpeakerName.ToLower().Contains(lowerSearch) &&
-                    !voice.Description.ToLower().Contains(lowerSearch) &&
-                    (voice.SaasName == null || !voice.SaasName.ToLower().Contains(lowerSearch)))
+                bool matchesSpeaker = !string.IsNullOrEmpty(voice.SpeakerName) &&
+                                      voice.SpeakerName.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0;
+                bool matchesDescription = !string.IsNullOrEmpty(voice.Description) &&
+                                          voice.Description.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0;
+                bool matchesSaas = !string.IsNullOrEmpty(voice.SaasName) &&
+                                   voice.SaasName.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0;
+
+                if (!matchesSpeaker && !matchesDescription && !matchesSaas)
                     return false;
             }
             

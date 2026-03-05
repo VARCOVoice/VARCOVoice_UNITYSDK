@@ -55,7 +55,7 @@ namespace VARCOVoice
             {
 #if UNITY_EDITOR
                 // In Editor, prefer EditorPrefs over serialized field
-                string editorKey = UnityEditor.EditorPrefs.GetString("VARCOVoice_ApiKey", "");
+                string editorKey = UnityEditor.EditorPrefs.GetString(API_KEY_PREF, "");
                 if (!string.IsNullOrEmpty(editorKey))
                     return editorKey;
 #endif
@@ -121,12 +121,24 @@ namespace VARCOVoice
         }
         
 #if UNITY_EDITOR
+        private const string API_KEY_PREF = "VARCOVoice_ApiKey";
+
         /// <summary>
         /// Set API key from editor (stored in EditorPrefs for security)
         /// </summary>
         public void SetApiKeyFromEditor(string key)
         {
-            apiKey = key;
+            if (string.IsNullOrEmpty(key))
+            {
+                UnityEditor.EditorPrefs.DeleteKey(API_KEY_PREF);
+            }
+            else
+            {
+                UnityEditor.EditorPrefs.SetString(API_KEY_PREF, key);
+            }
+
+            // Keep project assets free of API keys.
+            apiKey = string.Empty;
             UnityEditor.EditorUtility.SetDirty(this);
         }
 #endif

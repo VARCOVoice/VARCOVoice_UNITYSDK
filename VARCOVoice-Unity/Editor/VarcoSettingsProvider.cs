@@ -13,6 +13,8 @@ namespace VARCOVoice.Editor
     {
         private const string SETTINGS_PATH = "Project/VARCO Voice";
         private const string API_KEY_PREF = "VARCOVoice_ApiKey";
+        private const string CACHE_ENABLED_PREF = "VARCOVoice_CacheEnabled";
+        private const string CACHE_SIZE_PREF = "VARCOVoice_MaxCacheSize";
         
         private SerializedObject _serializedConfig;
         private VarcoConfig _config;
@@ -74,11 +76,15 @@ namespace VARCOVoice.Editor
             if (uxml == null)
             {
                 // Fallback to local path
-                var localPath = AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("VarcoSettingsPanel t:VisualTreeAsset")[0]);
-                uxml = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(localPath);
-                
-                var ussLocalPath = localPath.Replace(".uxml", ".uss");
-                uss = AssetDatabase.LoadAssetAtPath<StyleSheet>(ussLocalPath);
+                var guids = AssetDatabase.FindAssets("VarcoSettingsPanel t:VisualTreeAsset");
+                if (guids != null && guids.Length > 0)
+                {
+                    var localPath = AssetDatabase.GUIDToAssetPath(guids[0]);
+                    uxml = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(localPath);
+
+                    var ussLocalPath = localPath.Replace(".uxml", ".uss");
+                    uss = AssetDatabase.LoadAssetAtPath<StyleSheet>(ussLocalPath);
+                }
             }
             
             if (uxml != null)
@@ -237,7 +243,7 @@ namespace VARCOVoice.Editor
                 cacheToggle.RegisterValueChangedCallback(evt =>
                 {
                     AudioCacheManager.Instance.Enabled = evt.newValue;
-                    EditorPrefs.SetBool("VARCOVoice_CacheEnabled", evt.newValue);
+                    EditorPrefs.SetBool(CACHE_ENABLED_PREF, evt.newValue);
                 });
             }
             
@@ -249,7 +255,7 @@ namespace VARCOVoice.Editor
                 cacheSizeSlider.RegisterValueChangedCallback(evt =>
                 {
                     AudioCacheManager.Instance.MaxCacheSizeBytes = evt.newValue * 1024L * 1024L;
-                    EditorPrefs.SetFloat("VARCOVoice_MaxCacheSize", evt.newValue);
+                    EditorPrefs.SetFloat(CACHE_SIZE_PREF, evt.newValue);
                     RefreshUI();
                 });
             }
@@ -355,11 +361,43 @@ namespace VARCOVoice.Editor
             {
                 _serializedConfig = new SerializedObject(_config);
             }
+
+            ApplyCacheSettings();
+        }
+
+        private void ApplyCacheSettings()
+        {
+            var cache = AudioCacheManager.Instance;
+            if (EditorPrefs.HasKey(CACHE_ENABLED_PREF))
+            {
+                cache.Enabled = EditorPrefs.GetBool(CACHE_ENABLED_PREF, cache.Enabled);
+            }
+            else if (_config != null)
+            {
+                cache.Enabled = _config.EnableCache;
+            }
+
+            if (EditorPrefs.HasKey(CACHE_SIZE_PREF))
+            {
+                float sizeMb = EditorPrefs.GetFloat(CACHE_SIZE_PREF, cache.MaxCacheSizeBytes / (1024f * 1024f));
+                cache.MaxCacheSizeBytes = (long)(Mathf.Max(1f, sizeMb) * 1024f * 1024f);
+            }
+            else if (_config != null)
+            {
+                cache.MaxCacheSizeBytes = Mathf.Max(1, _config.MaxCacheSizeMB) * 1024L * 1024L;
+            }
         }
         
         private void SaveApiKey()
         {
-            EditorPrefs.SetString(API_KEY_PREF, _apiKey);
+            if (string.IsNullOrEmpty(_apiKey))
+            {
+                EditorPrefs.DeleteKey(API_KEY_PREF);
+            }
+            else
+            {
+                EditorPrefs.SetString(API_KEY_PREF, _apiKey);
+            }
             
             if (_config != null)
             {
@@ -370,7 +408,12 @@ namespace VARCOVoice.Editor
             EditorUtility.DisplayDialog("VARCO Voice", "API Key saved successfully!", "OK");
         }
         
-        private async void TestConnection()
+        private void TestConnection()
+        {
+            _ = TestConnectionAsync();
+        }
+
+        private async System.Threading.Tasks.Task TestConnectionAsync()
         {
             if (string.IsNullOrEmpty(_apiKey))
             {
@@ -379,32 +422,42 @@ namespace VARCOVoice.Editor
             }
             
             EditorUtility.DisplayProgressBar("VARCO Voice", "Testing connection...", 0.5f);
+            VarcoConfig tempConfig = null;
             
             try
             {
-                var tempConfig = ScriptableObject.CreateInstance<VarcoConfig>();
+                tempConfig = ScriptableObject.CreateInstance<VarcoConfig>();
                 tempConfig.SetApiKeyFromEditor(_apiKey);
                 
                 var client = new VarcoApiClient(tempConfig);
                 var voices = await client.GetVoicesAsync();
                 
                 _isConnected = true;
-                _voiceCount = voices.Count;
+                _voiceCount = voices?.Count ?? 0;
                 _lastSyncTime = DateTime.Now.ToString("HH:mm:ss");
                 
-                EditorUtility.ClearProgressBar();
-                EditorUtility.DisplayDialog("VARCO Voice", $"Connection successful!\nFound {voices.Count} voices.", "OK");
-                
-                UnityEngine.Object.DestroyImmediate(tempConfig);
-                RefreshUI();
+                EditorUtility.DisplayDialog("VARCO Voice", $"Connection successful!\nFound {_voiceCount} voices.", "OK");
             }
             catch (VarcoException ex)
             {
                 _isConnected = false;
                 _voiceCount = 0;
                 
-                EditorUtility.ClearProgressBar();
                 EditorUtility.DisplayDialog("VARCO Voice", $"Connection failed:\n{ex.Message}", "OK");
+            }
+            catch (Exception ex)
+            {
+                _isConnected = false;
+                _voiceCount = 0;
+                EditorUtility.DisplayDialog("VARCO Voice", $"Unexpected error:\n{ex.Message}", "OK");
+            }
+            finally
+            {
+                EditorUtility.ClearProgressBar();
+                if (tempConfig != null)
+                {
+                    UnityEngine.Object.DestroyImmediate(tempConfig);
+                }
                 RefreshUI();
             }
         }
@@ -419,7 +472,6 @@ namespace VARCOVoice.Editor
             }
             
             var config = ScriptableObject.CreateInstance<VarcoConfig>();
-            config.SetApiKeyFromEditor(_apiKey);
             
             AssetDatabase.CreateAsset(config, path);
             AssetDatabase.SaveAssets();

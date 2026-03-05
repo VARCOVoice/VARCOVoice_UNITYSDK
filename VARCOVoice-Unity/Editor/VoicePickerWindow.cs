@@ -301,14 +301,17 @@ namespace VARCOVoice.Editor
             
             foreach (var voice in _voices)
             {
+                if (voice == null) continue;
+                string speakerName = voice.SpeakerName ?? string.Empty;
+
                 // Tab filter
                 switch (_currentTab)
                 {
                     case FilterTab.Favorites:
-                        if (!VoiceFavorites.IsFavorite(voice.SpeakerName)) continue;
+                        if (!VoiceFavorites.IsFavorite(speakerName)) continue;
                         break;
                     case FilterTab.Recent:
-                        if (!VoiceFavorites.RecentVoices.Contains(voice.SpeakerName)) continue;
+                        if (!VoiceFavorites.RecentVoices.Contains(speakerName)) continue;
                         break;
                     case FilterTab.Male:
                         if (voice.Gender != Gender.Male) continue;
@@ -321,7 +324,7 @@ namespace VARCOVoice.Editor
                 // Search filter
                 if (!string.IsNullOrEmpty(_searchText))
                 {
-                    if (!voice.SpeakerName.ToLower().Contains(_searchText.ToLower()))
+                    if (speakerName.IndexOf(_searchText, System.StringComparison.OrdinalIgnoreCase) < 0)
                     {
                         continue;
                     }
