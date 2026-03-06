@@ -1,75 +1,193 @@
-﻿# VARCO Voice Unity SDK
+[![Status](https://img.shields.io/badge/Status-Preview-orange)](https://github.com/VARCOVoice/VARCOVoice_UNITYSDK) [![Unity](https://img.shields.io/badge/Unity-2022.3+-black?logo=unity)](https://unity.com) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE) [![GitHub release](https://img.shields.io/github/v/release/VARCOVoice/VARCOVoice_UNITYSDK?include_prereleases)](https://github.com/VARCOVoice/VARCOVoice_UNITYSDK/releases) [![Build](https://github.com/VARCOVoice/VARCOVoice_UNITYSDK/actions/workflows/validate.yml/badge.svg)](https://github.com/VARCOVoice/VARCOVoice_UNITYSDK/actions/workflows/validate.yml)
 
-[![Status](https://img.shields.io/badge/Status-Preview-orange)](https://github.com/VARCOVoice/VARCOVoice_UNITYSDK)
-[![Unity](https://img.shields.io/badge/Unity-2022.3+-black?logo=unity)](https://unity.com)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
-[![GitHub release](https://img.shields.io/github/v/release/VARCOVoice/VARCOVoice_UNITYSDK?include_prereleases)](https://github.com/VARCOVoice/VARCOVoice_UNITYSDK/releases)
-[![Build](https://github.com/VARCOVoice/VARCOVoice_UNITYSDK/actions/workflows/validate.yml/badge.svg)](https://github.com/VARCOVoice/VARCOVoice_UNITYSDK/actions/workflows/validate.yml)
 
-Preview Unity SDK for the VARCO Voice API.
+# VARCO Voice Unity SDK
 
-## What's New in v0.0.2
+VARCO Voice API를 Unity 프로젝트에서 사용할 수 있도록 제공되는 Unity SDK (Preview) 입니다.
 
-- FX Studio `Export` now writes a single baked WAV file with the active effect chain and Master EQ applied.
-- Fixed editor window lifecycle issues that could duplicate callbacks, theme subscriptions, and delayed UI actions after rebuilds.
-- Fixed Export panel drag-and-drop callback accumulation.
-- Unified package and editor-facing version strings to `v0.0.2`.
+TTS 생성, DSP 처리, Lip Sync 데이터 생성, 배치 워크플로우 등을 Unity Editor 내부에서 사용할 수 있습니다.
 
-## Features
+---
 
-- TTS generation with Standard and Lite voice models
-- FX Studio with a large DSP effect library
-- Lip Sync data generation from exported clips
-- Voice Picker and Voice Comparison tools
-- Batch TTS generation workflow
-- Local caching for repeated synthesis requests
+# v0.0.2 업데이트
 
-## Requirements
+* FX Studio Export 개선
 
-- Unity 2022.3 LTS or later
-- Dependencies installed through UPM:
-  - `com.unity.nuget.newtonsoft-json`
-  - `com.unity.burst`
-  - `com.unity.mathematics`
-  - `com.unity.collections`
-  - `com.cysharp.unitask`
+  * 현재 적용된 Effect Chain + Master EQ가 반영된 단일 WAV 파일 생성
 
-## Installation
+* Unity Editor 안정성 개선
 
-Recommended: pin the package to the `v0.0.2` tag.
+  * Editor rebuild 이후 발생하던
 
-```text
-https://github.com/VARCOVoice/VARCOVoice_UNITYSDK.git?path=/VARCOVoice-Unity#v0.0.2
-```
+    * callback 중복 등록
+    * theme subscription 중복
+    * delayed UI action 중복 실행
+      문제 수정
 
-Latest `main` branch:
+* Export 패널 Drag & Drop 버그 수정
 
-```text
-https://github.com/VARCOVoice/VARCOVoice_UNITYSDK.git?path=/VARCOVoice-Unity
-```
+  * callback 누적 문제 해결
 
-## Quick Start
+* 패키지 버전 통합
 
-1. Open `Window > VARCO Voice > Main Window`.
-2. Open `Settings > API Settings` and enter your API key.
-3. Enter text and click `Generate`.
-4. Send the result to FX Studio if you want DSP processing.
-5. In FX Studio, click `Export` to save a baked WAV with the current chain and Master EQ applied.
-6. Use the Export panel to assign clips and viseme data to `VarcoDialoguePlayer` slots.
+  * SDK 및 Editor UI 표시 버전 → v0.0.2
 
-## Repository Layout
+---
 
-- [`VARCOVoice-Unity`](VARCOVoice-Unity): Unity package contents
-- [`.github`](.github): issue templates and CI workflow
-- [`CHANGELOG.md`](CHANGELOG.md): release history
-- [`CONTRIBUTING.md`](CONTRIBUTING.md): contribution guide
-- [`SECURITY.md`](SECURITY.md): security reporting policy
+# 주요 기능
 
-## Support
+## TTS 생성
 
-- General issues: https://github.com/VARCOVoice/VARCOVoice_UNITYSDK/issues
-- Security reports: `varcovoice.ncsoft@gmail.com`
+* Standard Voice Model
+* Lite Voice Model
 
-## License
+Unity Editor에서 텍스트 입력 후 음성 생성 가능
 
-Licensed under the [Apache License 2.0](LICENSE).
+---
+
+## FX Studio
+
+Unity 내부 DSP 처리 툴
+
+지원 기능
+
+* Effect Chain
+* Master EQ
+* Export baked audio
+
+---
+
+## Lip Sync 데이터 생성
+
+Export된 음성에서 Viseme 데이터 생성
+
+사용처
+
+* 캐릭터 Lip Sync
+* Dialogue 시스템
+
+---
+
+## Voice Tools
+
+Voice 탐색 및 비교 도구 제공
+
+* Voice Picker
+* Voice Comparison
+
+---
+
+## Batch TTS Workflow
+
+대량 음성 생성 자동화 지원
+
+---
+
+## Local Cache
+
+동일한 TTS 요청 반복 시
+
+* API 호출 최소화
+* 캐시된 결과 재사용
+
+---
+
+# 요구 사항
+
+## Unity
+
+Unity 2022.3 LTS 이상
+
+## UPM Dependency
+
+* com.unity.nuget.newtonsoft-json
+* com.unity.burst
+* com.unity.mathematics
+* com.unity.collections
+* com.cysharp.unitask
+
+---
+
+# 설치
+
+권장: Release Tag 고정 설치
+
+[https://github.com/VARCOVoice/VARCOVoice_UNITYSDK.git?path=/VARCOVoice-Unity#v0.0.2](https://github.com/VARCOVoice/VARCOVoice_UNITYSDK.git?path=/VARCOVoice-Unity#v0.0.2)
+
+최신 버전 사용
+
+[https://github.com/VARCOVoice/VARCOVoice_UNITYSDK.git?path=/VARCOVoice-Unity](https://github.com/VARCOVoice/VARCOVoice_UNITYSDK.git?path=/VARCOVoice-Unity)
+
+Unity Package Manager → Git URL로 설치
+
+---
+
+# Quick Start
+
+1. Unity 메뉴에서 SDK 실행
+
+Window → VARCO Voice → Main Window
+
+2. API Key 설정
+
+Settings → API Settings
+
+3. TTS 생성
+
+Text 입력 → Generate
+
+4. DSP 처리 (선택)
+
+Send to FX Studio
+
+5. WAV Export
+
+FX Studio → Export
+
+현재 Effect Chain + Master EQ가 적용된 baked WAV 생성
+
+6. Dialogue Player 연결
+
+Export 패널에서
+
+* Audio Clip
+* Viseme Data
+
+를 VarcoDialoguePlayer 슬롯에 할당
+
+---
+
+# Repository 구조
+
+VARCOVoice-Unity
+Unity SDK 패키지
+
+.github
+Issue Template 및 CI Workflow
+
+CHANGELOG.md
+Release 기록
+
+CONTRIBUTING.md
+기여 가이드
+
+SECURITY.md
+보안 정책
+
+---
+
+# Support
+
+Issue
+
+[https://github.com/VARCOVoice/VARCOVoice_UNITYSDK/issues](https://github.com/VARCOVoice/VARCOVoice_UNITYSDK/issues)
+
+Security
+
+[varcovoice.ncsoft@gmail.com](mailto:varcovoice.ncsoft@gmail.com)
+
+---
+
+# License
+
+Apache License 2.0
