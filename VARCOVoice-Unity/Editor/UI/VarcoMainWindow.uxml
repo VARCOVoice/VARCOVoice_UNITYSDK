@@ -14,7 +14,7 @@
         <engine:VisualElement name="header" class="header">
             <engine:VisualElement class="header__logo-section">
                 <engine:Label name="title" class="header__title" text="VARCO VOICE" />
-                <engine:Label name="version" class="header__version" text="beta 0.0.1" />
+                <engine:Label name="version" class="header__version" text="v0.0.2" />
             </engine:VisualElement>
             <engine:VisualElement class="header__actions">
                 <engine:Button name="settings-btn" text="Settings" class="header__icon-button" tooltip="Settings" />

@@ -73,7 +73,13 @@ namespace VARCOVoice.Editor
         
         private void CreateGUI()
         {
+            if (_root != null)
+            {
+                VarcoTheme.Unsubscribe(_root);
+            }
+
             _root = rootVisualElement;
+            _root.Clear();
             
             // Load Theme (Robust Lookup)
             var themeGuids = AssetDatabase.FindAssets("Theme t:StyleSheet");
@@ -86,7 +92,10 @@ namespace VARCOVoice.Editor
             
             if (themeSheet != null)
             {
-                _root.styleSheets.Add(themeSheet);
+                if (!_root.styleSheets.Contains(themeSheet))
+                {
+                    _root.styleSheets.Add(themeSheet);
+                }
             }
             else 
             {
@@ -124,7 +133,10 @@ namespace VARCOVoice.Editor
             }
             if (styleSheet != null)
             {
-                _root.styleSheets.Add(styleSheet);
+                if (!_root.styleSheets.Contains(styleSheet))
+                {
+                    _root.styleSheets.Add(styleSheet);
+                }
             }
             
             // Apply theme
@@ -136,6 +148,7 @@ namespace VARCOVoice.Editor
         
         private void OnDisable()
         {
+            VarcoTheme.Unsubscribe(_root);
             CancelPlaySequence();
             if (_audioSource != null)
             {
@@ -546,9 +559,7 @@ namespace VARCOVoice.Editor
 
             menu.AddItem(new GUIContent("Documentation"), false, () =>
             {
-                 // User requested "Main Settings Page's Docu Popup". 
-                 // Assuming they mean the "About" dialog which contains version info.
-                 EditorUtility.DisplayDialog("VARCO Voice", "VARCO Voice Unity SDK\nVersion 1.0.0\n\n(c) NC AI", "OK");
+                 EditorUtility.DisplayDialog("VARCO Voice", VarcoVersion.AboutDialogText, "OK");
             });
 
             menu.AddItem(new GUIContent("About VARCO Voice"), false, () =>

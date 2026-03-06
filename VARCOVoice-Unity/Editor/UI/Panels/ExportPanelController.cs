@@ -42,6 +42,7 @@ namespace VARCOVoice.Editor
 
             if (_refreshButton != null) _refreshButton.clicked += RefreshAll;
             if (_createButton != null) _createButton.clicked += CreateNewGameObject;
+            RegisterDetailPanelCallbacks();
 
             // Setup sort dropdown
             var sortContainer = _root.Q<VisualElement>("library-sort-container");
@@ -61,6 +62,59 @@ namespace VARCOVoice.Editor
             EditorApplication.hierarchyChanged += RefreshObjectList;
 
             RefreshAll();
+        }
+
+        private void RegisterDetailPanelCallbacks()
+        {
+            if (_detailPanel == null) return;
+
+            _detailPanel.UnregisterCallback<DragUpdatedEvent>(OnDetailPanelDragUpdated);
+            _detailPanel.UnregisterCallback<DragPerformEvent>(OnDetailPanelDragPerform);
+            _detailPanel.RegisterCallback<DragUpdatedEvent>(OnDetailPanelDragUpdated);
+            _detailPanel.RegisterCallback<DragPerformEvent>(OnDetailPanelDragPerform);
+        }
+
+        private void OnDetailPanelDragUpdated(DragUpdatedEvent evt)
+        {
+            if (_selectedSource == null) return;
+
+            if (DragAndDrop.objectReferences.Any(o => o is AudioClip))
+            {
+                DragAndDrop.visualMode = DragAndDropVisualMode.Link;
+                evt.StopPropagation();
+            }
+        }
+
+        private void OnDetailPanelDragPerform(DragPerformEvent evt)
+        {
+            var source = _selectedSource;
+            if (source == null) return;
+
+            var clips = DragAndDrop.objectReferences.Where(o => o is AudioClip).Cast<AudioClip>().ToList();
+            if (clips.Count == 0) return;
+
+            if (source.dialogueSlots == null)
+            {
+                Undo.RecordObject(source, "Initialize Dialogue Slots");
+                source.dialogueSlots = new System.Collections.Generic.List<VarcoDialoguePlayer.DialogueSlot>();
+            }
+            else
+            {
+                Undo.RecordObject(source, "Add Dialogue Slots");
+            }
+
+            DragAndDrop.AcceptDrag();
+            foreach (var clip in clips)
+            {
+                var newSlot = new VarcoDialoguePlayer.DialogueSlot { clip = clip, id = clip.name };
+                source.dialogueSlots.Add(newSlot);
+                GenerateVisemeData(source, newSlot);
+            }
+
+            EditorUtility.SetDirty(source);
+            RefreshObjectList();
+            ShowDetailPanel(source);
+            evt.StopPropagation();
         }
 
         public void RefreshAll()
@@ -227,35 +281,6 @@ namespace VARCOVoice.Editor
             actions.Add(addBtn);
 
             _detailPanel.Add(actions);
-
-            // Add drop handling to detail panel (Drop to create new slot)
-            _detailPanel.RegisterCallback<DragUpdatedEvent>(evt =>
-            {
-                if (DragAndDrop.objectReferences.Any(o => o is AudioClip))
-                {
-                    DragAndDrop.visualMode = DragAndDropVisualMode.Link;
-                    evt.StopPropagation();
-                }
-            });
-
-            _detailPanel.RegisterCallback<DragPerformEvent>(evt =>
-            {
-                var clips = DragAndDrop.objectReferences.Where(o => o is AudioClip).Cast<AudioClip>().ToList();
-                if (clips.Count > 0)
-                {
-                    DragAndDrop.AcceptDrag();
-                    foreach (var clip in clips)
-                    {
-                        var newSlot = new VarcoDialoguePlayer.DialogueSlot { clip = clip, id = clip.name };
-                        source.dialogueSlots.Add(newSlot);
-                        GenerateVisemeData(source, newSlot);
-                    }
-                    EditorUtility.SetDirty(source);
-                    RefreshObjectList();
-                    ShowDetailPanel(source);
-                    evt.StopPropagation();
-                }
-            });
         }
 
         private string GetCurrentClipLabel()
@@ -988,6 +1013,11 @@ namespace VARCOVoice.Editor
         public void Cleanup()
         {
             EditorApplication.hierarchyChanged -= RefreshObjectList;
+            if (_detailPanel != null)
+            {
+                _detailPanel.UnregisterCallback<DragUpdatedEvent>(OnDetailPanelDragUpdated);
+                _detailPanel.UnregisterCallback<DragPerformEvent>(OnDetailPanelDragPerform);
+            }
         }
     }
 }

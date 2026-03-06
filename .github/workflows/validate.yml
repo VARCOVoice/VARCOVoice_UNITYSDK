@@ -1,4 +1,4 @@
-name: Unity Package Validation
+﻿name: Unity Package Validation
 
 on:
   push:
@@ -9,48 +9,49 @@ on:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      
-    - name: Validate package.json
-      run: |
-        echo "Validating package.json..."
-        if [ -f "VARCOVoice-Unity/package.json" ]; then
-          echo "✅ package.json found"
-          cat VARCOVoice-Unity/package.json | python3 -m json.tool > /dev/null && echo "✅ Valid JSON" || echo "❌ Invalid JSON"
-        else
-          echo "❌ package.json not found"
-          exit 1
-        fi
-        
-    - name: Check required files
-      run: |
-        echo "Checking required files..."
-        files=("VARCOVoice-Unity/package.json" "VARCOVoice-Unity/README.md" "VARCOVoice-Unity/LICENSE" "VARCOVoice-Unity/Editor" "VARCOVoice-Unity/Runtime")
-        for file in "${files[@]}"; do
-          if [ -e "$file" ]; then
-            echo "✅ $file"
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate package.json
+        run: |
+          echo "Validating package.json..."
+          if [ -f "VARCOVoice-Unity/package.json" ]; then
+            echo "package.json found"
+            python3 -m json.tool VARCOVoice-Unity/package.json > /dev/null
+            echo "package.json is valid JSON"
           else
-            echo "❌ $file missing"
+            echo "package.json not found"
             exit 1
           fi
-        done
-        echo "All required files present!"
-        
-    - name: Validate assembly definitions
-      run: |
-        echo "Checking assembly definitions..."
-        find VARCOVoice-Unity -name "*.asmdef" -exec echo "Found: {}" \;
-        
-    - name: Package structure summary
-      run: |
-        echo "📦 Package Structure:"
-        echo "===================="
-        find VARCOVoice-Unity -maxdepth 2 -type d | head -20
-        echo ""
-        echo "📊 File counts:"
-        echo "  C# files: $(find VARCOVoice-Unity -name '*.cs' | wc -l)"
-        echo "  UXML files: $(find VARCOVoice-Unity -name '*.uxml' | wc -l)"
-        echo "  USS files: $(find VARCOVoice-Unity -name '*.uss' | wc -l)"
+
+      - name: Check required files
+        run: |
+          echo "Checking required files..."
+          files=("VARCOVoice-Unity/package.json" "VARCOVoice-Unity/README.md" "VARCOVoice-Unity/LICENSE" "VARCOVoice-Unity/Editor" "VARCOVoice-Unity/Runtime")
+          for file in "${files[@]}"; do
+            if [ -e "$file" ]; then
+              echo "found: $file"
+            else
+              echo "missing: $file"
+              exit 1
+            fi
+          done
+          echo "All required files are present."
+
+      - name: Validate assembly definitions
+        run: |
+          echo "Checking assembly definitions..."
+          find VARCOVoice-Unity -name "*.asmdef" -exec echo "Found: {}" \;
+
+      - name: Package structure summary
+        run: |
+          echo "Package structure"
+          echo "================="
+          find VARCOVoice-Unity -maxdepth 2 -type d | head -20
+          echo
+          echo "File counts"
+          echo "  C# files: $(find VARCOVoice-Unity -name '*.cs' | wc -l)"
+          echo "  UXML files: $(find VARCOVoice-Unity -name '*.uxml' | wc -l)"
+          echo "  USS files: $(find VARCOVoice-Unity -name '*.uss' | wc -l)"

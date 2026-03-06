@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
@@ -10,6 +11,7 @@ namespace VARCOVoice.Editor
     public static class VarcoTheme
     {
         private const string PREF_LIGHT_MODE = "VARCOVoice_LightMode";
+        private static readonly Dictionary<VisualElement, System.Action<bool>> Subscriptions = new Dictionary<VisualElement, System.Action<bool>>();
         
         /// <summary>
         /// Gets whether light mode is enabled
@@ -44,18 +46,31 @@ namespace VARCOVoice.Editor
         public static void Subscribe(VisualElement root)
         {
             if (root == null) return;
-            
+
+            Unsubscribe(root);
             Apply(root);
-            
-            // Create a weak reference to avoid memory leaks
-            var weakRoot = new System.WeakReference<VisualElement>(root);
-            OnThemeChanged += (isLight) =>
+
+            System.Action<bool> handler = isLight =>
             {
-                if (weakRoot.TryGetTarget(out var target))
+                if (root.panel != null)
                 {
-                    target.EnableInClassList("theme-light", isLight);
+                    root.EnableInClassList("theme-light", isLight);
                 }
             };
+
+            Subscriptions[root] = handler;
+            OnThemeChanged += handler;
+        }
+
+        public static void Unsubscribe(VisualElement root)
+        {
+            if (root == null) return;
+
+            if (Subscriptions.TryGetValue(root, out var handler))
+            {
+                OnThemeChanged -= handler;
+                Subscriptions.Remove(root);
+            }
         }
     }
 }

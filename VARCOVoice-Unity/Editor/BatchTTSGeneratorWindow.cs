@@ -108,7 +108,13 @@ namespace VARCOVoice.Editor
         
         private void CreateGUI()
         {
+            if (_root != null)
+            {
+                VarcoTheme.Unsubscribe(_root);
+            }
+
             _root = rootVisualElement;
+            _root.Clear();
             
              // Load Theme (Robust Lookup)
             var themeGuids = AssetDatabase.FindAssets("Theme t:StyleSheet");
@@ -119,7 +125,7 @@ namespace VARCOVoice.Editor
                 themeSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(themePath);
             }
             
-            if (themeSheet != null)
+            if (themeSheet != null && !_root.styleSheets.Contains(themeSheet))
             {
                 _root.styleSheets.Add(themeSheet);
             }
@@ -155,7 +161,10 @@ namespace VARCOVoice.Editor
             }
             if (styleSheet != null)
             {
-                _root.styleSheets.Add(styleSheet);
+                if (!_root.styleSheets.Contains(styleSheet))
+                {
+                    _root.styleSheets.Add(styleSheet);
+                }
             }
             
             // Apply theme
@@ -163,6 +172,11 @@ namespace VARCOVoice.Editor
             
             CacheUIElements();
             SetupEventHandlers();
+        }
+
+        private void OnDisable()
+        {
+            VarcoTheme.Unsubscribe(_root);
         }
         
         #endregion
@@ -1045,7 +1059,7 @@ namespace VARCOVoice.Editor
 
             menu.AddItem(new GUIContent("About VARCO Voice"), false, () =>
             {
-                EditorUtility.DisplayDialog("VARCO Voice", "VARCO Voice Unity SDK\nVersion 1.0.0\n\n(c) NC AI", "OK");
+                EditorUtility.DisplayDialog("VARCO Voice", VarcoVersion.AboutDialogText, "OK");
             });
 
             menu.ShowAsContext();

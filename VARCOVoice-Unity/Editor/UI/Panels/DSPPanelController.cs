@@ -146,7 +146,7 @@ namespace VARCOVoice.Editor
 
             var playbackStyle = AssetDatabase.LoadAssetAtPath<StyleSheet>(
                 "Packages/com.varco.voice/Editor/UI/Components/PlaybackPanel.uss");
-            if (playbackStyle != null)
+            if (playbackStyle != null && !_root.styleSheets.Contains(playbackStyle))
                 _root.styleSheets.Add(playbackStyle);
 
             // === Toolbar ===
@@ -211,6 +211,7 @@ namespace VARCOVoice.Editor
             InitializeEffectStackPanel();
 
             // Keyboard shortcuts (Undo/Redo)
+            _root.UnregisterCallback<KeyDownEvent>(OnKeyDown);
             _root.RegisterCallback<KeyDownEvent>(OnKeyDown, TrickleDown.TrickleDown);
             _root.focusable = true;
             _root.tabIndex = 0;
@@ -329,7 +330,13 @@ namespace VARCOVoice.Editor
             }
         }
         
-        public void Cleanup() { }
+        public void Cleanup()
+        {
+            if (_root != null)
+            {
+                _root.UnregisterCallback<KeyDownEvent>(OnKeyDown);
+            }
+        }
 
         public void UpdateLoop()
         {

@@ -42,6 +42,7 @@ namespace VARCOVoice.Editor
         private DSPPanelController _dspPanelController;
         private ExportPanelController _exportPanelController;
         private CancellationTokenSource _connectionCheckCts;
+        private int _uiGeneration;
         
         #endregion
         
@@ -60,10 +61,50 @@ namespace VARCOVoice.Editor
         #endregion
         
         #region Unity Lifecycle
+
+        private static void AddStyleSheetIfMissing(VisualElement target, StyleSheet styleSheet)
+        {
+            if (target == null || styleSheet == null || target.styleSheets.Contains(styleSheet)) return;
+            target.styleSheets.Add(styleSheet);
+        }
+
+        private void CleanupControllers()
+        {
+            if (_ttsPanelController != null)
+            {
+                _ttsPanelController.OnSendToDSP -= HandleSendToDSP;
+                _ttsPanelController.Cleanup();
+                _ttsPanelController = null;
+            }
+
+            if (_dspPanelController != null)
+            {
+                _dspPanelController.OnRequestTabChange -= SelectTab;
+                _dspPanelController.OnQuickExport -= HandleQuickExport;
+                _dspPanelController.Cleanup();
+                _dspPanelController = null;
+            }
+
+            if (_exportPanelController != null)
+            {
+                _exportPanelController.Cleanup();
+                _exportPanelController = null;
+            }
+        }
         
         private void CreateGUI()
         {
+            _uiGeneration++;
+            CancelConnectionCheck();
+            CleanupControllers();
+
+            if (_root != null)
+            {
+                VarcoTheme.Unsubscribe(_root);
+            }
+
             _root = rootVisualElement;
+            _root.Clear();
             
             // Load UXML
             var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(UXML_PATH);
@@ -81,11 +122,8 @@ namespace VARCOVoice.Editor
             {
                 // Create fallback UI if UXML not found
                 CreateFallbackUI();
-                // Even nicely created fallback UI needs caching and setup
-                // But CreateFallbackUI below manually adds elements to _root.
-                // If visualTree is null, we assume CreateFallbackUI set up the structure.
-                // To avoid double-init or null refs, we check if we need to proceed.
-                if (visualTree == null) return; 
+                VarcoTheme.Subscribe(_root);
+                return;
             }
             
             // Load USS
@@ -95,13 +133,15 @@ namespace VARCOVoice.Editor
                 styleSheet = LoadUSSFromProjectPath();
             }
             
-            if (styleSheet != null)
-            {
-                _root.styleSheets.Add(styleSheet);
-            }
+            AddStyleSheetIfMissing(_root, styleSheet);
             
             // Cache UI elements
             CacheUIElements();
+            var versionLabel = _root.Q<Label>("version");
+            if (versionLabel != null)
+            {
+                versionLabel.text = VarcoVersion.DisplayVersion;
+            }
             
             // Setup event handlers
             SetupEventHandlers();
@@ -147,14 +187,14 @@ namespace VARCOVoice.Editor
                         "Packages/com.varco.voice/Editor/UI/Panels/TTSPanel.uss");
                     if (ttsPanelStyle != null)
                     {
-                        ttsPanel.styleSheets.Add(ttsPanelStyle);
+                        AddStyleSheetIfMissing(ttsPanel, ttsPanelStyle);
                     }
                     else
                     {
                          // Fallback style
                          ttsPanelStyle = AssetDatabase.LoadAssetAtPath<StyleSheet>(
                         "Assets/VARCOVoice-Unity/Editor/UI/Panels/TTSPanel.uss");
-                        if (ttsPanelStyle != null) ttsPanel.styleSheets.Add(ttsPanelStyle);
+                        AddStyleSheetIfMissing(ttsPanel, ttsPanelStyle);
                     }
                     
                     // Initialize controller
@@ -204,7 +244,7 @@ namespace VARCOVoice.Editor
                     }
                     if (exportPanelStyle != null)
                     {
-                        exportPanel.styleSheets.Add(exportPanelStyle);
+                        AddStyleSheetIfMissing(exportPanel, exportPanelStyle);
                     }
 
                     _exportPanelController = new ExportPanelController();
@@ -215,30 +255,20 @@ namespace VARCOVoice.Editor
         
         private void OnEnable()
         {
+            EditorApplication.update -= OnEditorUpdate;
             EditorApplication.update += OnEditorUpdate;
+            EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
             EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
         }
         
         private void OnDisable()
         {
+            _uiGeneration++;
             EditorApplication.update -= OnEditorUpdate;
             EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
             CancelConnectionCheck();
-            
-            // Cleanup panel controllers
-            // Cleanup panel controllers
-            if (_ttsPanelController != null)
-            {
-                _ttsPanelController.OnSendToDSP -= HandleSendToDSP;
-                _ttsPanelController.Cleanup();
-            }
-            if (_dspPanelController != null)
-            {
-                _dspPanelController.OnRequestTabChange -= SelectTab;
-                _dspPanelController.OnQuickExport -= HandleQuickExport;
-                _dspPanelController.Cleanup();
-            }
-            _exportPanelController?.Cleanup();
+            VarcoTheme.Unsubscribe(_root);
+            CleanupControllers();
         }
         
         private void OnEditorUpdate()
@@ -391,9 +421,12 @@ namespace VARCOVoice.Editor
             }
             else
             {
+                int generation = _uiGeneration;
                 EditorApplication.delayCall += () =>
                 {
+                    if (generation != _uiGeneration) return;
                     if (_exportPanelController == null) return;
+                    SelectTab(TAB_EXPORT);
                     _exportPanelController.SetCurrentClip(GetCurrentExportClip());
                     _exportPanelController.SelectSource(source);
                 };
@@ -409,6 +442,12 @@ namespace VARCOVoice.Editor
 
         public void OpenTab(int tabIndex)
         {
+            if (!IsValidTabIndex(tabIndex))
+            {
+                Debug.LogWarning($"[VarcoVoiceMainWindow] Ignoring invalid tab index: {tabIndex}");
+                return;
+            }
+
             SelectTab(tabIndex);
         }
         
@@ -427,8 +466,11 @@ namespace VARCOVoice.Editor
             else
             {
                 // Delay if controller not yet initialized
+                int generation = _uiGeneration;
                 EditorApplication.delayCall += () =>
                 {
+                    if (generation != _uiGeneration) return;
+                    SelectTab(TAB_TTS);
                     _ttsPanelController?.SetVoice(voiceName);
                 };
             }
@@ -437,9 +479,19 @@ namespace VARCOVoice.Editor
         #endregion
         
         #region Tab Navigation
+
+        private static bool IsValidTabIndex(int tabIndex)
+        {
+            return tabIndex >= TAB_TTS && tabIndex <= TAB_EXPORT;
+        }
         
         private void SelectTab(int tabIndex)
         {
+            if (!IsValidTabIndex(tabIndex) || _tabButtons == null || _panels == null)
+            {
+                return;
+            }
+
             _currentTab = tabIndex;
             
             // Update tab button styles
@@ -551,7 +603,7 @@ namespace VARCOVoice.Editor
 
             menu.AddItem(new GUIContent("Documentation"), false, () =>
             {
-                EditorUtility.DisplayDialog("VARCO Voice", "VARCO Voice Unity SDK\nbeta 0.0.1\n\n(c) NC AI", "OK");
+                EditorUtility.DisplayDialog("VARCO Voice", VarcoVersion.AboutDialogText, "OK");
             });
             
             menu.AddItem(new GUIContent("About VARCO Voice"), false, () =>
@@ -695,7 +747,7 @@ namespace VARCOVoice.Editor
             title.style.unityFontStyleAndWeight = FontStyle.Bold;
             header.Add(title);
             
-            var version = new Label("beta 0.0.1");
+            var version = new Label(VarcoVersion.DisplayVersion);
             version.style.fontSize = 10;
             version.style.color = new Color(0.44f, 0.44f, 0.48f);
             version.style.marginLeft = 8;

@@ -148,6 +148,7 @@ namespace VARCOVoice.Editor
                 });
                 
                 // Register Keyboard Events (Spacebar)
+                _root.UnregisterCallback<KeyDownEvent>(OnKeyDown);
                 _root.RegisterCallback<KeyDownEvent>(OnKeyDown, TrickleDown.TrickleDown);
                 // Ensure focusable for key events
                 _root.focusable = true;
@@ -406,7 +407,6 @@ namespace VARCOVoice.Editor
                 emotionFilter.choices = new List<string> { "All", "Neutral", "Happy", "Sad", "Angry" };
                 emotionFilter.value = "All";
                 emotionFilter.RegisterValueChangedCallback(OnEmotionFilterChanged);
-                emotionFilter.RegisterValueChangedCallback(OnEmotionFilterChanged);
             }
 
             // Refresh Button
@@ -572,25 +572,6 @@ namespace VARCOVoice.Editor
         private void SetupQuickActionButtons()
         {
             // Quick action buttons
-            if (_toDspBtn != null)
-            {
-                _toDspBtn.clicked += () => {
-                   // Determine which clip to send
-                   AudioClip clipToSend = null;
-                   if (_generatedClipA != null) clipToSend = _generatedClipA; // Default to A
-                   else if (_generatedClipB != null) clipToSend = _generatedClipB;
-                   
-                   if (clipToSend != null)
-                   {
-                       OnSendToDSP?.Invoke(clipToSend);
-                   }
-                   else
-                   {
-                       UpdateStatus("No audio generated to send to FX Studio", StatusType.Warning);
-                   }
-                };
-            }
-
             var saveBtnfirst = _root.Q<Button>("save-clip-btn");
             if (saveBtnfirst != null)
             {
@@ -1301,6 +1282,7 @@ namespace VARCOVoice.Editor
         public void Cleanup()
         {
             EditorApplication.update -= OnEditorUpdate;
+            _root?.UnregisterCallback<KeyDownEvent>(OnKeyDown);
             
             if (_previewSource != null)
             {
