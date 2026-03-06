@@ -1,8 +1,9 @@
-using System.Collections.Generic;
+using System;
+using System.Threading;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
-using VARCOVoice.DSP;
+using Cysharp.Threading.Tasks;
 
 namespace VARCOVoice.Editor
 {
@@ -40,6 +41,7 @@ namespace VARCOVoice.Editor
         private TTSPanelController _ttsPanelController;
         private DSPPanelController _dspPanelController;
         private ExportPanelController _exportPanelController;
+        private CancellationTokenSource _connectionCheckCts;
         
         #endregion
         
@@ -115,7 +117,7 @@ namespace VARCOVoice.Editor
             InitializePanelControllers();
             
             // Check API connection
-            CheckConnectionAsync();
+            StartConnectionCheck();
         }
         
         private void InitializePanelControllers()
@@ -221,6 +223,7 @@ namespace VARCOVoice.Editor
         {
             EditorApplication.update -= OnEditorUpdate;
             EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
+            CancelConnectionCheck();
             
             // Cleanup panel controllers
             // Cleanup panel controllers
@@ -349,20 +352,14 @@ namespace VARCOVoice.Editor
             
             if (string.IsNullOrEmpty(path)) return;
 
-            // Get active effects from chain
-            List<IDSPEffect> activeEffects = new List<IDSPEffect>();
-            foreach (var effect in chain.Effects)
+            try
             {
-                if (effect.Enabled) activeEffects.Add(effect);
-            }
-
-            if (AudioBaker.Bake(clip, activeEffects, path))
-            {
+                ExportPanelController.ExportClipToPath(clip, path, chain);
                 UpdateStatusMessage($"Quick Export Success: {System.IO.Path.GetFileName(path)}");
             }
-            else
+            catch (System.Exception ex)
             {
-                UpdateStatusMessage("Quick Export Failed");
+                UpdateStatusMessage($"Quick Export Failed: {ex.Message}");
             }
         }
 
@@ -574,11 +571,33 @@ namespace VARCOVoice.Editor
         #endregion
         
         #region Connection
-        
-        private async void CheckConnectionAsync()
+
+        private void StartConnectionCheck()
+        {
+            CancelConnectionCheck();
+            _connectionCheckCts = new CancellationTokenSource();
+            CheckConnectionAsync(_connectionCheckCts.Token).Forget();
+        }
+
+        private void CancelConnectionCheck()
+        {
+            if (_connectionCheckCts == null) return;
+
+            if (!_connectionCheckCts.IsCancellationRequested)
+            {
+                _connectionCheckCts.Cancel();
+            }
+
+            _connectionCheckCts.Dispose();
+            _connectionCheckCts = null;
+        }
+
+        private async UniTask CheckConnectionAsync(CancellationToken cancellationToken)
         {
             try
             {
+                cancellationToken.ThrowIfCancellationRequested();
+
                 var config = VarcoConfig.Instance;
                 if (string.IsNullOrEmpty(config?.ApiKey))
                 {
@@ -590,7 +609,9 @@ namespace VARCOVoice.Editor
                 var client = new VarcoApiClient(config);
                 if (client != null)
                 {
-                    var voices = await client.GetVoicesAsync();
+                    var voices = await client.GetVoicesAsync(cancellationToken: cancellationToken);
+                    cancellationToken.ThrowIfCancellationRequested();
+
                     if (voices != null && voices.Count > 0)
                     {
                         UpdateConnectionStatus(true, $"Ready - {voices.Count} voices available");
@@ -605,9 +626,16 @@ namespace VARCOVoice.Editor
                     UpdateConnectionStatus(false, "API client not initialized");
                 }
             }
+            catch (OperationCanceledException)
+            {
+                // Ignore cancellation during window shutdown/refresh.
+            }
             catch (System.Exception ex)
             {
-                UpdateConnectionStatus(false, $"Connection error: {ex.Message}");
+                if (!cancellationToken.IsCancellationRequested)
+                {
+                    UpdateConnectionStatus(false, $"Connection error: {ex.Message}");
+                }
             }
         }
         
@@ -790,7 +818,7 @@ namespace VARCOVoice.Editor
             
             // Initialize for Fallback mode
             SelectTab(TAB_TTS);
-            CheckConnectionAsync();
+            StartConnectionCheck();
         }
         
         #endregion

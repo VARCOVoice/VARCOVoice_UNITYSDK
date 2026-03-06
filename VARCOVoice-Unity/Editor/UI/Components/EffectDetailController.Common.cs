@@ -231,15 +231,6 @@ namespace VARCOVoice.Editor
             "Presence"
         };
 
-        private static readonly string[] ConvolutionReverbPresets =
-        {
-            "Subtle",
-            "Studio",
-            "Wide",
-            "Wash",
-            "Dry"
-        };
-
         private static readonly string[] FDNReverbPresets =
         {
             "Small Room",
@@ -329,7 +320,6 @@ namespace VARCOVoice.Editor
             if (effect is Spatial3DEffect) return SpatialPresets;
             if (effect is PitchShift) return PSOLAPresets;
 
-            if (effect is ConvolutionReverb) return ConvolutionReverbPresets;
             if (effect is TapeEmulation) return TapePresets;
             if (effect is TubeEmulation) return TubePresets;
             if (effect is FDNReverb) return FDNReverbPresets;

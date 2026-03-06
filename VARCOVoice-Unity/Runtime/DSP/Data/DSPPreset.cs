@@ -181,6 +181,14 @@ namespace VARCOVoice.DSP
 #endif
                     continue;
                 }
+
+                if (typeof(ConvolutionReverb).IsAssignableFrom(type))
+                {
+#if VARCO_DEBUG
+                    Debug.LogWarning("[DSPPreset] ConvolutionReverb is hidden and skipped. Use FDNReverb instead.");
+#endif
+                    continue;
+                }
                 
                 var effect = Activator.CreateInstance(type) as IDSPEffect;
                 if (effect == null) continue;
@@ -202,7 +210,12 @@ namespace VARCOVoice.DSP
                                 prop.SetValue(effect, parsedValue);
                             }
                         }
-                        catch (Exception) { }
+                        catch (Exception ex)
+                        {
+#if VARCO_DEBUG
+                            Debug.LogWarning($"[DSPPreset] Failed to apply property '{param.Name}' on '{type.Name}': {ex.Message}");
+#endif
+                        }
                         continue; // Found property, skip field check
                     }
 
@@ -218,7 +231,12 @@ namespace VARCOVoice.DSP
                                 field.SetValue(effect, parsedValue);
                             }
                         }
-                        catch (Exception) { }
+                        catch (Exception ex)
+                        {
+#if VARCO_DEBUG
+                            Debug.LogWarning($"[DSPPreset] Failed to apply field '{param.Name}' on '{type.Name}': {ex.Message}");
+#endif
+                        }
                     }
                 }
 

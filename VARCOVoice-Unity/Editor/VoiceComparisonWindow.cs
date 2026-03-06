@@ -3,6 +3,8 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using Cysharp.Threading.Tasks;
+using System;
+using System.Threading;
 
 namespace VARCOVoice.Editor
 {
@@ -37,6 +39,7 @@ namespace VARCOVoice.Editor
         // Audio
         private AudioSource _audioSource;
         private bool _isPlaying = false;
+        private CancellationTokenSource _playSequenceCts;
         
         // UI Elements
         private VisualElement _root;
@@ -133,6 +136,7 @@ namespace VARCOVoice.Editor
         
         private void OnDisable()
         {
+            CancelPlaySequence();
             if (_audioSource != null)
             {
                 DestroyImmediate(_audioSource.gameObject);
@@ -198,7 +202,7 @@ namespace VARCOVoice.Editor
             var stopBtn = _root.Q<Button>("stop-btn");
             
             if (generateBothBtn != null) generateBothBtn.clicked += GenerateBoth;
-            if (playSequenceBtn != null) playSequenceBtn.clicked += PlaySequence;
+            if (playSequenceBtn != null) playSequenceBtn.clicked += StartPlaySequence;
             if (stopBtn != null) stopBtn.clicked += StopPlayback;
             
             // Export buttons
@@ -365,8 +369,28 @@ namespace VARCOVoice.Editor
                 _isPlaying = true;
             }
         }
-        
-        private async void PlaySequence()
+
+        private void StartPlaySequence()
+        {
+            CancelPlaySequence();
+            _playSequenceCts = new CancellationTokenSource();
+            PlaySequenceAsync(_playSequenceCts.Token).Forget();
+        }
+
+        private void CancelPlaySequence()
+        {
+            if (_playSequenceCts == null) return;
+
+            if (!_playSequenceCts.IsCancellationRequested)
+            {
+                _playSequenceCts.Cancel();
+            }
+
+            _playSequenceCts.Dispose();
+            _playSequenceCts = null;
+        }
+
+        private async UniTask PlaySequenceAsync(CancellationToken cancellationToken)
         {
             if (_clipA == null || _clipB == null)
             {
@@ -381,15 +405,31 @@ namespace VARCOVoice.Editor
             _audioSource.Play();
             _isPlaying = true;
             
-            await UniTask.Delay((int)(_clipA.length * 1000) + 500);
+            try
+            {
+                await UniTask.Delay((int)(_clipA.length * 1000) + 500, cancellationToken: cancellationToken);
+            }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
             
-            if (!_isPlaying) return;
+            if (cancellationToken.IsCancellationRequested || !_isPlaying) return;
             
             UpdateStatus("Playing Voice B...");
             _audioSource.clip = _clipB;
             _audioSource.Play();
             
-            await UniTask.Delay((int)(_clipB.length * 1000));
+            try
+            {
+                await UniTask.Delay((int)(_clipB.length * 1000), cancellationToken: cancellationToken);
+            }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
+
+            if (cancellationToken.IsCancellationRequested) return;
             
             _isPlaying = false;
             UpdateStatus("Comparison complete!");
@@ -402,6 +442,7 @@ namespace VARCOVoice.Editor
                 _audioSource.Stop();
             }
             _isPlaying = false;
+            CancelPlaySequence();
             UpdateStatus("");
         }
         

@@ -122,17 +122,20 @@ Edit > Project Settings > VARCO Voice
 using VARCOVoice;
 
 // 간단한 한 줄 호출
-await VarcoTTS.Instance.SpeakAsync("Hello, this is VARCO Voice!");
+var client = new VarcoApiClient();
+var clip = await client.SynthesizeAsync("Hello, this is VARCO Voice!");
+audioSource.PlayOneShot(clip);
 
 // 고급 제어
-var clip = await VarcoTTS.Instance.SynthesizeAsync(
+var detailedClip = await client.SynthesizeAsync(
     text: "안녕하세요",
     voice: "멀더",
+    language: Language.Korean,
     speed: 1.2f,
-    pitch: 0,
-    emotion: "neutral"
+    pitch: 1.0f,
+    qualityLevel: 10
 );
-audioSource.PlayOneShot(clip);
+audioSource.PlayOneShot(detailedClip);
 ```
 
 **고급 옵션:**
@@ -140,7 +143,7 @@ audioSource.PlayOneShot(clip);
 - **취소**: 취소 토큰(`CancellationToken`)으로 요청 중단 가능
 - **에러 처리**: `VarcoException`으로 API 에러 처리 (인증, 제한, 네트워크)
 - **캐싱**: 자동 캐시 (텍스트, 음성, 속도, 피치)
-- **매개변수**: `voice`, `speed` (0.5–2.0), `pitch` (-12–12), `emotion`, `sampleRate`, `format`
+- **매개변수**: `voice`, `language`, `speed`, `pitch`, `qualityLevel`, `seed`
 
 ### 2. 데이터 기반 재생 (VarcoDialoguePlayer)
 
@@ -184,7 +187,7 @@ public class DialogueController : MonoBehaviour
 
 - **위치**: `Application.persistentDataPath/VarcoCache`
 - **정책**: 캐시 키 = hash(text, voice, params), 만료 없음
-- **삭제**: `VarcoTTS.Instance.ClearCache()`
+- **삭제**: `AudioCacheManager.Instance.ClearAll()`
 
 ---
 

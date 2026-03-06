@@ -602,7 +602,6 @@ namespace VARCOVoice.Editor
 
         private void OnExportToLibraryClicked()
         {
-            // Get the current processed clip (from AudioSource)
             if (_audioSource == null || _audioSource.clip == null)
             {
                 Debug.LogWarning("No audio clip to export. Generate or send audio first.");
@@ -610,25 +609,27 @@ namespace VARCOVoice.Editor
             }
 
             var clip = _audioSource.clip;
+            string defaultName = string.IsNullOrEmpty(clip.name)
+                ? "dsp_output"
+                : $"{clip.name}_fx";
 
-            ExportNamePopup.Show(defaultName: "dsp_output", onConfirm: (name) =>
+            string path = EditorUtility.SaveFilePanel(
+                "Export WAV",
+                Application.dataPath,
+                defaultName,
+                "wav");
+
+            if (string.IsNullOrEmpty(path)) return;
+
+            try
             {
-                if (string.IsNullOrEmpty(name))
-                {
-                    name = "dsp_" + System.DateTime.Now.ToString("HHmmss");
-                }
-
-                try
-                {
-                    ExportPanelController.ExportClipToLibrary(clip, name, _target);
-                    Debug.Log($"Exported to library: {name}.wav");
-                    OnQuickExport?.Invoke();
-                }
-                catch (System.Exception ex)
-                {
-                    Debug.LogError($"Export failed: {ex.Message}");
-                }
-            });
+                ExportPanelController.ExportClipToPath(clip, path, _target);
+                Debug.Log($"Exported WAV: {System.IO.Path.GetFileName(path)}");
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError($"Export failed: {ex.Message}");
+            }
         }
 
     }

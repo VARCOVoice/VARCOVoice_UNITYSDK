@@ -809,6 +809,17 @@ namespace VARCOVoice.Editor
             Debug.Log($"[Export] Saved to: {path}");
         }
 
+        public static void ExportClipToPath(AudioClip clip, string outputPath, DSP.DSPChain chain = null)
+        {
+            if (clip == null || string.IsNullOrEmpty(outputPath)) return;
+
+            AudioClip exportClip = chain != null ? BakeClipWithDSP(clip, chain) : clip;
+            SaveClipToWav(exportClip, outputPath);
+            AssetDatabase.Refresh();
+
+            Debug.Log($"[Export] Saved to: {outputPath}");
+        }
+
         /// <summary>
         /// Ensures the library folder exists, creating it if necessary.
         /// </summary>
